@@ -85,6 +85,15 @@ func (c *Calendar) AddHoliday(h *Holiday) {
 	c.addHoliday(h)
 }
 
+func (c *Calendar) HasHoliday(h *Holiday) bool {
+	for _, holiday := range c.holidays {
+		if h == holiday {
+			return true
+		}
+	}
+	return false
+}
+
 func (c *Calendar) IsHoliday(t time.Time) bool {
 	_, ok := c.calendar[t.Unix()]
 	return ok
