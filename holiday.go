@@ -65,6 +65,6 @@ func CalcEasterOffset(ho *Holiday, year int, loc *time.Location) time.Time {
 	month = n / 31
 	day = (n % 31) + 1
 
-	return time.Date(year, time.Month(month), day+ho.Offset, 0, 0, 0, 0, loc)
+	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, loc)
 
 }
