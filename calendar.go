@@ -9,9 +9,14 @@ const YearsAhead = 5
 const YearsPast = 5
 
 var (
-	NewYork, _ = time.LoadLocation("America/New_York")
-	Chicago, _ = time.LoadLocation("America/Chicago")
-	Paris, _   = time.LoadLocation("Europe/Paris")
+	Chicago, _    = time.LoadLocation("America/Chicago")
+	NewYork, _    = time.LoadLocation("America/New_York")
+	London, _     = time.LoadLocation("Europe/London")
+	Amsterdam, _  = time.LoadLocation("Europe/Amsterdam")
+	Paris, _      = time.LoadLocation("Europe/Paris")
+	Franckfurt, _ = time.LoadLocation("Europe/Franckfurt")
+	HongKong, _   = time.LoadLocation("Asia/Hong_Kong")
+	Tokyo, _      = time.LoadLocation("Asia/Tokyo")
 )
 
 type Calendar struct {
@@ -39,11 +44,7 @@ func newCalendar(name string, loc *time.Location, start, end int) *Calendar {
 	}
 }
 
-func NewCalendar(name string, loc string, years ...int) *Calendar {
-	l, err := time.LoadLocation(loc)
-	if err != nil {
-		panic(err)
-	}
+func NewCalendar(name string, loc *time.Location, years ...int) *Calendar {
 	var start, end int
 	switch len(years) {
 	default:
@@ -60,7 +61,7 @@ func NewCalendar(name string, loc string, years ...int) *Calendar {
 			end = years[1]
 		}
 	}
-	return newCalendar(name, l, start, end)
+	return newCalendar(name, loc, start, end)
 }
 
 func (c *Calendar) Years() (start, end int) {

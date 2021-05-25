@@ -9,7 +9,7 @@ var (
 		Day:   1,
 		calc:  CalcDayOfMonth,
 	}
-	// Epiphany represents Epiphany on 6-Jan
+	// Epiphany on 6-Jan
 	Epiphany = &Holiday{
 		Name:  "Epiphany",
 		Month: time.January,
@@ -38,7 +38,7 @@ var (
 		calc:   CalcEasterOffset,
 	}
 
-	// WorkersDay represents International Workers' Day on 1-May
+	// WorkersDay is the International Workers' Day on 1-May
 	WorkersDay = &Holiday{
 		Name:  "International Workers' Day",
 		Month: time.May,

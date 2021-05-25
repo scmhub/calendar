@@ -5,19 +5,24 @@ import "time"
 type holidayCalc func(*Holiday, int, *time.Location) time.Time
 
 type Holiday struct {
-	Name        string
-	Years       []int // Used if holiday occures only on certain years
-	Month       time.Month
-	Day         int
-	Weekday     time.Weekday
-	NthWeekday  int
-	Offset      int
-	calc        holidayCalc
-	observances []observance
+	Name       string
+	Year       int // Used if holiday occures only on specific year
+	Month      time.Month
+	Day        int
+	Weekday    time.Weekday
+	NthWeekday int
+	Offset     int
+	calc       holidayCalc
+	observance observance
+}
+
+func (h Holiday) Copy(name string) *Holiday {
+	h.Name = name
+	return &h
 }
 
 func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
-	if len(h.Years) != 0 && !YearInRange(year, h.Years) {
+	if h.Year != 0 && year != h.Year {
 		return time.Time{}
 	}
 
@@ -27,14 +32,11 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 		t = t.AddDate(0, 0, h.Offset)
 	}
 
-	if h.observances == nil {
+	if h.observance == nil {
 		return t
 	}
-	for _, o := range h.observances {
-		t = o(t)
-	}
 
-	return t
+	return h.observance(t)
 }
 
 func CalcDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
