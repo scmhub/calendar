@@ -51,3 +51,9 @@ func TestCalcDayOfMonth(t *testing.T) {
 	assert.Equal(time.Date(2020, 12, 25, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2020, Paris))
 	assert.Equal(time.Date(2021, 12, 25, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2021, Paris))
 }
+
+func TestCalcNthWeekday(t *testing.T) {
+	assert := assert.New(t)
+	h := &Holiday{Month: time.December, Weekday: time.Thursday, NthWeekday: 3}
+	assert.Equal(time.Date(2020, 12, 17, 0, 0, 0, 0, Paris), CalcNthWeekday(h, 2020, Paris))
+}

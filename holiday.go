@@ -52,7 +52,7 @@ func CalcDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
 }
 
 func CalcNthWeekday(h *Holiday, year int, loc *time.Location) time.Time {
-	return time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc)
+	return NthWeekday(year, h.Month, h.Weekday, h.NthWeekday, loc)
 }
 
 func CalcEasterOffset(ho *Holiday, year int, loc *time.Location) time.Time {
