@@ -60,13 +60,6 @@ var (
 		calc:   CalcEasterOffset,
 	}
 
-	// CorpusChristi represents Corpus Christi on the 60th day after Easter
-	CorpusChristi = &Holiday{
-		Name:   "Corpus Christi",
-		Offset: 60,
-		calc:   CalcEasterOffset,
-	}
-
 	// AssumptionOfMary represents Assumption of Mary on 15-Aug
 	AssumptionOfMary = &Holiday{
 		Name:  "Assumption of Mary",
