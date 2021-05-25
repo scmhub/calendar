@@ -21,6 +21,14 @@ func (h Holiday) Copy(name string) *Holiday {
 	return &h
 }
 
+func (h *Holiday) Observance() observance {
+	return h.observance
+}
+
+func (h *Holiday) SetObservance(o observance) {
+	h.observance = o
+}
+
 func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 	if h.Year != 0 && year != h.Year {
 		return time.Time{}

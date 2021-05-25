@@ -15,10 +15,10 @@ func TestCopy(t *testing.T) {
 		Day:   25,
 	}
 	h2 := h1.Copy("USChristmas")
-	h2.observance = nearestWorkday
+	h2.SetObservance(nearestWorkday)
 	assert.Equal("Christmas", h1.Name)
 	assert.Equal("USChristmas", h2.Name)
-	assert.Empty(h1.observance)
+	assert.Empty(h1.Observance())
 	assert.NotEmpty(h2.observance)
 }
 

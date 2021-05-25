@@ -2,6 +2,7 @@ package calendar
 
 import (
 	"fmt"
+	"sort"
 	"time"
 )
 
@@ -100,10 +101,39 @@ func (c *Calendar) IsHoliday(t time.Time) bool {
 	return ok
 }
 
+func (c *Calendar) IsBusinessDay(t time.Time) bool {
+	if IsWeekend(t) {
+		return false
+	}
+	if c.IsHoliday(t) {
+		return false
+	}
+	return true
+}
+
+func (c *Calendar) NextBusinessDay(t time.Time) time.Time {
+	t = t.AddDate(0, 0, 1)
+	for !c.IsBusinessDay(t) {
+		t = t.AddDate(0, 0, 1)
+	}
+	return t
+}
+
+func (c *Calendar) sortedHolidaysTime() []time.Time {
+	var sht []time.Time
+	for t := range c.calendar {
+		sht = append(sht, time.Unix(t, 0))
+	}
+	sort.Slice(sht, func(i, j int) bool {
+		return sht[i].Before(sht[j])
+	})
+	return sht
+}
+
 func (c *Calendar) String() string {
 	str := fmt.Sprintf("Calendar %v:\n", c.Name)
-	for t, h := range c.calendar {
-		str += fmt.Sprintf("\t%v %v\n", time.Unix(t, 0).Format("2006/01/02"), h.Name)
+	for _, t := range c.sortedHolidaysTime() {
+		str += fmt.Sprintf("\t%v %v\n", t.Format("2006/01/02"), c.calendar[t.Unix()].Name)
 	}
 	return str
 }
