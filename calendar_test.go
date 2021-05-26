@@ -37,16 +37,16 @@ func TestCalendarYears(t *testing.T) {
 
 func TestCalendarAddHoliday(t *testing.T) {
 	assert := assert.New(t)
-	c := NewCalendar("Calendar", Chicago, 2010, 2012)
+	c := NewCalendar("Calendar", Chicago, 2011, 2015)
 	assert.False(c.HasHoliday(NewYear))
 	c.AddHoliday(NewYear)
 	assert.True(c.HasHoliday(NewYear))
 	assert.Equal(1, len(c.holidays))
 	assert.Equal(NewYear, c.holidays[0])
 	assert.Equal(3, len(c.calendar))
-	assert.Equal(NewYear, c.calendar[time.Date(2010, 1, 1, 0, 0, 0, 0, Chicago).Unix()])
-	for i := 0; i < len(c.calendar); i++ {
-		assert.True(c.IsHoliday(time.Date(2010+i, 1, 1, 0, 0, 0, 0, Chicago)))
+	assert.Equal(NewYear, c.calendar[time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago).Unix()])
+	for i := 2; i < len(c.calendar); i++ {
+		assert.True(c.IsHoliday(time.Date(2011+i, 1, 1, 0, 0, 0, 0, Chicago)))
 	}
 	c = NewCalendar("Calendar", Chicago, 2013)
 	c.AddHoliday(NewYear) // 1/1/2013 is a tuesday
@@ -84,8 +84,8 @@ func TestSortedHolidaysTime(t *testing.T) {
 
 func TestCalendarString(t *testing.T) {
 	assert := assert.New(t)
-	c := NewCalendar("Calendar", Chicago, 2010, 2012)
+	c := NewCalendar("Calendar", Chicago, 2011, 2015)
 	assert.Equal("Calendar Calendar:\n", c.String())
 	c.AddHoliday(NewYear)
-	assert.Equal("Calendar Calendar:\n\t2010/01/01 New Year's Day\n\t2011/01/01 New Year's Day\n\t2012/01/01 New Year's Day\n", c.String())
+	assert.Equal("Calendar Calendar:\n\t2013/01/01 New Year's Day\n\t2014/01/01 New Year's Day\n\t2015/01/01 New Year's Day\n", c.String())
 }

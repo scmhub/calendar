@@ -25,8 +25,9 @@ func (h *Holiday) Observance() observance {
 	return h.observance
 }
 
-func (h *Holiday) SetObservance(o observance) {
+func (h *Holiday) SetObservance(o observance) *Holiday {
 	h.observance = o
+	return h
 }
 
 func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
@@ -41,6 +42,9 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 	}
 
 	if h.observance == nil {
+		if IsWeekend(t) {
+			return time.Time{}
+		}
 		return t
 	}
 
@@ -52,7 +56,11 @@ func CalcDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
 }
 
 func CalcNthWeekday(h *Holiday, year int, loc *time.Location) time.Time {
-	return NthWeekday(year, h.Month, h.Weekday, h.NthWeekday, loc)
+	month := h.Month
+	if h.NthWeekday < 0 {
+		month++
+	}
+	return NthWeekday(year, month, h.Weekday, h.NthWeekday, loc)
 }
 
 func CalcEasterOffset(ho *Holiday, year int, loc *time.Location) time.Time {

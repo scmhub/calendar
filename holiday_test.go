@@ -36,7 +36,7 @@ func TestCalc(t *testing.T) {
 	h.Offset = -1
 	assert.Equal(time.Date(2020, 3, 16, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
 	h.Offset = -2
-	assert.Equal(time.Date(2020, 3, 15, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
+	assert.Equal(time.Time{}, h.Calc(2020, Paris))
 	h.SetObservance(nearestWorkday)
 	assert.Equal(time.Date(2020, 3, 16, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
 	h.Year = 2020
