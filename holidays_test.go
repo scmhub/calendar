@@ -8,6 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Common Holidays
+
 func TestNewYear(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 1, 1, 0, 0, 0, 0, Paris), NewYear.Calc(2010, Paris)) // friday
@@ -252,6 +254,28 @@ func TestImmaculateConception(t *testing.T) {
 	assert.Equal(time.Time{}, ImmaculateConception.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 12, 8, 0, 0, 0, 0, Paris), ImmaculateConception.Calc(2025, Paris))
 }
+
+func TestChristmasEve(t *testing.T) {
+	assert := assert.New(t)
+	fmt.Println(MaundyThursday.Calc(2012, Paris))
+	assert.Equal(time.Date(2010, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2010, Paris))
+	assert.Equal(time.Time{}, ChristmasEve.Calc(2011, Paris))
+	assert.Equal(time.Date(2012, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2012, Paris))
+	assert.Equal(time.Date(2013, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2013, Paris))
+	assert.Equal(time.Date(2014, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2014, Paris))
+	assert.Equal(time.Date(2015, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2015, Paris))
+	assert.Equal(time.Time{}, ChristmasEve.Calc(2016, Paris))
+	assert.Equal(time.Time{}, ChristmasEve.Calc(2017, Paris))
+	assert.Equal(time.Date(2018, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2018, Paris))
+	assert.Equal(time.Date(2019, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2019, Paris))
+	assert.Equal(time.Date(2020, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2020, Paris))
+	assert.Equal(time.Date(2021, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2021, Paris))
+	assert.Equal(time.Time{}, ChristmasEve.Calc(2022, Paris))
+	assert.Equal(time.Time{}, ChristmasEve.Calc(2023, Paris))
+	assert.Equal(time.Date(2024, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2024, Paris))
+	assert.Equal(time.Date(2025, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2025, Paris))
+}
+
 func TestChristmasDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, ChristmasDay.Calc(2010, Paris))
@@ -271,6 +295,7 @@ func TestChristmasDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 12, 25, 0, 0, 0, 0, Paris), ChristmasDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 12, 25, 0, 0, 0, 0, Paris), ChristmasDay.Calc(2025, Paris))
 }
+
 func TestBoxingDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, BoxingDay.Calc(2010, Paris))
@@ -289,4 +314,269 @@ func TestBoxingDay(t *testing.T) {
 	assert.Equal(time.Date(2023, 12, 26, 0, 0, 0, 0, Paris), BoxingDay.Calc(2023, Paris))
 	assert.Equal(time.Date(2024, 12, 26, 0, 0, 0, 0, Paris), BoxingDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 12, 26, 0, 0, 0, 0, Paris), BoxingDay.Calc(2025, Paris))
+}
+
+func TestNewYearsEve(t *testing.T) {
+	assert := assert.New(t)
+	fmt.Println(MaundyThursday.Calc(2012, Paris))
+	assert.Equal(time.Date(2010, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2010, Paris))
+	assert.Equal(time.Time{}, NewYearsEve.Calc(2011, Paris))
+	assert.Equal(time.Date(2012, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2012, Paris))
+	assert.Equal(time.Date(2013, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2013, Paris))
+	assert.Equal(time.Date(2014, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2014, Paris))
+	assert.Equal(time.Date(2015, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2015, Paris))
+	assert.Equal(time.Time{}, NewYearsEve.Calc(2016, Paris))
+	assert.Equal(time.Time{}, NewYearsEve.Calc(2017, Paris))
+	assert.Equal(time.Date(2018, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2018, Paris))
+	assert.Equal(time.Date(2019, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2019, Paris))
+	assert.Equal(time.Date(2020, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2020, Paris))
+	assert.Equal(time.Date(2021, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2021, Paris))
+	assert.Equal(time.Time{}, NewYearsEve.Calc(2022, Paris))
+	assert.Equal(time.Time{}, NewYearsEve.Calc(2023, Paris))
+	assert.Equal(time.Date(2024, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2024, Paris))
+	assert.Equal(time.Date(2025, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2025, Paris))
+}
+
+// US Holidays
+
+func TestMLK(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 1, 18, 0, 0, 0, 0, NewYork), MLKDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 1, 17, 0, 0, 0, 0, NewYork), MLKDay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 1, 16, 0, 0, 0, 0, NewYork), MLKDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 1, 21, 0, 0, 0, 0, NewYork), MLKDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 1, 20, 0, 0, 0, 0, NewYork), MLKDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 1, 19, 0, 0, 0, 0, NewYork), MLKDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 1, 18, 0, 0, 0, 0, NewYork), MLKDay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 1, 16, 0, 0, 0, 0, NewYork), MLKDay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 1, 15, 0, 0, 0, 0, NewYork), MLKDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 1, 21, 0, 0, 0, 0, NewYork), MLKDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 1, 20, 0, 0, 0, 0, NewYork), MLKDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 1, 18, 0, 0, 0, 0, NewYork), MLKDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 1, 17, 0, 0, 0, 0, NewYork), MLKDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 1, 16, 0, 0, 0, 0, NewYork), MLKDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 1, 15, 0, 0, 0, 0, NewYork), MLKDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 1, 20, 0, 0, 0, 0, NewYork), MLKDay.Calc(2025, NewYork))
+}
+
+func TestPresidentsDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 2, 15, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 2, 21, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 2, 20, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 2, 18, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 2, 17, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 2, 16, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 2, 15, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 2, 20, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 2, 19, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 2, 18, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 2, 17, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 2, 15, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 2, 21, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 2, 20, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 2, 19, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 2, 17, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2025, NewYork))
+}
+
+func TestMemorialDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 5, 31, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 5, 30, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 5, 28, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 5, 27, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 5, 26, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 5, 25, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 5, 30, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 5, 29, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 5, 28, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 5, 27, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 5, 25, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 5, 31, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 5, 30, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 5, 29, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 5, 27, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 5, 26, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2025, NewYork))
+}
+
+func TestIndependenceDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 7, 5, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 7, 3, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 7, 3, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 7, 5, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2025, NewYork))
+}
+
+func TestLaborDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 9, 6, 0, 0, 0, 0, NewYork), LaborDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 9, 5, 0, 0, 0, 0, NewYork), LaborDay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 9, 3, 0, 0, 0, 0, NewYork), LaborDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 9, 2, 0, 0, 0, 0, NewYork), LaborDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 9, 1, 0, 0, 0, 0, NewYork), LaborDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 9, 7, 0, 0, 0, 0, NewYork), LaborDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 9, 5, 0, 0, 0, 0, NewYork), LaborDay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 9, 4, 0, 0, 0, 0, NewYork), LaborDay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 9, 3, 0, 0, 0, 0, NewYork), LaborDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 9, 2, 0, 0, 0, 0, NewYork), LaborDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 9, 7, 0, 0, 0, 0, NewYork), LaborDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 9, 6, 0, 0, 0, 0, NewYork), LaborDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 9, 5, 0, 0, 0, 0, NewYork), LaborDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 9, 4, 0, 0, 0, 0, NewYork), LaborDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 9, 2, 0, 0, 0, 0, NewYork), LaborDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 9, 1, 0, 0, 0, 0, NewYork), LaborDay.Calc(2025, NewYork))
+}
+
+func TestColombusDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 10, 11, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 10, 10, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 10, 8, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 10, 14, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 10, 13, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 10, 12, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 10, 10, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 10, 9, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 10, 8, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 10, 14, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 10, 12, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 10, 11, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 10, 10, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 10, 9, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 10, 14, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 10, 13, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2025, NewYork))
+}
+
+func TestVeteransDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2011, NewYork))
+	assert.Equal(time.Time{}, VeteransDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2016, NewYork))
+	assert.Equal(time.Time{}, VeteransDay.Calc(2017, NewYork))
+	assert.Equal(time.Time{}, VeteransDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2022, NewYork))
+	assert.Equal(time.Time{}, VeteransDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2025, NewYork))
+}
+
+func TestThanksgivingDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 11, 25, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 11, 24, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 11, 22, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 11, 28, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 11, 27, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 11, 26, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 11, 24, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 11, 23, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 11, 22, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 11, 28, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 11, 26, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 11, 25, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 11, 24, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 11, 23, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 11, 28, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 11, 27, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2025, NewYork))
+}
+
+func TestBlackFriday(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 11, 25+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 11, 24+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 11, 22+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 11, 28+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 11, 27+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 11, 26+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 11, 24+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 11, 23+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 11, 22+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 11, 28+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 11, 26+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 11, 25+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 11, 24+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 11, 23+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 11, 28+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 11, 27+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2025, NewYork))
+}
+
+// UK
+
+func TestEarlyMay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 5, 3, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 5, 2, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 5, 7, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 5, 6, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 5, 5, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 5, 4, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 5, 2, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 5, 1, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 5, 7, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 5, 6, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 5, 4, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 5, 3, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 5, 2, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 5, 1, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 5, 6, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 5, 5, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2025, NewYork))
+}
+
+func TestLateMay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 5, 31, 0, 0, 0, 0, NewYork), LateMay.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 5, 30, 0, 0, 0, 0, NewYork), LateMay.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 5, 28, 0, 0, 0, 0, NewYork), LateMay.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 5, 27, 0, 0, 0, 0, NewYork), LateMay.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 5, 26, 0, 0, 0, 0, NewYork), LateMay.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 5, 25, 0, 0, 0, 0, NewYork), LateMay.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 5, 30, 0, 0, 0, 0, NewYork), LateMay.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 5, 29, 0, 0, 0, 0, NewYork), LateMay.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 5, 28, 0, 0, 0, 0, NewYork), LateMay.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 5, 27, 0, 0, 0, 0, NewYork), LateMay.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 5, 25, 0, 0, 0, 0, NewYork), LateMay.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 5, 31, 0, 0, 0, 0, NewYork), LateMay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 5, 30, 0, 0, 0, 0, NewYork), LateMay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 5, 29, 0, 0, 0, 0, NewYork), LateMay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 5, 27, 0, 0, 0, 0, NewYork), LateMay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 5, 26, 0, 0, 0, 0, NewYork), LateMay.Calc(2025, NewYork))
+}
+
+func TestSummerHoliday(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 8, 30, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2010, NewYork))
+	assert.Equal(time.Date(2011, 8, 29, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2011, NewYork))
+	assert.Equal(time.Date(2012, 8, 27, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2012, NewYork))
+	assert.Equal(time.Date(2013, 8, 26, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2013, NewYork))
+	assert.Equal(time.Date(2014, 8, 25, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2014, NewYork))
+	assert.Equal(time.Date(2015, 8, 31, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2015, NewYork))
+	assert.Equal(time.Date(2016, 8, 29, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2016, NewYork))
+	assert.Equal(time.Date(2017, 8, 28, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2017, NewYork))
+	assert.Equal(time.Date(2018, 8, 27, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2018, NewYork))
+	assert.Equal(time.Date(2019, 8, 26, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2019, NewYork))
+	assert.Equal(time.Date(2020, 8, 31, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2020, NewYork))
+	assert.Equal(time.Date(2021, 8, 30, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 8, 29, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 8, 28, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 8, 26, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 8, 25, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2025, NewYork))
 }

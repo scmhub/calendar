@@ -17,6 +17,7 @@ var (
 	Lisbon, _       = time.LoadLocation("Europe/Lisbon")
 	Madrid, _       = time.LoadLocation("Europe/Madrid")
 	Amsterdam, _    = time.LoadLocation("Europe/Amsterdam")
+	Brussels, _     = time.LoadLocation("Europe/Brussels")
 	Paris, _        = time.LoadLocation("Europe/Paris")
 	Milan, _        = time.LoadLocation("Europe/Rome")
 	Franckfurt, _   = time.LoadLocation("Europe/Berlin")

@@ -1,5 +1,7 @@
 package calendar
 
+import "time"
+
 // America
 
 // New York Stock Exchange
@@ -16,7 +18,7 @@ func NASDAQ(start, end int) *Calendar {
 	return c
 }
 
-// Chicago Board Options Exchang
+// Chicago Board Options Exchange
 func CBOE(start, end int) *Calendar {
 	c := NewCalendar("Chicago Board Options Exchange", Chicago, start, end)
 	//TODO: add holidays
@@ -35,15 +37,48 @@ func CFE(start, end int) *Calendar {
 // London Stock Exchange
 func LSE(start, end int) *Calendar {
 	c := NewCalendar("London Stock Exchange", London, start, end)
-	//TODO: add holidays
+	c.addHoliday(NewYear.Copy("New Year's Day").SetObservance(nextMonday))
+	c.addHoliday(GoodFriday.Copy("Good Friday"))
+	c.addHoliday(EasterMonday.Copy("Easter Monday"))
+	c.addHoliday(EarlyMay.Copy("Early May"))
+	c.addHoliday(LateMay.Copy("Late May"))
+	c.addHoliday(SummerHoliday.Copy("Summer Bank Holiday"))
+	c.addHoliday(ChristmasDay.Copy("Christmas Day").SetObservance(nextMonday))
+	c.addHoliday(BoxingDay.Copy("Boxing Day").SetObservance(nextMonday)) // PB!!!! if christmas on saturday
+	c.addHoliday(ChristmasEve.Copy("Christmas Eve"))                     // early-closing
 	return c
+}
+
+// euronext
+func euronext(name string, loc *time.Location, start, end int) *Calendar {
+	c := NewCalendar(name, loc, start, end)
+	c.addHoliday(NewYear.Copy("New Year's Day"))
+	c.addHoliday(GoodFriday.Copy("Good Friday"))
+	c.addHoliday(EasterMonday.Copy("Easter Monday"))
+	c.addHoliday(WorkersDay.Copy("Worker's Day"))
+	c.addHoliday(ChristmasDay.Copy("Christmas Day"))
+	c.addHoliday(ChristmasEve.Copy("Christmas Eve")) // early-closing
+	return c
+}
+
+// Euronext Amsterdam
+func EuronextAmsterdam(start, end int) *Calendar {
+	return euronext("Euronext Amsterdam", Amsterdam, start, end)
+}
+
+// Euronext Brussels
+func EuronextBrussels(start, end int) *Calendar {
+	return euronext("Euronext Brussels", Brussels, start, end)
+}
+
+// Euronext Lisbon
+func EuronextLisbon(start, end int) *Calendar {
+	return euronext("Euronext Lisbon", Lisbon, start, end)
 }
 
 // Euronext Paris
 func EuronextParis(start, end int) *Calendar {
-	c := NewCalendar("Euronext Paris", Paris, start, end)
-	//TODO: add holidays
-	return c
+	return euronext("Euronext Paris", Paris, start, end)
 }
 
 // Asia
@@ -65,6 +100,13 @@ func ShenzhenSE(start, end int) *Calendar {
 // Shanghai Stock Exchange
 func ShanghaiSE(start, end int) *Calendar {
 	c := NewCalendar("Shanghai Stock Exchange", Shanghai, start, end)
+	//TODO: add holidays
+	return c
+}
+
+// Korea Exchange
+func KRX(start, end int) *Calendar {
+	c := NewCalendar("Korea Exchange", Seoul, start, end)
 	//TODO: add holidays
 	return c
 }

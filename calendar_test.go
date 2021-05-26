@@ -16,6 +16,7 @@ func TestLocations(t *testing.T) {
 	assert.Equal("Europe/Lisbon", Lisbon.String())
 	assert.Equal("Europe/Madrid", Madrid.String())
 	assert.Equal("Europe/Amsterdam", Amsterdam.String())
+	assert.Equal("Europe/Brussels", Brussels.String())
 	assert.Equal("Europe/Paris", Paris.String())
 	assert.Equal("Europe/Rome", Milan.String())
 	assert.Equal("Europe/Berlin", Franckfurt.String())
