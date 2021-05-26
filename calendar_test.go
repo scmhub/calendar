@@ -7,6 +7,30 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestLocations(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal("America/Chicago", Chicago.String())
+	assert.Equal("America/New_York", NewYork.String())
+	assert.Equal("America/Sao_Paulo", SaoPaulo.String())
+	assert.Equal("Europe/London", London.String())
+	assert.Equal("Europe/Lisbon", Lisbon.String())
+	assert.Equal("Europe/Madrid", Madrid.String())
+	assert.Equal("Europe/Amsterdam", Amsterdam.String())
+	assert.Equal("Europe/Paris", Paris.String())
+	assert.Equal("Europe/Rome", Milan.String())
+	assert.Equal("Europe/Berlin", Franckfurt.String())
+	assert.Equal("Europe/Moscow", Moscow.String())
+	assert.Equal("Africa/Johannesburg", Johannesburg.String())
+	assert.Equal("Asia/Dubai", Dubai.String())
+	assert.Equal("Asia/Singapore", Singapore.String())
+	assert.Equal("Asia/Hong_Kong", HongKong.String())
+	assert.Equal("Asia/Hong_Kong", Shenzhen.String())
+	assert.Equal("Asia/Shanghai", Shanghai.String())
+	assert.Equal("Asia/Seoul", Seoul.String())
+	assert.Equal("Asia/Tokyo", Tokyo.String())
+	assert.Equal("Australia/Sydney", Sydney.String())
+}
+
 func TestNewCalendar(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago)
