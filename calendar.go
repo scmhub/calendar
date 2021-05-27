@@ -19,11 +19,13 @@ var (
 	Amsterdam, _    = time.LoadLocation("Europe/Amsterdam")
 	Brussels, _     = time.LoadLocation("Europe/Brussels")
 	Paris, _        = time.LoadLocation("Europe/Paris")
+	Zurich, _       = time.LoadLocation("Europe/Zurich")
 	Milan, _        = time.LoadLocation("Europe/Rome")
 	Franckfurt, _   = time.LoadLocation("Europe/Berlin")
 	Moscow, _       = time.LoadLocation("Europe/Moscow")
 	Johannesburg, _ = time.LoadLocation("Africa/Johannesburg")
 	Dubai, _        = time.LoadLocation("Asia/Dubai")
+	Bombay, _       = time.LoadLocation("Asia/Kolkata")
 	Singapore, _    = time.LoadLocation("Asia/Singapore")
 	HongKong, _     = time.LoadLocation("Asia/Hong_Kong")
 	Shenzhen, _     = time.LoadLocation("Asia/Hong_Kong")
@@ -41,7 +43,8 @@ type Calendar struct {
 	opening      time.Duration
 	closing      time.Duration
 	earlyClosing time.Duration
-	holidays     []*Holiday
+	holidays     []*Holiday // Holidays list including early closing
+	timestamps   []int64    // Sorted holidays timestamps
 	calendar     map[int64]*Holiday
 }
 
@@ -78,12 +81,22 @@ func NewCalendar(name string, loc *time.Location, years ...int) *Calendar {
 	return newCalendar(name, loc, start, end)
 }
 
+func (c *Calendar) reset() {
+	c.timestamps = []int64{}
+	c.calendar = make(map[int64]*Holiday)
+}
+
 func (c *Calendar) Years() (start, end int) {
 	return c.startYear, c.endYear
 }
 
 func (c *Calendar) SetYears(start, end int) {
 	c.startYear, c.endYear = start, end
+	c.reset()
+
+	for _, h := range c.holidays {
+		c.addHoliday(h)
+	}
 }
 
 func (c *Calendar) addHoliday(h *Holiday) {
@@ -91,8 +104,12 @@ func (c *Calendar) addHoliday(h *Holiday) {
 		t := h.Calc(y, c.Loc)
 		if !t.IsZero() {
 			c.calendar[t.Unix()] = h
+			c.timestamps = append(c.timestamps, t.Unix())
 		}
 	}
+	sort.Slice(c.timestamps, func(i, j int) bool {
+		return c.timestamps[i] < c.timestamps[j]
+	})
 }
 
 func (c *Calendar) AddHoliday(h *Holiday) {
@@ -132,21 +149,19 @@ func (c *Calendar) NextBusinessDay(t time.Time) time.Time {
 	return t
 }
 
-func (c *Calendar) sortedHolidaysTime() []time.Time {
-	var sht []time.Time
-	for t := range c.calendar {
-		sht = append(sht, time.Unix(t, 0))
+func (c *Calendar) NextHoliday(t time.Time) (time.Time, *Holiday) {
+	for _, ts := range c.timestamps {
+		if t.Unix() < ts {
+			return time.Unix(ts, 0).In(c.Loc), c.calendar[ts]
+		}
 	}
-	sort.Slice(sht, func(i, j int) bool {
-		return sht[i].Before(sht[j])
-	})
-	return sht
+	return time.Time{}, nil
 }
 
 func (c *Calendar) String() string {
 	str := fmt.Sprintf("Calendar %v:\n", c.Name)
-	for _, t := range c.sortedHolidaysTime() {
-		str += fmt.Sprintf("\t%v %v\n", t.Format("2006/01/02"), c.calendar[t.Unix()].Name)
+	for _, ts := range c.timestamps {
+		str += fmt.Sprintf("\t%v %v\n", time.Unix(ts, 0).In(c.Loc).Format("2006/01/02"), c.calendar[ts].Name)
 	}
 	return str
 }

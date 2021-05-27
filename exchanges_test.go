@@ -14,21 +14,18 @@ func TestNYSE(t *testing.T) {
 	assert.Equal("New York Stock Exchange", x.Name)
 	assert.Equal(NewYork, x.Loc)
 }
-
 func TestNASDAQ(t *testing.T) {
 	assert := assert.New(t)
 	x := NASDAQ(2010, 2025)
 	assert.Equal("NASDAQ", x.Name)
 	assert.Equal(NewYork, x.Loc)
 }
-
 func TestCBOE(t *testing.T) {
 	assert := assert.New(t)
 	x := CBOE(2010, 2025)
 	assert.Equal("Chicago Board Options Exchange", x.Name)
 	assert.Equal(Chicago, x.Loc)
 }
-
 func TestCFE(t *testing.T) {
 	assert := assert.New(t)
 	x := CFE(2010, 2025)
@@ -44,14 +41,12 @@ func TestLSE(t *testing.T) {
 	assert.Equal("London Stock Exchange", x.Name)
 	assert.Equal(London, x.Loc)
 }
-
 func TestEuronextAmsterdam(t *testing.T) {
 	assert := assert.New(t)
 	x := EuronextAmsterdam(2010, 2025)
 	assert.Equal("Euronext Amsterdam", x.Name)
 	assert.Equal(Amsterdam, x.Loc)
 }
-
 func TestEuronextBrussels(t *testing.T) {
 	assert := assert.New(t)
 	x := EuronextBrussels(2010, 2025)
@@ -70,13 +65,37 @@ func TestEuronextParis(t *testing.T) {
 	assert.Equal("Euronext Paris", x.Name)
 	assert.Equal(Paris, x.Loc)
 }
+func TestDB(t *testing.T) {
+	assert := assert.New(t)
+	x := DB(2010, 2025)
+	assert.Equal("Deutsche Borse", x.Name)
+	assert.Equal(Franckfurt, x.Loc)
+}
+func TestSIX(t *testing.T) {
+	assert := assert.New(t)
+	x := SIX(2010, 2025)
+	assert.Equal("SIX Group", x.Name)
+	assert.Equal(Zurich, x.Loc)
+}
 
 // Asia
 
-func TestHKE(t *testing.T) {
+func TestBSE(t *testing.T) {
 	assert := assert.New(t)
-	x := HKE(2010, 2025)
-	assert.Equal("Hong Kong Exchanges", x.Name)
+	x := BSE(2010, 2025)
+	assert.Equal("Bombay Stock Exchange", x.Name)
+	assert.Equal(Bombay, x.Loc)
+}
+func TestSGX(t *testing.T) {
+	assert := assert.New(t)
+	x := SGX(2010, 2025)
+	assert.Equal("Singapore Exchange", x.Name)
+	assert.Equal(Singapore, x.Loc)
+}
+func TestSEHK(t *testing.T) {
+	assert := assert.New(t)
+	x := SEHK(2010, 2025)
+	assert.Equal("Stock Exchange of Hong Kong", x.Name)
 	assert.Equal(HongKong, x.Loc)
 }
 func TestShenzhenSE(t *testing.T) {

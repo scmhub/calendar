@@ -18,11 +18,13 @@ func TestLocations(t *testing.T) {
 	assert.Equal("Europe/Amsterdam", Amsterdam.String())
 	assert.Equal("Europe/Brussels", Brussels.String())
 	assert.Equal("Europe/Paris", Paris.String())
+	assert.Equal("Europe/Zurich", Zurich.String())
 	assert.Equal("Europe/Rome", Milan.String())
 	assert.Equal("Europe/Berlin", Franckfurt.String())
 	assert.Equal("Europe/Moscow", Moscow.String())
 	assert.Equal("Africa/Johannesburg", Johannesburg.String())
 	assert.Equal("Asia/Dubai", Dubai.String())
+	assert.Equal("Asia/Kolkata", Bombay.String())
 	assert.Equal("Asia/Singapore", Singapore.String())
 	assert.Equal("Asia/Hong_Kong", HongKong.String())
 	assert.Equal("Asia/Hong_Kong", Shenzhen.String())
@@ -55,9 +57,17 @@ func TestCalendarYears(t *testing.T) {
 	start, end := c.Years()
 	assert.Equal(time.Now().Year()-YearsPast, start)
 	assert.Equal(time.Now().Year()+YearsAhead, end)
-	c.SetYears(2010, 2020)
-	assert.Equal(2010, c.startYear)
+	c = NewCalendar("Calendar", Chicago, 2015)
+	c.AddHoliday(NewYear)
+	ti, ho := c.NextHoliday(time.Time{})
+	assert.Equal(time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago), ti)
+	assert.Equal(NewYear, ho)
+	c.SetYears(2018, 2020)
+	assert.Equal(2018, c.startYear)
 	assert.Equal(2020, c.endYear)
+	ti, ho = c.NextHoliday(time.Time{})
+	assert.Equal(time.Date(2018, 1, 1, 0, 0, 0, 0, Chicago), ti)
+	assert.Equal(NewYear, ho)
 }
 
 func TestCalendarAddHoliday(t *testing.T) {
@@ -95,15 +105,35 @@ func TestCalendarBusinessDay(t *testing.T) {
 	assert.Equal(time.Date(2013, 1, 8, 0, 0, 0, 0, Chicago), c.NextBusinessDay(time.Date(2013, 1, 7, 0, 0, 0, 0, Chicago)))
 
 }
-func TestSortedHolidaysTime(t *testing.T) {
+
+func TestNextBusinessDay(t *testing.T) {
+	assert := assert.New(t)
+	c := NewCalendar("Calendar", Chicago, 2014, 2015)
+	c.AddHoliday(NewYear)
+	ti, ho := c.NextHoliday(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago))
+	assert.Equal(time.Date(2014, 1, 1, 0, 0, 0, 0, Chicago), ti)
+	assert.Equal(NewYear, ho)
+	ti, ho = c.NextHoliday(time.Date(2014, 1, 1, 0, 0, 0, 0, Chicago))
+	assert.Equal(time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago), ti)
+	assert.Equal(NewYear, ho)
+	ti, ho = c.NextHoliday(time.Date(2014, 2, 1, 0, 0, 0, 0, Chicago))
+	assert.Equal(time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago), ti)
+	assert.Equal(NewYear, ho)
+	ti, ho = c.NextHoliday(time.Date(2015, 2, 1, 0, 0, 0, 0, Chicago))
+	assert.Equal(time.Time{}, ti)
+	assert.Nil(ho)
+
+}
+
+func TestTimestamps(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2010, 2012)
 	c.AddHoliday(NewYear)
 	c.AddHoliday(Epiphany)
-	var prev time.Time
-	for _, t := range c.sortedHolidaysTime() {
-		assert.True(prev.Before(t))
-		assert.True(c.IsHoliday(t))
+	var prev int64
+	for _, t := range c.timestamps {
+		assert.True(prev < t)
+		assert.True(c.IsHoliday(BOD(time.Unix(t, 0).In(c.Loc))))
 	}
 }
 

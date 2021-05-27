@@ -43,9 +43,10 @@ func LSE(years ...int) *Calendar {
 	c.addHoliday(EarlyMay.Copy("Early May"))
 	c.addHoliday(LateMay.Copy("Late May"))
 	c.addHoliday(SummerHoliday.Copy("Summer Bank Holiday"))
+	c.addHoliday(ChristmasEve.Copy("Christmas Eve")) // early-closing
 	c.addHoliday(ChristmasDay.Copy("Christmas Day").SetObservance(nextMonday))
 	c.addHoliday(BoxingDay.Copy("Boxing Day").SetObservance(nextMonday)) // PB!!!! if christmas on saturday
-	c.addHoliday(ChristmasEve.Copy("Christmas Eve"))                     // early-closing
+	c.addHoliday(NewYearsEve.Copy("New Year's Eve"))                     // early-closing
 	return c
 }
 
@@ -81,11 +82,39 @@ func EuronextParis(years ...int) *Calendar {
 	return euronext("Euronext Paris", Paris, years...)
 }
 
+// Deutsche Borse
+func DB(years ...int) *Calendar {
+	c := NewCalendar("Deutsche Borse", Franckfurt, years...)
+	//TODO: add holidays
+	return c
+}
+
+// SIX Group (SWX Swiss Exchange)
+func SIX(years ...int) *Calendar {
+	c := NewCalendar("SIX Group", Zurich, years...)
+	//TODO: add holidays
+	return c
+}
+
 // Asia
 
-// Hong Kong Exchanges
-func HKE(years ...int) *Calendar {
-	c := NewCalendar("Hong Kong Exchanges", HongKong, years...)
+// Bombay Stock Exchange
+func BSE(years ...int) *Calendar {
+	c := NewCalendar("Bombay Stock Exchange", Bombay, years...)
+	//TODO: add holidays
+	return c
+}
+
+// Singapore Exchange (SGX)
+func SGX(years ...int) *Calendar {
+	c := NewCalendar("Singapore Exchange", Singapore, years...)
+	//TODO: add holidays
+	return c
+}
+
+// Stock Exchange of Hong Kong
+func SEHK(years ...int) *Calendar {
+	c := NewCalendar("Stock Exchange of Hong Kong", HongKong, years...)
 	//TODO: add holidays
 	return c
 }
