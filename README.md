@@ -25,20 +25,22 @@ IndependenceDay = &Holiday{
 NewYear.Copy("New Year's Day").SetObservance(sundayToMonday)
 
 // Create a Calendar
-c := NewCalendar("New York Stock Exchange", NewYork, years...)
-	c.SetEarlySession(&Session{7 * time.Hour, 9*time.Hour + 30*time.Minute})
-	c.SetCoreSessions(&Session{9*time.Hour + 30*time.Minute, 16 * time.Hour})
-	c.SetLateSession(&Session{16 * time.Hour, 20 * time.Hour})
-	c.AddHolidays(
-		NewYear.Copy("New Year's Day").SetObservance(sundayToMonday),
-		MLKDay,
-		PresidentsDay,
-		GoodFriday,
-		MemorialDay,
-		IndependenceDay.Copy("Independence Day").SetObservance(nearestWorkday), // !! half monday if tuesday
-		LaborDay,
-		ThanksgivingDay,
-		BlackFriday, // !! early-closing 1 pm
-		ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
-	)
+c := NewCalendar("New York Stock Exchange", NewYork)
+// Set Sessions
+c.SetEarlySession(&Session{7 * time.Hour, 9*time.Hour + 30*time.Minute})
+c.SetCoreSessions(&Session{9*time.Hour + 30*time.Minute, 16 * time.Hour})
+c.SetLateSession(&Session{16 * time.Hour, 20 * time.Hour})
+// Add Holidays
+c.AddHolidays(
+    NewYear.Copy("New Year's Day").SetObservance(sundayToMonday),
+    MLKDay,
+    PresidentsDay,
+    GoodFriday,
+    MemorialDay,
+    IndependenceDay.Copy("Independence Day").SetObservance(nearestWorkday),
+    LaborDay,
+    ThanksgivingDay,
+    BlackFriday,
+    ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
+)
 ```
