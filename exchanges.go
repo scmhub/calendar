@@ -2,17 +2,37 @@ package calendar
 
 import "time"
 
+/*
+	Market Identifier Code (MIC) (ISO 10383)
+	https://www.iso20022.org/market-identifier-codes
+
+*/
+
 // America
 
 // New York Stock Exchange
-func NYSE(years ...int) *Calendar {
+func XNYS(years ...int) *Calendar {
 	c := NewCalendar("New York Stock Exchange", NewYork, years...)
-	//TODO: add holidays
+	c.SetEarlySession(&Session{7 * time.Hour, 9*time.Hour + 30*time.Minute})
+	c.SetCoreSessions(&Session{9*time.Hour + 30*time.Minute, 16 * time.Hour})
+	c.SetLateSession(&Session{16 * time.Hour, 20 * time.Hour})
+	c.AddHolidays(
+		NewYear.Copy("New Year's Day").SetObservance(sundayToMonday),
+		MLKDay,
+		PresidentsDay,
+		GoodFriday,
+		MemorialDay,
+		IndependenceDay.Copy("Independence Day").SetObservance(nearestWorkday), // !! half monday if tuesday
+		LaborDay,
+		ThanksgivingDay,
+		BlackFriday, // !! early-closing 1 pm
+		ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
+	)
 	return c
 }
 
 // NASDAQ
-func NASDAQ(years ...int) *Calendar {
+func XNAS(years ...int) *Calendar {
 	c := NewCalendar("NASDAQ", NewYork, years...)
 	//TODO: add holidays
 	return c
@@ -32,123 +52,176 @@ func CFE(years ...int) *Calendar {
 	return c
 }
 
+// Toronto Stock Exchange
+func XTSE(years ...int) *Calendar {
+	c := NewCalendar("Toronto Stock Exchange", Chicago, years...)
+	//TODO: add holidays
+	return c
+}
+
+// Mexican Stock Exchange
+func XMEX(years ...int) *Calendar {
+	c := NewCalendar("Mexican Stock Exchange", Mexico, years...)
+	//TODO: add holidays
+	return c
+}
+
+// Brasilian Stock Exchange - Bolsa de Valores, Mercados e Futuros
+func BVMF(years ...int) *Calendar {
+	c := NewCalendar("Brasilian Stock Exchange", SaoPaulo, years...)
+	//TODO: add holidays
+	return c
+}
+
 // Europe
 
 // London Stock Exchange
-func LSE(years ...int) *Calendar {
+func XLON(years ...int) *Calendar {
 	c := NewCalendar("London Stock Exchange", London, years...)
-	c.addHoliday(NewYear.Copy("New Year's Day").SetObservance(nextMonday))
-	c.addHoliday(GoodFriday.Copy("Good Friday"))
-	c.addHoliday(EasterMonday.Copy("Easter Monday"))
-	c.addHoliday(EarlyMay.Copy("Early May"))
-	c.addHoliday(LateMay.Copy("Late May"))
-	c.addHoliday(SummerHoliday.Copy("Summer Bank Holiday"))
-	c.addHoliday(ChristmasEve.Copy("Christmas Eve")) // early-closing
-	c.addHoliday(ChristmasDay.Copy("Christmas Day").SetObservance(nextMonday))
-	c.addHoliday(BoxingDay.Copy("Boxing Day").SetObservance(nextMonday)) // PB!!!! if christmas on saturday
-	c.addHoliday(NewYearsEve.Copy("New Year's Eve"))                     // early-closing
+	c.AddHolidays(
+		NewYear.Copy("New Year's Day").SetObservance(nextMonday),
+		GoodFriday,
+		EasterMonday,
+		EarlyMay,
+		LateMay,
+		SummerHoliday,
+		ChristmasEve, // early-closing
+		ChristmasDay.Copy("Christmas Day").SetObservance(nextMonday),
+		BoxingDay.Copy("Boxing Day").SetObservance(nextMonday), // PB!!!! if christmas on saturday
+		NewYearsEve, // early-closing
+	)
 	return c
 }
 
 // euronext
 func euronext(name string, loc *time.Location, years ...int) *Calendar {
 	c := NewCalendar(name, loc, years...)
-	c.addHoliday(NewYear.Copy("New Year's Day"))
-	c.addHoliday(GoodFriday.Copy("Good Friday"))
-	c.addHoliday(EasterMonday.Copy("Easter Monday"))
-	c.addHoliday(WorkersDay.Copy("Worker's Day"))
-	c.addHoliday(ChristmasDay.Copy("Christmas Day"))
-	c.addHoliday(ChristmasEve.Copy("Christmas Eve")) // early-closing
+	c.AddHolidays(
+		NewYear,
+		GoodFriday,
+		EasterMonday,
+		WorkersDay,
+		ChristmasDay,
+		ChristmasEve, // early-closing
+	)
 	return c
 }
 
 // Euronext Amsterdam
-func EuronextAmsterdam(years ...int) *Calendar {
+func XAMS(years ...int) *Calendar {
 	return euronext("Euronext Amsterdam", Amsterdam, years...)
 }
 
 // Euronext Brussels
-func EuronextBrussels(years ...int) *Calendar {
+func XBRU(years ...int) *Calendar {
 	return euronext("Euronext Brussels", Brussels, years...)
 }
 
 // Euronext Lisbon
-func EuronextLisbon(years ...int) *Calendar {
+func XLIS(years ...int) *Calendar {
 	return euronext("Euronext Lisbon", Lisbon, years...)
 }
 
 // Euronext Paris
-func EuronextParis(years ...int) *Calendar {
+func XPAR(years ...int) *Calendar {
 	return euronext("Euronext Paris", Paris, years...)
 }
 
-// Deutsche Borse
-func DB(years ...int) *Calendar {
-	c := NewCalendar("Deutsche Borse", Franckfurt, years...)
+// Euronext Milan - Borsa Italiana S.P.A
+func XMIL(years ...int) *Calendar {
+	c := NewCalendar("Euronext Milan", Milan, years...)
+	//TODO: add holidays
+	return c
+}
+
+// Madrid Stock Exchange
+func XMAD(years ...int) *Calendar {
+	c := NewCalendar("Madrid Stock Exchange", Madrid, years...)
+	//TODO: add holidays
+	return c
+}
+
+// Frankfurt Stock Exchange
+func XFRA(years ...int) *Calendar {
+	c := NewCalendar("Frankfurt Stock Exchange", Franckfurt, years...)
+	//TODO: add holidays
+	return c
+}
+
+// Deutsche Borse Xetra
+func XETR(years ...int) *Calendar {
+	c := NewCalendar("Deutsche Borse Xetra", Franckfurt, years...)
 	//TODO: add holidays
 	return c
 }
 
 // SIX Group (SWX Swiss Exchange)
-func SIX(years ...int) *Calendar {
+func XSWX(years ...int) *Calendar {
 	c := NewCalendar("SIX Group", Zurich, years...)
 	//TODO: add holidays
 	return c
 }
 
-// Asia
+// Asia/Pacific
 
 // Bombay Stock Exchange
-func BSE(years ...int) *Calendar {
+func XBOM(years ...int) *Calendar {
 	c := NewCalendar("Bombay Stock Exchange", Bombay, years...)
 	//TODO: add holidays
 	return c
 }
 
+// Stock Exchange of Thailand
+func XBKK(years ...int) *Calendar {
+	c := NewCalendar("Stock Exchange of Thailand", Bangkok, years...)
+	//TODO: add holidays
+	return c
+}
+
 // Singapore Exchange (SGX)
-func SGX(years ...int) *Calendar {
+func XSES(years ...int) *Calendar {
 	c := NewCalendar("Singapore Exchange", Singapore, years...)
 	//TODO: add holidays
 	return c
 }
 
 // Stock Exchange of Hong Kong
-func SEHK(years ...int) *Calendar {
+func XHKG(years ...int) *Calendar {
 	c := NewCalendar("Stock Exchange of Hong Kong", HongKong, years...)
 	//TODO: add holidays
 	return c
 }
 
 // Shenzhen Stock Exchange
-func ShenzhenSE(years ...int) *Calendar {
+func XSHE(years ...int) *Calendar {
 	c := NewCalendar("Shenzhen Stock Exchange", Shenzhen, years...)
 	//TODO: add holidays
 	return c
 }
 
 // Shanghai Stock Exchange
-func ShanghaiSE(years ...int) *Calendar {
+func XSHG(years ...int) *Calendar {
 	c := NewCalendar("Shanghai Stock Exchange", Shanghai, years...)
 	//TODO: add holidays
 	return c
 }
 
 // Korea Exchange
-func KRX(years ...int) *Calendar {
+func XKRX(years ...int) *Calendar {
 	c := NewCalendar("Korea Exchange", Seoul, years...)
 	//TODO: add holidays
 	return c
 }
 
 // Japan Exchange Group
-func JEG(years ...int) *Calendar {
+func XJPX(years ...int) *Calendar {
 	c := NewCalendar("Japan Exchange Group", Tokyo, years...)
 	//TODO: add holidays
 	return c
 }
 
 // Australian Securities Exchange
-func ASE(years ...int) *Calendar {
+func XASX(years ...int) *Calendar {
 	c := NewCalendar("Australian Securities Exchange", Sydney, years...)
 	//TODO: add holidays
 	return c

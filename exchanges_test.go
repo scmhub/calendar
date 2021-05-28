@@ -8,15 +8,15 @@ import (
 
 // America
 
-func TestNYSE(t *testing.T) {
+func TestXNYS(t *testing.T) {
 	assert := assert.New(t)
-	x := NYSE(2010, 2025)
+	x := XNYS(2010, 2025)
 	assert.Equal("New York Stock Exchange", x.Name)
 	assert.Equal(NewYork, x.Loc)
 }
-func TestNASDAQ(t *testing.T) {
+func TestXNAS(t *testing.T) {
 	assert := assert.New(t)
-	x := NASDAQ(2010, 2025)
+	x := XNAS(2010, 2025)
 	assert.Equal("NASDAQ", x.Name)
 	assert.Equal(NewYork, x.Loc)
 }
@@ -32,99 +32,141 @@ func TestCFE(t *testing.T) {
 	assert.Equal("Cboe Futures Exchange", x.Name)
 	assert.Equal(Chicago, x.Loc)
 }
+func TestXTSE(t *testing.T) {
+	assert := assert.New(t)
+	x := XTSE(2010, 2025)
+	assert.Equal("Toronto Stock Exchange", x.Name)
+	assert.Equal(Chicago, x.Loc)
+}
+func TestXMEX(t *testing.T) {
+	assert := assert.New(t)
+	x := XMEX(2010, 2025)
+	assert.Equal("Mexican Stock Exchange", x.Name)
+	assert.Equal(Mexico, x.Loc)
+}
+func TestBVMF(t *testing.T) {
+	assert := assert.New(t)
+	x := BVMF(2010, 2025)
+	assert.Equal("Brasilian Stock Exchange", x.Name)
+	assert.Equal(SaoPaulo, x.Loc)
+}
 
 // Europe
 
-func TestLSE(t *testing.T) {
+func TestXLON(t *testing.T) {
 	assert := assert.New(t)
-	x := LSE(2010, 2025)
+	x := XLON(2010, 2025)
 	assert.Equal("London Stock Exchange", x.Name)
 	assert.Equal(London, x.Loc)
 }
-func TestEuronextAmsterdam(t *testing.T) {
+func TestXAMS(t *testing.T) {
 	assert := assert.New(t)
-	x := EuronextAmsterdam(2010, 2025)
+	x := XAMS(2010, 2025)
 	assert.Equal("Euronext Amsterdam", x.Name)
 	assert.Equal(Amsterdam, x.Loc)
 }
-func TestEuronextBrussels(t *testing.T) {
+func TestXBRU(t *testing.T) {
 	assert := assert.New(t)
-	x := EuronextBrussels(2010, 2025)
+	x := XBRU(2010, 2025)
 	assert.Equal("Euronext Brussels", x.Name)
 	assert.Equal(Brussels, x.Loc)
 }
-func TestEuronextLisbon(t *testing.T) {
+func TestXLIS(t *testing.T) {
 	assert := assert.New(t)
-	x := EuronextLisbon(2010, 2025)
+	x := XLIS(2010, 2025)
 	assert.Equal("Euronext Lisbon", x.Name)
 	assert.Equal(Lisbon, x.Loc)
 }
-func TestEuronextParis(t *testing.T) {
+func TestXPAR(t *testing.T) {
 	assert := assert.New(t)
-	x := EuronextParis(2010, 2025)
+	x := XPAR(2010, 2025)
 	assert.Equal("Euronext Paris", x.Name)
 	assert.Equal(Paris, x.Loc)
 }
-func TestDB(t *testing.T) {
+func TestXMIL(t *testing.T) {
 	assert := assert.New(t)
-	x := DB(2010, 2025)
-	assert.Equal("Deutsche Borse", x.Name)
+	x := XMIL(2010, 2025)
+	assert.Equal("Euronext Milan", x.Name)
+	assert.Equal(Milan, x.Loc)
+}
+func TestXMAD(t *testing.T) {
+	assert := assert.New(t)
+	x := XMAD(2010, 2025)
+	assert.Equal("Madrid Stock Exchange", x.Name)
+	assert.Equal(Madrid, x.Loc)
+}
+func TestXFRA(t *testing.T) {
+	assert := assert.New(t)
+	x := XFRA(2010, 2025)
+	assert.Equal("Frankfurt Stock Exchange", x.Name)
 	assert.Equal(Franckfurt, x.Loc)
 }
-func TestSIX(t *testing.T) {
+func TestXETR(t *testing.T) {
 	assert := assert.New(t)
-	x := SIX(2010, 2025)
+	x := XETR(2010, 2025)
+	assert.Equal("Deutsche Borse Xetra", x.Name)
+	assert.Equal(Franckfurt, x.Loc)
+}
+func TestXSWX(t *testing.T) {
+	assert := assert.New(t)
+	x := XSWX(2010, 2025)
 	assert.Equal("SIX Group", x.Name)
 	assert.Equal(Zurich, x.Loc)
 }
 
-// Asia
+// Asia/Pacific
 
-func TestBSE(t *testing.T) {
+func TestXBOM(t *testing.T) {
 	assert := assert.New(t)
-	x := BSE(2010, 2025)
+	x := XBOM(2010, 2025)
 	assert.Equal("Bombay Stock Exchange", x.Name)
 	assert.Equal(Bombay, x.Loc)
 }
-func TestSGX(t *testing.T) {
+func TestXBKK(t *testing.T) {
 	assert := assert.New(t)
-	x := SGX(2010, 2025)
+	x := XBKK(2010, 2025)
+	assert.Equal("Stock Exchange of Thailand", x.Name)
+	assert.Equal(Bangkok, x.Loc)
+}
+func TestXSES(t *testing.T) {
+	assert := assert.New(t)
+	x := XSES(2010, 2025)
 	assert.Equal("Singapore Exchange", x.Name)
 	assert.Equal(Singapore, x.Loc)
 }
-func TestSEHK(t *testing.T) {
+func TestXHKG(t *testing.T) {
 	assert := assert.New(t)
-	x := SEHK(2010, 2025)
+	x := XHKG(2010, 2025)
 	assert.Equal("Stock Exchange of Hong Kong", x.Name)
 	assert.Equal(HongKong, x.Loc)
 }
-func TestShenzhenSE(t *testing.T) {
+func TestXSHE(t *testing.T) {
 	assert := assert.New(t)
-	x := ShenzhenSE(2010, 2025)
+	x := XSHE(2010, 2025)
 	assert.Equal("Shenzhen Stock Exchange", x.Name)
 	assert.Equal(Shenzhen, x.Loc)
 }
-func TestShanghaiSE(t *testing.T) {
+func TestXSHG(t *testing.T) {
 	assert := assert.New(t)
-	x := ShanghaiSE(2010, 2025)
+	x := XSHG(2010, 2025)
 	assert.Equal("Shanghai Stock Exchange", x.Name)
 	assert.Equal(Shanghai, x.Loc)
 }
-func TestKRX(t *testing.T) {
+func TestXKRX(t *testing.T) {
 	assert := assert.New(t)
-	x := KRX(2010, 2025)
+	x := XKRX(2010, 2025)
 	assert.Equal("Korea Exchange", x.Name)
 	assert.Equal(Seoul, x.Loc)
 }
-func TestJEG(t *testing.T) {
+func TestXJPX(t *testing.T) {
 	assert := assert.New(t)
-	x := JEG(2010, 2025)
+	x := XJPX(2010, 2025)
 	assert.Equal("Japan Exchange Group", x.Name)
 	assert.Equal(Tokyo, x.Loc)
 }
-func TestASE(t *testing.T) {
+func TestXASX(t *testing.T) {
 	assert := assert.New(t)
-	x := ASE(2010, 2025)
+	x := XASX(2010, 2025)
 	assert.Equal("Australian Securities Exchange", x.Name)
 	assert.Equal(Sydney, x.Loc)
 }

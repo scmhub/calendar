@@ -10,7 +10,9 @@ const YearsAhead = 5
 const YearsPast = 5
 
 var (
+	Mexico, _       = time.LoadLocation("America/Mexico_City")
 	Chicago, _      = time.LoadLocation("America/Chicago")
+	Toronto, _      = time.LoadLocation("America/Toronto")
 	NewYork, _      = time.LoadLocation("America/New_York")
 	SaoPaulo, _     = time.LoadLocation("America/Sao_Paulo")
 	London, _       = time.LoadLocation("Europe/London")
@@ -27,6 +29,7 @@ var (
 	Dubai, _        = time.LoadLocation("Asia/Dubai")
 	Bombay, _       = time.LoadLocation("Asia/Kolkata")
 	Singapore, _    = time.LoadLocation("Asia/Singapore")
+	Bangkok, _      = time.LoadLocation("Asia/Bangkok")
 	HongKong, _     = time.LoadLocation("Asia/Hong_Kong")
 	Shenzhen, _     = time.LoadLocation("Asia/Hong_Kong")
 	Shanghai, _     = time.LoadLocation("Asia/Shanghai")
@@ -35,13 +38,17 @@ var (
 	Sydney, _       = time.LoadLocation("Australia/Sydney")
 )
 
+type Session [2]time.Duration
+
 type Calendar struct {
 	Name         string
 	Loc          *time.Location
 	startYear    int
 	endYear      int
-	opening      time.Duration
-	closing      time.Duration
+	early        *Session
+	morning      *Session // If one Session morning is whole day
+	afternoon    *Session
+	late         *Session
 	earlyClosing time.Duration
 	holidays     []*Holiday // Holidays list including early closing
 	timestamps   []int64    // Sorted holidays timestamps
@@ -50,12 +57,12 @@ type Calendar struct {
 
 func newCalendar(name string, loc *time.Location, start, end int) *Calendar {
 	return &Calendar{
-		Name:         name,
-		Loc:          loc,
-		startYear:    start,
-		endYear:      end,
-		opening:      9 * time.Hour,
-		closing:      17*time.Hour + 30*time.Minute,
+		Name:      name,
+		Loc:       loc,
+		startYear: start,
+		endYear:   end,
+		//opening:      9 * time.Hour,
+		//closing:      17*time.Hour + 30*time.Minute,
 		earlyClosing: 12*time.Hour + 30*time.Minute,
 		calendar:     make(map[int64]*Holiday),
 	}
@@ -86,6 +93,39 @@ func (c *Calendar) reset() {
 	c.calendar = make(map[int64]*Holiday)
 }
 
+func (c *Calendar) EarlySession() *Session {
+	return c.early
+}
+
+func (c *Calendar) SetEarlySession(s *Session) {
+	c.early = s
+}
+
+// morning, afternoon or day, nil
+func (c *Calendar) CoreSessions() (*Session, *Session) {
+	return c.morning, c.afternoon
+}
+
+// one *Session for the whole day, two *Sessions for morning and afernoon
+func (c *Calendar) SetCoreSessions(s ...*Session) {
+	if len(s) < 1 || len(s) > 2 {
+		panic("Wrong Session number")
+	}
+	c.morning = s[0]
+	c.afternoon = nil
+	if len(s) > 1 {
+		c.afternoon = s[1]
+	}
+}
+
+func (c *Calendar) LateSession() *Session {
+	return c.late
+}
+
+func (c *Calendar) SetLateSession(s *Session) {
+	c.late = s
+}
+
 func (c *Calendar) Years() (start, end int) {
 	return c.startYear, c.endYear
 }
@@ -112,9 +152,12 @@ func (c *Calendar) addHoliday(h *Holiday) {
 	})
 }
 
-func (c *Calendar) AddHoliday(h *Holiday) {
-	c.holidays = append(c.holidays, h)
-	c.addHoliday(h)
+func (c *Calendar) AddHolidays(h ...*Holiday) {
+	for _, holiday := range h {
+		c.holidays = append(c.holidays, holiday)
+		c.addHoliday(holiday)
+	}
+
 }
 
 func (c *Calendar) HasHoliday(h *Holiday) bool {

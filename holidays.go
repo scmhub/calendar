@@ -140,7 +140,7 @@ var (
 		NthWeekday: 3,
 		calc:       CalcNthWeekday,
 	}
-	// Presidents' Day on the 3rd Monday in February
+	// Presidents' Day or Washington's Birthday on the 3rd Monday in February
 	PresidentsDay = &Holiday{
 		Name:       "Presidents' Day",
 		Month:      time.February,

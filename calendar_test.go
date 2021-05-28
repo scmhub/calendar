@@ -9,7 +9,9 @@ import (
 
 func TestLocations(t *testing.T) {
 	assert := assert.New(t)
+	assert.Equal("America/Mexico_City", Mexico.String())
 	assert.Equal("America/Chicago", Chicago.String())
+	assert.Equal("America/Toronto", Toronto.String())
 	assert.Equal("America/New_York", NewYork.String())
 	assert.Equal("America/Sao_Paulo", SaoPaulo.String())
 	assert.Equal("Europe/London", London.String())
@@ -26,6 +28,7 @@ func TestLocations(t *testing.T) {
 	assert.Equal("Asia/Dubai", Dubai.String())
 	assert.Equal("Asia/Kolkata", Bombay.String())
 	assert.Equal("Asia/Singapore", Singapore.String())
+	assert.Equal("Asia/Bangkok", Bangkok.String())
 	assert.Equal("Asia/Hong_Kong", HongKong.String())
 	assert.Equal("Asia/Hong_Kong", Shenzhen.String())
 	assert.Equal("Asia/Shanghai", Shanghai.String())
@@ -49,6 +52,37 @@ func TestNewCalendar(t *testing.T) {
 	c = NewCalendar("Calendar", Chicago, 2020, 15)
 	assert.Equal(2020, c.startYear)
 	assert.Equal(2035, c.endYear)
+	assert.Nil(c.early)
+	assert.Nil(c.morning)
+	assert.Nil(c.afternoon)
+	assert.Nil(c.late)
+}
+
+func TestCalendarSessions(t *testing.T) {
+	assert := assert.New(t)
+	c := NewCalendar("Calendar", Chicago)
+	assert.Nil(c.EarlySession())
+	s1, s2 := c.CoreSessions()
+	assert.Nil(s1)
+	assert.Nil(s2)
+	assert.Nil(c.LateSession())
+	early := &Session{4 * time.Hour, 9 * time.Hour}
+	morning := &Session{9 * time.Hour, 11*time.Hour + 30*time.Minute}
+	afternoon := &Session{12*time.Hour + 30*time.Minute, 15 * time.Hour}
+	late := &Session{15 * time.Hour, 22 * time.Hour}
+	c.SetEarlySession(early)
+	assert.Equal(early, c.EarlySession())
+	assert.Panics(func() { c.SetCoreSessions(early, morning, afternoon) })
+	c.SetCoreSessions(morning, afternoon)
+	s1, s2 = c.CoreSessions()
+	assert.Equal(morning, s1)
+	assert.Equal(afternoon, s2)
+	c.SetCoreSessions(morning)
+	s1, s2 = c.CoreSessions()
+	assert.Equal(morning, s1)
+	assert.Nil(s2)
+	c.SetLateSession(late)
+	assert.Equal(late, c.LateSession())
 }
 
 func TestCalendarYears(t *testing.T) {
@@ -58,7 +92,7 @@ func TestCalendarYears(t *testing.T) {
 	assert.Equal(time.Now().Year()-YearsPast, start)
 	assert.Equal(time.Now().Year()+YearsAhead, end)
 	c = NewCalendar("Calendar", Chicago, 2015)
-	c.AddHoliday(NewYear)
+	c.AddHolidays(NewYear)
 	ti, ho := c.NextHoliday(time.Time{})
 	assert.Equal(time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago), ti)
 	assert.Equal(NewYear, ho)
@@ -74,7 +108,7 @@ func TestCalendarAddHoliday(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2011, 2015)
 	assert.False(c.HasHoliday(NewYear))
-	c.AddHoliday(NewYear)
+	c.AddHolidays(NewYear)
 	assert.True(c.HasHoliday(NewYear))
 	assert.Equal(1, len(c.holidays))
 	assert.Equal(NewYear, c.holidays[0])
@@ -84,7 +118,7 @@ func TestCalendarAddHoliday(t *testing.T) {
 		assert.True(c.IsHoliday(time.Date(2011+i, 1, 1, 0, 0, 0, 0, Chicago)))
 	}
 	c = NewCalendar("Calendar", Chicago, 2013)
-	c.AddHoliday(NewYear) // 1/1/2013 is a tuesday
+	c.AddHolidays(NewYear) // 1/1/2013 is a tuesday
 	assert.True(c.IsHoliday(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)))
 	assert.False(c.IsHoliday(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago)))
 }
@@ -92,7 +126,7 @@ func TestCalendarAddHoliday(t *testing.T) {
 func TestCalendarBusinessDay(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2013)
-	c.AddHoliday(NewYear) // 1/1/2013 is a tuesday
+	c.AddHolidays(NewYear) // 1/1/2013 is a tuesday
 	assert.False(c.IsBusinessDay(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)))
 	assert.True(c.IsBusinessDay(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago)))
 	assert.Equal(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago), c.NextBusinessDay(time.Date(2012, 12, 31, 0, 0, 0, 0, Chicago)))
@@ -109,7 +143,7 @@ func TestCalendarBusinessDay(t *testing.T) {
 func TestNextBusinessDay(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2014, 2015)
-	c.AddHoliday(NewYear)
+	c.AddHolidays(NewYear)
 	ti, ho := c.NextHoliday(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago))
 	assert.Equal(time.Date(2014, 1, 1, 0, 0, 0, 0, Chicago), ti)
 	assert.Equal(NewYear, ho)
@@ -128,8 +162,7 @@ func TestNextBusinessDay(t *testing.T) {
 func TestTimestamps(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2010, 2012)
-	c.AddHoliday(NewYear)
-	c.AddHoliday(Epiphany)
+	c.AddHolidays(NewYear, Epiphany)
 	var prev int64
 	for _, t := range c.timestamps {
 		assert.True(prev < t)
@@ -141,6 +174,6 @@ func TestCalendarString(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2011, 2015)
 	assert.Equal("Calendar Calendar:\n", c.String())
-	c.AddHoliday(NewYear)
+	c.AddHolidays(NewYear)
 	assert.Equal("Calendar Calendar:\n\t2013/01/01 New Year's Day\n\t2014/01/01 New Year's Day\n\t2015/01/01 New Year's Day\n", c.String())
 }
