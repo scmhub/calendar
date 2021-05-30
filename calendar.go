@@ -27,7 +27,7 @@ var (
 	Moscow, _       = time.LoadLocation("Europe/Moscow")
 	Johannesburg, _ = time.LoadLocation("Africa/Johannesburg")
 	Dubai, _        = time.LoadLocation("Asia/Dubai")
-	Bombay, _       = time.LoadLocation("Asia/Kolkata")
+	Mumbai, _       = time.LoadLocation("Asia/Kolkata")
 	Singapore, _    = time.LoadLocation("Asia/Singapore")
 	Bangkok, _      = time.LoadLocation("Asia/Bangkok")
 	HongKong, _     = time.LoadLocation("Asia/Hong_Kong")
@@ -42,16 +42,16 @@ type Session [2]time.Duration
 
 type Calendar struct {
 	Name         string
-	Loc          *time.Location
-	startYear    int
-	endYear      int
-	early        *Session
-	morning      *Session // If one Session morning is whole day
-	afternoon    *Session
-	late         *Session
-	earlyClosing time.Duration
-	holidays     []*Holiday // Holidays list including early closing
-	timestamps   []int64    // Sorted holidays timestamps
+	Loc          *time.Location // NewYork or time.LoadLocation("America/New_York")
+	startYear    int            // default is time.Now().Year() - YearsPast
+	endYear      int            //default is time.Now().Year() + YearsAhead
+	early        *Session       // early session &Session{open close}
+	morning      *Session       // morning or core session &Session{open close}
+	afternoon    *Session       // If omitted morning is whole day
+	late         *Session       // late session &Session{open close}
+	earlyClosing time.Duration  // early closing hour 14*time.Hour+30*time.Minute
+	holidays     []*Holiday     // Holidays list including early closing
+	timestamps   []int64        // Sorted holidays timestamps
 	calendar     map[int64]*Holiday
 }
 
@@ -126,6 +126,14 @@ func (c *Calendar) SetLateSession(s *Session) {
 	c.late = s
 }
 
+func (c *Calendar) EarlyClosing() time.Duration {
+	return c.earlyClosing
+}
+
+func (c *Calendar) SetEarlyClosing(t time.Duration) {
+	c.earlyClosing = t
+}
+
 func (c *Calendar) Years() (start, end int) {
 	return c.startYear, c.endYear
 }
@@ -169,11 +177,6 @@ func (c *Calendar) HasHoliday(h *Holiday) bool {
 	return false
 }
 
-func (c *Calendar) IsHoliday(t time.Time) bool {
-	_, ok := c.calendar[t.Unix()]
-	return ok
-}
-
 func (c *Calendar) IsBusinessDay(t time.Time) bool {
 	if IsWeekend(t) {
 		return false
@@ -182,6 +185,11 @@ func (c *Calendar) IsBusinessDay(t time.Time) bool {
 		return false
 	}
 	return true
+}
+
+func (c *Calendar) IsHoliday(t time.Time) bool {
+	_, ok := c.calendar[t.Unix()]
+	return ok
 }
 
 func (c *Calendar) NextBusinessDay(t time.Time) time.Time {

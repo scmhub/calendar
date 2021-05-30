@@ -165,6 +165,23 @@ var (
 		calc:       CalcDayOfMonth,
 	}
 
+	// Day Before Independence Day
+	BeforeIndependenceDay = &Holiday{
+		Name:       "Day before Independence Day",
+		Month:      time.July,
+		Day:        3,
+		observance: onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday),
+		calc:       CalcDayOfMonth,
+	}
+	// Day Before Independence Day
+	AfterIndependenceDay = &Holiday{
+		Name:       "Day after Independence Day",
+		Month:      time.July,
+		Day:        5,
+		observance: onlyOnWeekdays(time.Friday),
+		calc:       CalcDayOfMonth,
+	}
+
 	// Labor Day on the first Monday in September
 	LaborDay = &Holiday{
 		Name:       "Labor Day",

@@ -60,3 +60,23 @@ func TestSundayToMonday(t *testing.T) {
 	assert.Equal(tuesday, sundayToMonday(tuesday))
 	assert.Equal(wednesday, sundayToMonday(wednesday))
 }
+
+func TestOnlyOnWeekdays(t *testing.T) {
+	assert := assert.New(t)
+	onlyFriday := onlyOnWeekdays(time.Friday)
+	assert.Equal(time.Time{}, onlyFriday(thursday))
+	assert.Equal(friday, onlyFriday(friday))
+	assert.Equal(time.Time{}, onlyFriday(saturday))
+	assert.Equal(time.Time{}, onlyFriday(sunday))
+	assert.Equal(time.Time{}, onlyFriday(monday))
+	assert.Equal(time.Time{}, onlyFriday(tuesday))
+	assert.Equal(time.Time{}, onlyFriday(wednesday))
+	onlyMTT := onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday)
+	assert.Equal(thursday, onlyMTT(thursday))
+	assert.Equal(time.Time{}, onlyMTT(friday))
+	assert.Equal(time.Time{}, onlyMTT(saturday))
+	assert.Equal(time.Time{}, onlyMTT(sunday))
+	assert.Equal(monday, onlyMTT(monday))
+	assert.Equal(tuesday, onlyMTT(tuesday))
+	assert.Equal(time.Time{}, onlyMTT(wednesday))
+}

@@ -20,15 +20,15 @@ func TestXNAS(t *testing.T) {
 	assert.Equal("NASDAQ", x.Name)
 	assert.Equal(NewYork, x.Loc)
 }
-func TestCBOE(t *testing.T) {
+func TestXCBO(t *testing.T) {
 	assert := assert.New(t)
-	x := CBOE(2010, 2025)
+	x := XCBO(2010, 2025)
 	assert.Equal("Chicago Board Options Exchange", x.Name)
 	assert.Equal(Chicago, x.Loc)
 }
-func TestCFE(t *testing.T) {
+func TestXCBF(t *testing.T) {
 	assert := assert.New(t)
-	x := CFE(2010, 2025)
+	x := XCBF(2010, 2025)
 	assert.Equal("Cboe Futures Exchange", x.Name)
 	assert.Equal(Chicago, x.Loc)
 }
@@ -98,7 +98,7 @@ func TestXMAD(t *testing.T) {
 func TestXFRA(t *testing.T) {
 	assert := assert.New(t)
 	x := XFRA(2010, 2025)
-	assert.Equal("Frankfurt Stock Exchange", x.Name)
+	assert.Equal("Deutsche Boerse", x.Name)
 	assert.Equal(Franckfurt, x.Loc)
 }
 func TestXETR(t *testing.T) {
@@ -120,7 +120,7 @@ func TestXBOM(t *testing.T) {
 	assert := assert.New(t)
 	x := XBOM(2010, 2025)
 	assert.Equal("Bombay Stock Exchange", x.Name)
-	assert.Equal(Bombay, x.Loc)
+	assert.Equal(Mumbai, x.Loc)
 }
 func TestXBKK(t *testing.T) {
 	assert := assert.New(t)

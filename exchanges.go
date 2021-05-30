@@ -16,18 +16,23 @@ func XNYS(years ...int) *Calendar {
 	c.SetEarlySession(&Session{7 * time.Hour, 9*time.Hour + 30*time.Minute})
 	c.SetCoreSessions(&Session{9*time.Hour + 30*time.Minute, 16 * time.Hour})
 	c.SetLateSession(&Session{16 * time.Hour, 20 * time.Hour})
+	c.SetEarlyClosing(13 * time.Hour)
 	c.AddHolidays(
 		NewYear.Copy("New Year's Day").SetObservance(sundayToMonday),
 		MLKDay,
 		PresidentsDay,
 		GoodFriday,
 		MemorialDay,
-		IndependenceDay.Copy("Independence Day").SetObservance(nearestWorkday), // !! half monday if tuesday
+		IndependenceDay, // !! half monday if tuesday
 		LaborDay,
 		ThanksgivingDay,
 		BlackFriday, // !! early-closing 1 pm
 		ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
 	)
+	// c.AddEarlyClose(
+	// 	BeforeIndependenceDay,
+	// 	AfterIndependenceDay,
+	// )
 	return c
 }
 
@@ -39,14 +44,14 @@ func XNAS(years ...int) *Calendar {
 }
 
 // Chicago Board Options Exchange
-func CBOE(years ...int) *Calendar {
+func XCBO(years ...int) *Calendar {
 	c := NewCalendar("Chicago Board Options Exchange", Chicago, years...)
 	//TODO: add holidays
 	return c
 }
 
 // Cboe Futures Exchange
-func CFE(years ...int) *Calendar {
+func XCBF(years ...int) *Calendar {
 	c := NewCalendar("Cboe Futures Exchange", Chicago, years...)
 	//TODO: add holidays
 	return c
@@ -143,7 +148,7 @@ func XMAD(years ...int) *Calendar {
 
 // Frankfurt Stock Exchange
 func XFRA(years ...int) *Calendar {
-	c := NewCalendar("Frankfurt Stock Exchange", Franckfurt, years...)
+	c := NewCalendar("Deutsche Boerse", Franckfurt, years...)
 	//TODO: add holidays
 	return c
 }
@@ -166,7 +171,7 @@ func XSWX(years ...int) *Calendar {
 
 // Bombay Stock Exchange
 func XBOM(years ...int) *Calendar {
-	c := NewCalendar("Bombay Stock Exchange", Bombay, years...)
+	c := NewCalendar("Bombay Stock Exchange", Mumbai, years...)
 	//TODO: add holidays
 	return c
 }
