@@ -1,4 +1,6 @@
-# ![SCM logo](logo.png)Exchange Calendars
+# ![SCM logo](logo.png) Exchange Calendars
+
+![Build Status](https://github.com/scmhub/calendar/workflows/Build%20and%20Test/badge.svg)
 
 A Golang package of Exchange Calendars
 
