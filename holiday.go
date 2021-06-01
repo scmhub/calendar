@@ -11,7 +11,7 @@ type Holiday struct {
 	Day        int
 	Weekday    time.Weekday
 	NthWeekday int
-	Offset     int
+	offset     int
 	calc       holidayCalc
 	observance observance
 }
@@ -19,6 +19,15 @@ type Holiday struct {
 func (h Holiday) Copy(name string) *Holiday {
 	h.Name = name
 	return &h
+}
+
+func (h *Holiday) Offset() int {
+	return h.offset
+}
+
+func (h *Holiday) SetOffset(o int) *Holiday {
+	h.offset = o
+	return h
 }
 
 func (h *Holiday) Observance() observance {
@@ -37,8 +46,8 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 
 	t := h.calc(h, year, loc)
 
-	if h.Offset != 0 {
-		t = t.AddDate(0, 0, h.Offset)
+	if h.offset != 0 {
+		t = t.AddDate(0, 0, h.offset)
 	}
 
 	if h.observance == nil {

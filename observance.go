@@ -49,7 +49,8 @@ func sundayToMonday(t time.Time) time.Time {
 	return t
 }
 
-// time.Time{} if not a passed Weekday
+// Closure of observance.
+// time.Time{} if not a passed Weekday.
 func onlyOnWeekdays(wd ...time.Weekday) observance {
 	return func(t time.Time) time.Time {
 		for _, weekday := range wd {

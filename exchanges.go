@@ -10,56 +10,74 @@ import "time"
 
 // America
 
-// New York Stock Exchange
-func XNYS(years ...int) *Calendar {
-	c := NewCalendar("New York Stock Exchange", NewYork, years...)
-	c.SetEarlySession(&Session{7 * time.Hour, 9*time.Hour + 30*time.Minute})
-	c.SetCoreSessions(&Session{9*time.Hour + 30*time.Minute, 16 * time.Hour})
-	c.SetLateSession(&Session{16 * time.Hour, 20 * time.Hour})
-	c.SetEarlyClosing(13 * time.Hour)
+// Us Equities Markets
+func usEquities(name string, loc *time.Location, years ...int) *Calendar {
+	c := NewCalendar(name, loc, years...)
+	// Session
+	c.SetSession(&Session{
+		EarlyOpen:  7 * time.Hour,
+		Open:       9*time.Hour + 30*time.Minute,
+		Close:      16 * time.Hour,
+		EarlyClose: 13 * time.Hour,
+		LateClose:  20 * time.Hour,
+	})
+	// Recurring Holidays
 	c.AddHolidays(
 		NewYear.Copy("New Year's Day").SetObservance(sundayToMonday),
 		MLKDay,
 		PresidentsDay,
 		GoodFriday,
 		MemorialDay,
-		IndependenceDay, // !! half monday if tuesday
+		IndependenceDay,
 		LaborDay,
 		ThanksgivingDay,
-		BlackFriday, // !! early-closing 1 pm
 		ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
 	)
-	// c.AddEarlyClose(
-	// 	BeforeIndependenceDay,
-	// 	AfterIndependenceDay,
-	// )
+	// Non Recurring Holidays
+	c.AddHolidays(USNationalDaysOfMourning...)
+	c.AddHolidays(SeptemberElevenDays...)
+	c.AddHolidays(HurricaneSandyDays...)
+	// Early Closing
+	c.AddIrregularDays(
+		BeforeIndependenceDay.SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday)),
+		AfterIndependenceDay.SetObservance(onlyOnWeekdays(time.Friday)),
+		BlackFriday,
+	)
+	return c
+}
+
+// New York Stock Exchange
+func XNYS(years ...int) *Calendar {
+	c := usEquities("New York Stock Exchange", NewYork, years...)
 	return c
 }
 
 // NASDAQ
 func XNAS(years ...int) *Calendar {
-	c := NewCalendar("NASDAQ", NewYork, years...)
-	//TODO: add holidays
+	c := usEquities("NASDAQ", NewYork, years...)
 	return c
 }
 
 // Chicago Board Options Exchange
 func XCBO(years ...int) *Calendar {
-	c := NewCalendar("Chicago Board Options Exchange", Chicago, years...)
-	//TODO: add holidays
+	c := usEquities("Chicago Board Options Exchange", Chicago, years...)
 	return c
 }
 
 // Cboe Futures Exchange
 func XCBF(years ...int) *Calendar {
-	c := NewCalendar("Cboe Futures Exchange", Chicago, years...)
-	//TODO: add holidays
+	c := usEquities("Cboe Futures Exchange", Chicago, years...)
 	return c
 }
 
 // Toronto Stock Exchange
 func XTSE(years ...int) *Calendar {
 	c := NewCalendar("Toronto Stock Exchange", Chicago, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  9*time.Hour + 30*time.Minute,
+		Close: 16 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -67,6 +85,11 @@ func XTSE(years ...int) *Calendar {
 // Mexican Stock Exchange
 func XMEX(years ...int) *Calendar {
 	c := NewCalendar("Mexican Stock Exchange", Mexico, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  8*time.Hour + 30*time.Minute,
+		Close: 15 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -74,6 +97,11 @@ func XMEX(years ...int) *Calendar {
 // Brasilian Stock Exchange - Bolsa de Valores, Mercados e Futuros
 func BVMF(years ...int) *Calendar {
 	c := NewCalendar("Brasilian Stock Exchange", SaoPaulo, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  10 * time.Hour,
+		Close: 17 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -83,6 +111,13 @@ func BVMF(years ...int) *Calendar {
 // London Stock Exchange
 func XLON(years ...int) *Calendar {
 	c := NewCalendar("London Stock Exchange", London, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:       8 * time.Hour,
+		BreakStart: 12 * time.Hour,
+		BreakStop:  12*time.Hour + 2*time.Minute,
+		Close:      16*time.Hour + 30*time.Minute,
+	})
 	c.AddHolidays(
 		NewYear.Copy("New Year's Day").SetObservance(nextMonday),
 		GoodFriday,
@@ -101,6 +136,11 @@ func XLON(years ...int) *Calendar {
 // euronext
 func euronext(name string, loc *time.Location, years ...int) *Calendar {
 	c := NewCalendar(name, loc, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  9 * time.Hour,
+		Close: 17*time.Hour + 30*time.Minute,
+	})
 	c.AddHolidays(
 		NewYear,
 		GoodFriday,
@@ -114,7 +154,9 @@ func euronext(name string, loc *time.Location, years ...int) *Calendar {
 
 // Euronext Amsterdam
 func XAMS(years ...int) *Calendar {
-	return euronext("Euronext Amsterdam", Amsterdam, years...)
+	c := euronext("Euronext Amsterdam", Amsterdam, years...)
+	c.session.Close = 17*time.Hour + 40*time.Minute
+	return c
 }
 
 // Euronext Brussels
@@ -135,6 +177,11 @@ func XPAR(years ...int) *Calendar {
 // Euronext Milan - Borsa Italiana S.P.A
 func XMIL(years ...int) *Calendar {
 	c := NewCalendar("Euronext Milan", Milan, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  8 * time.Hour,
+		Close: 17*time.Hour + 30*time.Minute,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -142,6 +189,11 @@ func XMIL(years ...int) *Calendar {
 // Madrid Stock Exchange
 func XMAD(years ...int) *Calendar {
 	c := NewCalendar("Madrid Stock Exchange", Madrid, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  9 * time.Hour,
+		Close: 17*time.Hour + 30*time.Minute,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -149,6 +201,13 @@ func XMAD(years ...int) *Calendar {
 // Frankfurt Stock Exchange
 func XFRA(years ...int) *Calendar {
 	c := NewCalendar("Deutsche Boerse", Franckfurt, years...)
+	// Session
+	c.SetSession(&Session{
+		EarlyOpen: 8 * time.Hour,
+		Open:      9 * time.Hour,
+		Close:     17*time.Hour + 30*time.Minute,
+		LateClose: 20 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -156,6 +215,13 @@ func XFRA(years ...int) *Calendar {
 // Deutsche Borse Xetra
 func XETR(years ...int) *Calendar {
 	c := NewCalendar("Deutsche Borse Xetra", Franckfurt, years...)
+	// Session
+	c.SetSession(&Session{
+		EarlyOpen: 8 * time.Hour,
+		Open:      9 * time.Hour,
+		Close:     17*time.Hour + 30*time.Minute,
+		LateClose: 20 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -193,6 +259,13 @@ func XSES(years ...int) *Calendar {
 // Stock Exchange of Hong Kong
 func XHKG(years ...int) *Calendar {
 	c := NewCalendar("Stock Exchange of Hong Kong", HongKong, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:       9*time.Hour + 30*time.Minute,
+		BreakStart: 12 * time.Hour,
+		BreakStop:  13 * time.Hour,
+		Close:      16 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -200,6 +273,13 @@ func XHKG(years ...int) *Calendar {
 // Shenzhen Stock Exchange
 func XSHE(years ...int) *Calendar {
 	c := NewCalendar("Shenzhen Stock Exchange", Shenzhen, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:       9*time.Hour + 30*time.Minute,
+		BreakStart: 11*time.Hour + 30*time.Minute,
+		BreakStop:  13 * time.Hour,
+		Close:      16 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -207,6 +287,13 @@ func XSHE(years ...int) *Calendar {
 // Shanghai Stock Exchange
 func XSHG(years ...int) *Calendar {
 	c := NewCalendar("Shanghai Stock Exchange", Shanghai, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:       9*time.Hour + 30*time.Minute,
+		BreakStart: 11*time.Hour + 30*time.Minute,
+		BreakStop:  13 * time.Hour,
+		Close:      16 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -214,6 +301,11 @@ func XSHG(years ...int) *Calendar {
 // Korea Exchange
 func XKRX(years ...int) *Calendar {
 	c := NewCalendar("Korea Exchange", Seoul, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  9 * time.Hour,
+		Close: 15*time.Hour + 30*time.Minute,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -221,6 +313,13 @@ func XKRX(years ...int) *Calendar {
 // Japan Exchange Group
 func XJPX(years ...int) *Calendar {
 	c := NewCalendar("Japan Exchange Group", Tokyo, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:       9 * time.Hour,
+		BreakStart: 11*time.Hour + 30*time.Minute,
+		BreakStop:  12*time.Hour + 30*time.Minute,
+		Close:      15 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -228,6 +327,11 @@ func XJPX(years ...int) *Calendar {
 // Australian Securities Exchange
 func XASX(years ...int) *Calendar {
 	c := NewCalendar("Australian Securities Exchange", Sydney, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  10 * time.Hour,
+		Close: 16 * time.Hour,
+	})
 	//TODO: add holidays
 	return c
 }

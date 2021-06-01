@@ -78,7 +78,7 @@ nyse.NextHoliday(today)
 ## Creating Holidays & Calendars
 
 ```go
-// Create Hoidays
+// Create Holidays
 MemorialDay = &Holiday{
     Name:       "Memorial Day",
     Month:      time.May,
@@ -93,7 +93,6 @@ IndependenceDay = &Holiday{
     observance: nearestWorkday,
     calc:       CalcDayOfMonth,
 }
-
 // Copy an Holiday and set observance
 NewYear.Copy("New Year's Day").SetObservance(sundayToMonday)
 
@@ -110,10 +109,11 @@ c.AddHolidays(
     PresidentsDay,
     GoodFriday,
     MemorialDay,
-    IndependenceDay.Copy("Independence Day").SetObservance(nearestWorkday),
+    IndependenceDay,
     LaborDay,
     ThanksgivingDay,
     BlackFriday,
     ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
 )
+
 ```

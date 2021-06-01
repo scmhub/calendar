@@ -24,21 +24,21 @@ var (
 	// Maundy Thursday - three days before Easter
 	MaundyThursday = &Holiday{
 		Name:   "Maundy Thursday",
-		Offset: -3,
+		offset: -3,
 		calc:   CalcEasterOffset,
 	}
 
 	// Good Friday - two days before Easter
 	GoodFriday = &Holiday{
 		Name:   "Good Friday",
-		Offset: -2,
+		offset: -2,
 		calc:   CalcEasterOffset,
 	}
 
 	// Easter Monday - the day after Easter
 	EasterMonday = &Holiday{
 		Name:   "Easter Monday",
-		Offset: 1,
+		offset: 1,
 		calc:   CalcEasterOffset,
 	}
 
@@ -53,14 +53,14 @@ var (
 	// Ascension Day on the 39th day after Easter
 	AscensionDay = &Holiday{
 		Name:   "Ascension Day",
-		Offset: 39,
+		offset: 39,
 		calc:   CalcEasterOffset,
 	}
 
 	// Pentecost Monday on the day after Pentecost (50 days after Easter)
 	PentecostMonday = &Holiday{
 		Name:   "Pentecost Monday",
-		Offset: 50,
+		offset: 50,
 		calc:   CalcEasterOffset,
 	}
 
@@ -167,19 +167,17 @@ var (
 
 	// Day Before Independence Day
 	BeforeIndependenceDay = &Holiday{
-		Name:       "Day before Independence Day",
-		Month:      time.July,
-		Day:        3,
-		observance: onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday),
-		calc:       CalcDayOfMonth,
+		Name:  "Day before Independence Day",
+		Month: time.July,
+		Day:   3,
+		calc:  CalcDayOfMonth,
 	}
 	// Day Before Independence Day
 	AfterIndependenceDay = &Holiday{
-		Name:       "Day after Independence Day",
-		Month:      time.July,
-		Day:        5,
-		observance: onlyOnWeekdays(time.Friday),
-		calc:       CalcDayOfMonth,
+		Name:  "Day after Independence Day",
+		Month: time.July,
+		Day:   5,
+		calc:  CalcDayOfMonth,
 	}
 
 	// Labor Day on the first Monday in September
@@ -223,8 +221,81 @@ var (
 		Month:      time.November,
 		Weekday:    time.Thursday,
 		NthWeekday: 4,
-		Offset:     1,
+		offset:     1,
 		calc:       CalcNthWeekday,
+	}
+)
+
+// Special Non Working days for the United States of America.
+var (
+	// President Richard Nixon - April 27, 1994
+	NixonMourningDay = &Holiday{
+		Name:  "President Richard Nixon Mourning Day",
+		Month: time.April,
+		Day:   27,
+		Year:  1994,
+		calc:  CalcDayOfMonth,
+	}
+	// President Ronald W. Reagan - June 11, 2004
+	ReaganMourningDay = &Holiday{
+		Name:  "President Ronald W. Reagan Mourning Day",
+		Month: time.June,
+		Day:   11,
+		Year:  2004,
+		calc:  CalcDayOfMonth,
+	}
+	// President Gerald R. Ford - Jan 2, 2007
+	FordMourningDay = &Holiday{
+		Name:  "President Gerald R. Ford Mourning Day",
+		Month: time.January,
+		Day:   2,
+		Year:  2007,
+		calc:  CalcDayOfMonth,
+	}
+	// President George Bush Senior - Nov 30, 2018
+	BushSeniorMourningDay = &Holiday{
+		Name:  "President George Bush Senior Mourning Day",
+		Month: time.November,
+		Day:   30,
+		Year:  2018,
+		calc:  CalcDayOfMonth,
+	}
+	// National days of Mourning for the United States of America
+	USNationalDaysOfMourning = []*Holiday{
+		NixonMourningDay,
+		ReaganMourningDay,
+		FordMourningDay,
+		BushSeniorMourningDay,
+	}
+
+	// September 11 - september 11, 2001
+	SeptemberEleven = &Holiday{
+		Name:  "Sepember 11",
+		Month: time.September,
+		Day:   11,
+		Year:  2001,
+		calc:  CalcDayOfMonth,
+	}
+
+	// September 11 -14 range
+	SeptemberElevenDays = []*Holiday{
+		SeptemberEleven,
+		SeptemberEleven.Copy("Sepember 11 day 2").SetOffset(1),
+		SeptemberEleven.Copy("Sepember 11 day 3").SetOffset(2),
+		SeptemberEleven.Copy("Sepember 11 day 4").SetOffset(3),
+	}
+
+	// Hurricane Sandy - october 29, 2012
+	HurricaneSandy = &Holiday{
+		Name:  "Hurricane Sandy",
+		Month: time.October,
+		Day:   29,
+		Year:  2012,
+		calc:  CalcDayOfMonth,
+	}
+	HurricaneSandyDays = []*Holiday{
+		HurricaneSandy,
+		HurricaneSandy.Copy("Hurricane Sandy day 2").SetOffset(1),
 	}
 )
 

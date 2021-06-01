@@ -1,6 +1,7 @@
 package calendar
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -52,37 +53,43 @@ func TestNewCalendar(t *testing.T) {
 	c = NewCalendar("Calendar", Chicago, 2020, 15)
 	assert.Equal(2020, c.startYear)
 	assert.Equal(2035, c.endYear)
-	assert.Nil(c.early)
-	assert.Nil(c.morning)
-	assert.Nil(c.afternoon)
-	assert.Nil(c.late)
 }
 
 func TestCalendarSessions(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago)
-	assert.Nil(c.EarlySession())
-	s1, s2 := c.CoreSessions()
-	assert.Nil(s1)
-	assert.Nil(s2)
-	assert.Nil(c.LateSession())
-	early := &Session{4 * time.Hour, 9 * time.Hour}
-	morning := &Session{9 * time.Hour, 11*time.Hour + 30*time.Minute}
-	afternoon := &Session{12*time.Hour + 30*time.Minute, 15 * time.Hour}
-	late := &Session{15 * time.Hour, 22 * time.Hour}
-	c.SetEarlySession(early)
-	assert.Equal(early, c.EarlySession())
-	assert.Panics(func() { c.SetCoreSessions(early, morning, afternoon) })
-	c.SetCoreSessions(morning, afternoon)
-	s1, s2 = c.CoreSessions()
-	assert.Equal(morning, s1)
-	assert.Equal(afternoon, s2)
-	c.SetCoreSessions(morning)
-	s1, s2 = c.CoreSessions()
-	assert.Equal(morning, s1)
-	assert.Nil(s2)
-	c.SetLateSession(late)
-	assert.Equal(late, c.LateSession())
+	assert.Equal(&Session{}, c.Session())
+	assert.True(c.Session().IsZero())
+	earlyOpen := 4 * time.Hour
+	open := 9 * time.Hour
+	close := 15 * time.Hour
+	lateClose := 20 * time.Hour
+	session := &Session{
+		EarlyOpen: earlyOpen,
+		Open:      open,
+		Close:     close,
+		LateClose: lateClose,
+	}
+	c.SetSession(session)
+	assert.Equal(earlyOpen, c.Session().EarlyOpen)
+	assert.Equal(open, c.Session().Open)
+	assert.Equal(time.Duration(0), c.Session().BreakStart)
+	assert.Equal(time.Duration(0), c.Session().BreakStop)
+	assert.Equal(close, c.Session().Close)
+	assert.Equal(lateClose, c.Session().LateClose)
+	assert.False(session.HasBreak())
+	breakStart := 11*time.Hour + 30*time.Minute
+	breakStop := 12*time.Hour + 30*time.Minute
+	session.BreakStart = breakStart
+	session.BreakStop = breakStop
+	c.SetSession(session)
+	assert.Equal(open, c.Session().Open)
+	assert.Equal(breakStart, c.Session().BreakStart)
+	assert.Equal(breakStop, c.Session().BreakStop)
+	assert.True(session.HasBreak())
+	earlyClose := 13 * time.Hour
+	session.EarlyClose = earlyClose
+	c.SetSession(session)
 }
 
 func TestCalendarYears(t *testing.T) {
@@ -110,17 +117,19 @@ func TestCalendarAddHoliday(t *testing.T) {
 	assert.False(c.HasHoliday(NewYear))
 	c.AddHolidays(NewYear)
 	assert.True(c.HasHoliday(NewYear))
-	assert.Equal(1, len(c.holidays))
-	assert.Equal(NewYear, c.holidays[0])
-	assert.Equal(3, len(c.calendar))
-	assert.Equal(NewYear, c.calendar[time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago).Unix()])
-	for i := 2; i < len(c.calendar); i++ {
+	assert.Equal(1, len(c.h))
+	assert.Equal(NewYear, c.h[0])
+	assert.Equal(3, len(c.hmap))
+	assert.Equal(NewYear, c.hmap[time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago).Unix()])
+	for i := 2; i < len(c.hmap); i++ {
 		assert.True(c.IsHoliday(time.Date(2011+i, 1, 1, 0, 0, 0, 0, Chicago)))
 	}
 	c = NewCalendar("Calendar", Chicago, 2013)
 	c.AddHolidays(NewYear) // 1/1/2013 is a tuesday
 	assert.True(c.IsHoliday(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)))
 	assert.False(c.IsHoliday(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago)))
+	assert.True(c.IsHoliday(time.Date(2013, 1, 1, 15, 30, 0, 0, Chicago)))
+	assert.False(c.IsHoliday(time.Date(2013, 1, 2, 15, 30, 0, 0, Chicago)))
 }
 
 func TestCalendarBusinessDay(t *testing.T) {
@@ -158,16 +167,67 @@ func TestNextBusinessDay(t *testing.T) {
 	assert.Nil(ho)
 
 }
+func TestIsOpen(t *testing.T) {
+	assert := assert.New(t)
+	c := NewCalendar("Calendar", Chicago, 2014, 2015)
+	c.AddHolidays(NewYear)
+	assert.PanicsWithError(fmt.Sprint(errNoSession), func() { c.IsOpen(time.Date(2014, 12, 31, 10, 30, 0, 0, Chicago)) })
+	c.SetSession(&Session{
+		EarlyOpen:  7 * time.Hour,
+		Open:       9*time.Hour + 30*time.Minute,
+		Close:      16 * time.Hour,
+		EarlyClose: 13 * time.Hour,
+		LateClose:  20 * time.Hour,
+	})
+	assert.True(c.IsOpen(time.Date(2014, 12, 31, 10, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 1, 10, 30, 0, 0, Chicago)))
+	assert.True(c.IsOpen(time.Date(2015, 1, 2, 10, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 3, 10, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 4, 10, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 2, 9, 0, 0, 0, Chicago)))
+	assert.True(c.IsOpen(time.Date(2015, 1, 2, 10, 30, 0, 0, Chicago)))
+	assert.True(c.IsOpen(time.Date(2015, 1, 2, 12, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 2, 16, 30, 0, 0, Chicago)))
+	c.SetSession(&Session{
+		EarlyOpen:  7 * time.Hour,
+		Open:       9*time.Hour + 30*time.Minute,
+		Close:      16 * time.Hour,
+		BreakStart: 11 * time.Hour,
+		BreakStop:  13 * time.Hour,
+		EarlyClose: 13 * time.Hour,
+		LateClose:  20 * time.Hour,
+	})
+	assert.False(c.IsOpen(time.Date(2015, 1, 2, 9, 0, 0, 0, Chicago)))
+	assert.True(c.IsOpen(time.Date(2015, 1, 2, 10, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 2, 12, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 2, 16, 30, 0, 0, Chicago)))
+}
 
 func TestTimestamps(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2010, 2012)
 	c.AddHolidays(NewYear, Epiphany)
 	var prev int64
-	for _, t := range c.timestamps {
+	for _, t := range c.hts {
 		assert.True(prev < t)
 		assert.True(c.IsHoliday(BOD(time.Unix(t, 0).In(c.Loc))))
 	}
+}
+func TestNextClose(t *testing.T) {
+	assert := assert.New(t)
+	c := NewCalendar("Calendar", Chicago, 2014, 2015)
+	c.AddHolidays(NewYear)
+	assert.PanicsWithError(fmt.Sprint(errNoSession), func() { c.NextClose(time.Date(2014, 12, 31, 10, 30, 0, 0, Chicago)) })
+	c.SetSession(&Session{
+		Open:  9 * time.Hour,
+		Close: 16 * time.Hour,
+	})
+	assert.Equal(time.Date(2014, 12, 31, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2014, 12, 31, 10, 30, 0, 0, Chicago)))
+	assert.Equal(time.Date(2015, 1, 2, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 1, 10, 30, 0, 0, Chicago)))
+	assert.Equal(time.Date(2015, 1, 2, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 2, 10, 30, 0, 0, Chicago)))
+	assert.Equal(time.Date(2015, 1, 5, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 3, 10, 30, 0, 0, Chicago)))
+	assert.Equal(time.Date(2015, 1, 5, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 4, 10, 30, 0, 0, Chicago)))
+	assert.Equal(time.Date(2015, 1, 5, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 5, 10, 30, 0, 0, Chicago)))
 }
 
 func TestCalendarString(t *testing.T) {
