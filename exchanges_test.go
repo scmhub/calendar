@@ -2,11 +2,123 @@ package calendar
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
 // America
+func TestUsEquities(t *testing.T) {
+	assert := assert.New(t)
+	x := usEquities("New York Stock Exchange", NewYork, 2000, 2025)
+	assert.Equal("New York Stock Exchange", x.Name)
+	assert.Equal(NewYork, x.Loc)
+	assert.Equal(7*time.Hour, x.Session().EarlyOpen)
+	assert.Equal(9*time.Hour+30*time.Minute, x.Session().Open)
+	assert.Equal(time.Duration(0), x.Session().BreakStart)
+	assert.Equal(time.Duration(0), x.Session().BreakStop)
+	assert.Equal(16*time.Hour, x.Session().Close)
+	assert.Equal(13*time.Hour, x.Session().EarlyClose)
+	assert.Equal(20*time.Hour, x.Session().LateClose)
+	// 2015
+	assert.True(x.IsHoliday(time.Date(2015, 1, 1, 0, 0, 0, 0, NewYork)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2015, 1, 19, 0, 0, 0, 0, NewYork)))     // Martin Luther King Jr. day
+	assert.True(x.IsHoliday(time.Date(2015, 2, 16, 0, 0, 0, 0, NewYork)))     // President's day
+	assert.True(x.IsHoliday(time.Date(2015, 4, 3, 0, 0, 0, 0, NewYork)))      // Good Friday
+	assert.True(x.IsHoliday(time.Date(2015, 5, 25, 0, 0, 0, 0, NewYork)))     // Memorial day
+	assert.True(x.IsHoliday(time.Date(2015, 7, 3, 0, 0, 0, 0, NewYork)))      // Independence day
+	assert.True(x.IsHoliday(time.Date(2015, 9, 7, 0, 0, 0, 0, NewYork)))      // Labor day
+	assert.True(x.IsHoliday(time.Date(2015, 11, 26, 0, 0, 0, 0, NewYork)))    // Thanksgiving
+	assert.True(x.IsEarlyClose(time.Date(2015, 11, 27, 0, 0, 0, 0, NewYork))) // Black Friday
+	assert.True(x.IsEarlyClose(time.Date(2015, 12, 24, 0, 0, 0, 0, NewYork))) // Christmas Eve
+	assert.True(x.IsHoliday(time.Date(2015, 12, 25, 0, 0, 0, 0, NewYork)))    // Christmas
+	// 2016
+	assert.True(x.IsHoliday(time.Date(2016, 1, 1, 0, 0, 0, 0, NewYork)))       //New Year's day
+	assert.True(x.IsHoliday(time.Date(2016, 1, 18, 0, 0, 0, 0, NewYork)))      // Martin Luther King Jr. day
+	assert.True(x.IsHoliday(time.Date(2016, 2, 15, 0, 0, 0, 0, NewYork)))      // President's day
+	assert.True(x.IsHoliday(time.Date(2016, 3, 25, 0, 0, 0, 0, NewYork)))      // Good Friday
+	assert.True(x.IsHoliday(time.Date(2016, 5, 30, 0, 0, 0, 0, NewYork)))      // Memorial day
+	assert.True(x.IsHoliday(time.Date(2016, 7, 4, 0, 0, 0, 0, NewYork)))       // Independence day
+	assert.True(x.IsHoliday(time.Date(2016, 9, 5, 0, 0, 0, 0, NewYork)))       // Labor day
+	assert.True(x.IsHoliday(time.Date(2016, 11, 24, 0, 0, 0, 0, NewYork)))     // Thanksgiving
+	assert.True(x.IsEarlyClose(time.Date(2016, 11, 25, 0, 0, 0, 0, NewYork)))  // Black Friday
+	assert.False(x.IsEarlyClose(time.Date(2016, 12, 24, 0, 0, 0, 0, NewYork))) // Christmas Eve not observed is a sturday
+	assert.True(x.IsHoliday(time.Date(2016, 12, 26, 0, 0, 0, 0, NewYork)))     // Christmas
+	// 2017
+	assert.True(x.IsHoliday(time.Date(2017, 1, 2, 0, 0, 0, 0, NewYork)))       //New Year's day
+	assert.True(x.IsHoliday(time.Date(2017, 1, 16, 0, 0, 0, 0, NewYork)))      // Martin Luther King Jr. day
+	assert.True(x.IsHoliday(time.Date(2017, 2, 20, 0, 0, 0, 0, NewYork)))      // President's day
+	assert.True(x.IsHoliday(time.Date(2017, 4, 14, 0, 0, 0, 0, NewYork)))      // Good Friday
+	assert.True(x.IsHoliday(time.Date(2017, 5, 29, 0, 0, 0, 0, NewYork)))      // Memorial day
+	assert.True(x.IsEarlyClose(time.Date(2018, 7, 3, 0, 0, 0, 0, NewYork)))    // day before Independence day
+	assert.True(x.IsHoliday(time.Date(2017, 7, 4, 0, 0, 0, 0, NewYork)))       // Independence day
+	assert.True(x.IsHoliday(time.Date(2017, 9, 4, 0, 0, 0, 0, NewYork)))       // Labor day
+	assert.True(x.IsHoliday(time.Date(2017, 11, 23, 0, 0, 0, 0, NewYork)))     // Thanksgiving
+	assert.True(x.IsEarlyClose(time.Date(2017, 11, 24, 0, 0, 0, 0, NewYork)))  // Black Friday
+	assert.False(x.IsEarlyClose(time.Date(2017, 12, 24, 0, 0, 0, 0, NewYork))) // Christmas Eve not observed is a sunday
+	assert.True(x.IsHoliday(time.Date(2017, 12, 25, 0, 0, 0, 0, NewYork)))     // Christmas
+	// 2018
+	assert.True(x.IsHoliday(time.Date(2018, 1, 1, 0, 0, 0, 0, NewYork)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2018, 1, 15, 0, 0, 0, 0, NewYork)))     // Martin Luther King Jr. day
+	assert.True(x.IsHoliday(time.Date(2018, 2, 19, 0, 0, 0, 0, NewYork)))     // President's day
+	assert.True(x.IsHoliday(time.Date(2018, 3, 30, 0, 0, 0, 0, NewYork)))     // Good Friday
+	assert.True(x.IsHoliday(time.Date(2018, 5, 28, 0, 0, 0, 0, NewYork)))     // Memorial day
+	assert.True(x.IsEarlyClose(time.Date(2018, 7, 3, 0, 0, 0, 0, NewYork)))   // day before Independence day
+	assert.True(x.IsHoliday(time.Date(2018, 7, 4, 0, 0, 0, 0, NewYork)))      // Independence day
+	assert.False(x.IsEarlyClose(time.Date(2018, 7, 5, 0, 0, 0, 0, NewYork)))  // day after Independence day
+	assert.True(x.IsHoliday(time.Date(2018, 9, 3, 0, 0, 0, 0, NewYork)))      // Labor day
+	assert.True(x.IsHoliday(time.Date(2018, 11, 22, 0, 0, 0, 0, NewYork)))    // Thanksgiving
+	assert.True(x.IsEarlyClose(time.Date(2018, 11, 23, 0, 0, 0, 0, NewYork))) // Black Friday
+	assert.True(x.IsEarlyClose(time.Date(2018, 12, 24, 0, 0, 0, 0, NewYork))) // Christmas Eve not observed is a sunday
+	assert.True(x.IsHoliday(time.Date(2018, 12, 25, 0, 0, 0, 0, NewYork)))    // Christmas
+	// 2019
+	assert.True(x.IsHoliday(time.Date(2019, 1, 1, 0, 0, 0, 0, NewYork)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2019, 1, 21, 0, 0, 0, 0, NewYork)))     // Martin Luther King Jr. day
+	assert.True(x.IsHoliday(time.Date(2019, 2, 18, 0, 0, 0, 0, NewYork)))     // President's day
+	assert.True(x.IsHoliday(time.Date(2019, 4, 19, 0, 0, 0, 0, NewYork)))     // Good Friday
+	assert.True(x.IsHoliday(time.Date(2019, 5, 27, 0, 0, 0, 0, NewYork)))     // Memorial day
+	assert.True(x.IsEarlyClose(time.Date(2019, 7, 3, 0, 0, 0, 0, NewYork)))   // day before Independence day
+	assert.True(x.IsHoliday(time.Date(2019, 7, 4, 0, 0, 0, 0, NewYork)))      // Independence day
+	assert.False(x.IsEarlyClose(time.Date(2019, 7, 5, 0, 0, 0, 0, NewYork)))  // day after Independence day
+	assert.True(x.IsHoliday(time.Date(2019, 9, 2, 0, 0, 0, 0, NewYork)))      // Labor day
+	assert.True(x.IsHoliday(time.Date(2019, 11, 28, 0, 0, 0, 0, NewYork)))    // Thanksgiving
+	assert.True(x.IsEarlyClose(time.Date(2019, 11, 29, 0, 0, 0, 0, NewYork))) // Black Friday
+	assert.True(x.IsEarlyClose(time.Date(2019, 12, 24, 0, 0, 0, 0, NewYork))) // Christmas Eve not observed is a sunday
+	assert.True(x.IsHoliday(time.Date(2019, 12, 25, 0, 0, 0, 0, NewYork)))    // Christmas
+	// 2020
+	assert.True(x.IsHoliday(time.Date(2020, 1, 1, 0, 0, 0, 0, NewYork)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2020, 1, 20, 0, 0, 0, 0, NewYork)))     // Martin Luther King Jr. day
+	assert.True(x.IsHoliday(time.Date(2020, 2, 17, 0, 0, 0, 0, NewYork)))     // President's day
+	assert.True(x.IsHoliday(time.Date(2020, 4, 10, 0, 0, 0, 0, NewYork)))     // Good Friday
+	assert.True(x.IsHoliday(time.Date(2020, 5, 25, 0, 0, 0, 0, NewYork)))     // Memorial day
+	assert.False(x.IsEarlyClose(time.Date(2020, 7, 3, 0, 0, 0, 0, NewYork)))  // day before Independence day
+	assert.True(x.IsHoliday(time.Date(2020, 7, 3, 0, 0, 0, 0, NewYork)))      // Independence day
+	assert.False(x.IsEarlyClose(time.Date(2020, 7, 5, 0, 0, 0, 0, NewYork)))  // day after Independence day
+	assert.True(x.IsHoliday(time.Date(2020, 9, 7, 0, 0, 0, 0, NewYork)))      // Labor day
+	assert.True(x.IsHoliday(time.Date(2020, 11, 26, 0, 0, 0, 0, NewYork)))    // Thanksgiving
+	assert.True(x.IsEarlyClose(time.Date(2020, 11, 27, 0, 0, 0, 0, NewYork))) // Black Friday
+	assert.True(x.IsEarlyClose(time.Date(2020, 12, 24, 0, 0, 0, 0, NewYork))) // Christmas Eve not observed is a sunday
+	assert.True(x.IsHoliday(time.Date(2020, 12, 25, 0, 0, 0, 0, NewYork)))    // Christmas
+	// Independence day on Thursday
+	assert.False(x.IsEarlyClose(time.Date(2002, 7, 3, 0, 0, 0, 0, NewYork))) // day before Independence day
+	assert.True(x.IsHoliday(time.Date(2002, 7, 4, 0, 0, 0, 0, NewYork)))     // Independence day
+	assert.True(x.IsEarlyClose(time.Date(2002, 7, 5, 0, 0, 0, 0, NewYork)))  // day after Independence day
+	assert.True(x.IsEarlyClose(time.Date(2013, 7, 3, 0, 0, 0, 0, NewYork)))  // day before Independence day
+	assert.True(x.IsHoliday(time.Date(2013, 7, 4, 0, 0, 0, 0, NewYork)))     // Independence day
+	assert.False(x.IsEarlyClose(time.Date(2013, 7, 5, 0, 0, 0, 0, NewYork))) // day after Independence day
+	// National Days of Mourning
+	assert.True(x.IsHoliday(time.Date(2004, 6, 11, 0, 0, 0, 0, NewYork)))
+	assert.True(x.IsHoliday(time.Date(2007, 1, 2, 0, 0, 0, 0, NewYork)))
+	assert.True(x.IsHoliday(time.Date(2018, 11, 30, 0, 0, 0, 0, NewYork)))
+	// September 11
+	assert.True(x.IsHoliday(time.Date(2001, 9, 11, 0, 0, 0, 0, NewYork)))
+	assert.True(x.IsHoliday(time.Date(2001, 9, 12, 0, 0, 0, 0, NewYork)))
+	assert.True(x.IsHoliday(time.Date(2001, 9, 13, 0, 0, 0, 0, NewYork)))
+	assert.True(x.IsHoliday(time.Date(2001, 9, 14, 0, 0, 0, 0, NewYork)))
+	// Hurricane Sandy
+	assert.True(x.IsHoliday(time.Date(2012, 10, 29, 0, 0, 0, 0, NewYork)))
+	assert.True(x.IsHoliday(time.Date(2012, 10, 30, 0, 0, 0, 0, NewYork)))
+}
 
 func TestXNYS(t *testing.T) {
 	assert := assert.New(t)

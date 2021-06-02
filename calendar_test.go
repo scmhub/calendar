@@ -111,7 +111,7 @@ func TestCalendarYears(t *testing.T) {
 	assert.Equal(NewYear, ho)
 }
 
-func TestCalendarAddHoliday(t *testing.T) {
+func TestAddHoliday(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2011, 2015)
 	assert.False(c.HasHoliday(NewYear))
@@ -130,6 +130,13 @@ func TestCalendarAddHoliday(t *testing.T) {
 	assert.False(c.IsHoliday(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago)))
 	assert.True(c.IsHoliday(time.Date(2013, 1, 1, 15, 30, 0, 0, Chicago)))
 	assert.False(c.IsHoliday(time.Date(2013, 1, 2, 15, 30, 0, 0, Chicago)))
+}
+func TestAddEarlyClosingDays(t *testing.T) {
+	assert := assert.New(t)
+	c := NewCalendar("Calendar", Chicago, 2013)
+	c.AddEarlyClosingDays(NewYear) // 1/1/2013 is a tuesday
+	assert.False(c.IsHoliday(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)))
+	assert.True(c.IsEarlyClose(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)))
 }
 
 func TestCalendarBusinessDay(t *testing.T) {
@@ -201,6 +208,9 @@ func TestIsOpen(t *testing.T) {
 	assert.True(c.IsOpen(time.Date(2015, 1, 2, 10, 30, 0, 0, Chicago)))
 	assert.False(c.IsOpen(time.Date(2015, 1, 2, 12, 30, 0, 0, Chicago)))
 	assert.False(c.IsOpen(time.Date(2015, 1, 2, 16, 30, 0, 0, Chicago)))
+	c.AddEarlyClosingDays(Epiphany)
+	assert.True(c.IsOpen(time.Date(2015, 1, 6, 10, 30, 0, 0, Chicago)))
+	assert.False(c.IsOpen(time.Date(2015, 1, 6, 15, 30, 0, 0, Chicago)))
 }
 
 func TestTimestamps(t *testing.T) {
@@ -217,7 +227,9 @@ func TestNextClose(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2014, 2015)
 	c.AddHolidays(NewYear)
-	assert.PanicsWithError(fmt.Sprint(errNoSession), func() { c.NextClose(time.Date(2014, 12, 31, 10, 30, 0, 0, Chicago)) })
+	c.addHoliday(ChristmasDay)
+	c.addEarlyClosingDay(ChristmasEve)
+	assert.PanicsWithError(errNoSession.Error(), func() { c.NextClose(time.Date(2014, 12, 31, 10, 30, 0, 0, Chicago)) })
 	c.SetSession(&Session{
 		Open:  9 * time.Hour,
 		Close: 16 * time.Hour,
@@ -228,6 +240,15 @@ func TestNextClose(t *testing.T) {
 	assert.Equal(time.Date(2015, 1, 5, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 3, 10, 30, 0, 0, Chicago)))
 	assert.Equal(time.Date(2015, 1, 5, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 4, 10, 30, 0, 0, Chicago)))
 	assert.Equal(time.Date(2015, 1, 5, 16, 00, 0, 0, Chicago), c.NextClose(time.Date(2015, 1, 5, 10, 30, 0, 0, Chicago)))
+	assert.PanicsWithError(errNoEarlyClose.Error(), func() { c.NextClose(time.Date(2015, 12, 24, 10, 30, 0, 0, Chicago)) })
+	c.SetSession(&Session{
+		Open:       9 * time.Hour,
+		Close:      16 * time.Hour,
+		EarlyClose: 13 * time.Hour,
+	})
+	assert.Equal(time.Date(2015, 12, 24, 13, 0, 0, 0, Chicago), c.NextClose(time.Date(2015, 12, 24, 10, 30, 0, 0, Chicago)))
+	assert.Equal(time.Date(2015, 12, 28, 16, 0, 0, 0, Chicago), c.NextClose(time.Date(2015, 12, 25, 10, 30, 0, 0, Chicago)))
+	assert.Equal(time.Date(2015, 12, 28, 16, 0, 0, 0, Chicago), c.NextClose(time.Date(2015, 12, 28, 10, 30, 0, 0, Chicago)))
 }
 
 func TestCalendarString(t *testing.T) {

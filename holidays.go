@@ -230,35 +230,35 @@ var (
 var (
 	// President Richard Nixon - April 27, 1994
 	NixonMourningDay = &Holiday{
-		Name:  "President Richard Nixon Mourning Day",
-		Month: time.April,
-		Day:   27,
-		Year:  1994,
-		calc:  CalcDayOfMonth,
+		Name:   "President Richard Nixon Mourning Day",
+		Month:  time.April,
+		Day:    27,
+		OnYear: 1994,
+		calc:   CalcDayOfMonth,
 	}
 	// President Ronald W. Reagan - June 11, 2004
 	ReaganMourningDay = &Holiday{
-		Name:  "President Ronald W. Reagan Mourning Day",
-		Month: time.June,
-		Day:   11,
-		Year:  2004,
-		calc:  CalcDayOfMonth,
+		Name:   "President Ronald W. Reagan Mourning Day",
+		Month:  time.June,
+		Day:    11,
+		OnYear: 2004,
+		calc:   CalcDayOfMonth,
 	}
 	// President Gerald R. Ford - Jan 2, 2007
 	FordMourningDay = &Holiday{
-		Name:  "President Gerald R. Ford Mourning Day",
-		Month: time.January,
-		Day:   2,
-		Year:  2007,
-		calc:  CalcDayOfMonth,
+		Name:   "President Gerald R. Ford Mourning Day",
+		Month:  time.January,
+		Day:    2,
+		OnYear: 2007,
+		calc:   CalcDayOfMonth,
 	}
 	// President George Bush Senior - Nov 30, 2018
 	BushSeniorMourningDay = &Holiday{
-		Name:  "President George Bush Senior Mourning Day",
-		Month: time.November,
-		Day:   30,
-		Year:  2018,
-		calc:  CalcDayOfMonth,
+		Name:   "President George Bush Senior Mourning Day",
+		Month:  time.November,
+		Day:    30,
+		OnYear: 2018,
+		calc:   CalcDayOfMonth,
 	}
 	// National days of Mourning for the United States of America
 	USNationalDaysOfMourning = []*Holiday{
@@ -270,11 +270,11 @@ var (
 
 	// September 11 - september 11, 2001
 	SeptemberEleven = &Holiday{
-		Name:  "Sepember 11",
-		Month: time.September,
-		Day:   11,
-		Year:  2001,
-		calc:  CalcDayOfMonth,
+		Name:   "Sepember 11",
+		Month:  time.September,
+		Day:    11,
+		OnYear: 2001,
+		calc:   CalcDayOfMonth,
 	}
 
 	// September 11 -14 range
@@ -287,11 +287,11 @@ var (
 
 	// Hurricane Sandy - october 29, 2012
 	HurricaneSandy = &Holiday{
-		Name:  "Hurricane Sandy",
-		Month: time.October,
-		Day:   29,
-		Year:  2012,
-		calc:  CalcDayOfMonth,
+		Name:   "Hurricane Sandy",
+		Month:  time.October,
+		Day:    29,
+		OnYear: 2012,
+		calc:   CalcDayOfMonth,
 	}
 	HurricaneSandyDays = []*Holiday{
 		HurricaneSandy,

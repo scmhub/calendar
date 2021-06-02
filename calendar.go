@@ -66,8 +66,8 @@ type Calendar struct {
 	h         []*Holiday         // Holidays list
 	hts       []int64            // Sorted holidays timestamps (Unix time)
 	hmap      map[int64]*Holiday // timestamps: *Holiday map
-	its       []int64            // Sorted irregular timestamps (Unix time)
-	imap      map[int64]*Holiday // timestamps: *Holiday map for irregular days
+	ects      []int64            // Sorted early close timestamps (Unix time)
+	ecmap     map[int64]*Holiday // timestamps: *Holiday map for early close days
 }
 
 func newCalendar(name string, loc *time.Location, start, end int) *Calendar {
@@ -78,7 +78,7 @@ func newCalendar(name string, loc *time.Location, start, end int) *Calendar {
 		endYear:   end,
 		session:   &Session{},
 		hmap:      make(map[int64]*Holiday),
-		imap:      make(map[int64]*Holiday),
+		ecmap:     make(map[int64]*Holiday),
 	}
 }
 
@@ -105,8 +105,8 @@ func NewCalendar(name string, loc *time.Location, years ...int) *Calendar {
 func (c *Calendar) reset() {
 	c.hts = []int64{}
 	c.hmap = make(map[int64]*Holiday)
-	c.its = []int64{}
-	c.imap = make(map[int64]*Holiday)
+	c.ects = []int64{}
+	c.ecmap = make(map[int64]*Holiday)
 }
 
 // early, core and late Sessions
@@ -152,23 +152,23 @@ func (c *Calendar) AddHolidays(h ...*Holiday) {
 
 }
 
-func (c *Calendar) addIrregularDay(h *Holiday) {
+func (c *Calendar) addEarlyClosingDay(h *Holiday) {
 	for y := c.startYear; y <= c.endYear; y++ {
 		t := h.Calc(y, c.Loc)
 		if !t.IsZero() {
-			c.imap[t.Unix()] = h
-			c.its = append(c.its, t.Unix())
+			c.ecmap[t.Unix()] = h
+			c.ects = append(c.ects, t.Unix())
 		}
 	}
-	sort.Slice(c.its, func(i, j int) bool {
-		return c.its[i] < c.its[j]
+	sort.Slice(c.ects, func(i, j int) bool {
+		return c.ects[i] < c.ects[j]
 	})
 }
 
-func (c *Calendar) AddIrregularDays(h ...*Holiday) {
+func (c *Calendar) AddEarlyClosingDays(h ...*Holiday) {
 	for _, ho := range h {
 		c.h = append(c.h, ho)
-		c.addIrregularDay(ho)
+		c.addEarlyClosingDay(ho)
 	}
 
 }
@@ -197,6 +197,11 @@ func (c *Calendar) IsHoliday(t time.Time) bool {
 	return ok
 }
 
+func (c *Calendar) IsEarlyClose(t time.Time) bool {
+	_, ok := c.ecmap[BOD(t).Unix()]
+	return ok
+}
+
 func (c *Calendar) IsOpen(t time.Time) bool {
 	if c.session.IsZero() {
 		panic(errNoSession)
@@ -204,13 +209,16 @@ func (c *Calendar) IsOpen(t time.Time) bool {
 	if !c.IsBusinessDay(t) {
 		return false
 	}
+	if c.IsEarlyClose(t) && t.After(BOD(t).Add(c.session.EarlyClose)) {
+		return false
+	}
+	if c.session.HasBreak() && t.After(BOD(t).Add(c.session.BreakStart)) && t.Before(BOD(t).Add(c.session.BreakStop)) {
+		return false
+	}
 	if t.Before(BOD(t).Add(c.session.Open)) {
 		return false
 	}
 	if t.After(BOD(t).Add(c.session.Close)) {
-		return false
-	}
-	if c.session.HasBreak() && t.After(BOD(t).Add(c.session.BreakStart)) && t.Before(BOD(t).Add(c.session.BreakStop)) {
 		return false
 	}
 	return true
@@ -238,6 +246,12 @@ func (c *Calendar) NextClose(t time.Time) time.Time {
 		panic(errNoSession)
 	}
 	if c.IsBusinessDay(t) {
+		if c.IsEarlyClose(t) {
+			if c.session.EarlyClose == time.Duration(0) {
+				panic(errNoEarlyClose)
+			}
+			return BOD(t).Add(c.session.EarlyClose)
+		}
 		return BOD(t).Add(c.session.Close)
 	}
 	return c.NextClose(c.NextBusinessDay(t))
@@ -252,3 +266,4 @@ func (c *Calendar) String() string {
 }
 
 var errNoSession = errors.New("No Session defined")
+var errNoEarlyClose = errors.New("No Early closed defined")

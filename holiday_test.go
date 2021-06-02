@@ -61,9 +61,9 @@ func TestCalc(t *testing.T) {
 	assert.Equal(time.Time{}, h.Calc(2020, Paris))
 	h.SetObservance(nearestWorkday)
 	assert.Equal(time.Date(2020, 3, 16, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
-	h.Year = 2020
+	h.OnYear = 2020
 	assert.Equal(time.Date(2020, 3, 16, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
-	h.Year = 2021
+	h.OnYear = 2021
 	assert.Equal(time.Time{}, h.Calc(2020, Paris))
 }
 

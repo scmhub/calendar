@@ -6,7 +6,9 @@ type holidayCalc func(*Holiday, int, *time.Location) time.Time
 
 type Holiday struct {
 	Name       string
-	Year       int // Used if holiday occures only on specific year
+	OnYear     int // Used if holiday occures only on specific year
+	BeforeYear int // Used if holiday occures before or on a specific year
+	AfterYear  int // Used if holiday occures after or on a specific year
 	Month      time.Month
 	Day        int
 	Weekday    time.Weekday
@@ -40,7 +42,15 @@ func (h *Holiday) SetObservance(o observance) *Holiday {
 }
 
 func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
-	if h.Year != 0 && year != h.Year {
+	if h.OnYear != 0 && year != h.OnYear {
+		return time.Time{}
+	}
+
+	if h.BeforeYear != 0 && year > h.BeforeYear {
+		return time.Time{}
+	}
+
+	if h.AfterYear != 0 && year < h.AfterYear {
 		return time.Time{}
 	}
 

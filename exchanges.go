@@ -38,10 +38,20 @@ func usEquities(name string, loc *time.Location, years ...int) *Calendar {
 	c.AddHolidays(SeptemberElevenDays...)
 	c.AddHolidays(HurricaneSandyDays...)
 	// Early Closing
-	c.AddIrregularDays(
-		BeforeIndependenceDay.SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday)),
-		AfterIndependenceDay.SetObservance(onlyOnWeekdays(time.Friday)),
+	MonTuesThursBeforeIndependenceDay := BeforeIndependenceDay.Copy("Day before Independence day")
+	MonTuesThursBeforeIndependenceDay.SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday))
+	FridayAfterIndependenceDayPre2013 := AfterIndependenceDay.Copy("Day after Independence day")
+	FridayAfterIndependenceDayPre2013.BeforeYear = 2012
+	FridayAfterIndependenceDayPre2013.SetObservance(onlyOnWeekdays(time.Friday))
+	WednesdayBeforeIndependenceDayPost2013 := BeforeIndependenceDay.Copy("Day before Independence day")
+	WednesdayBeforeIndependenceDayPost2013.AfterYear = 2013
+	WednesdayBeforeIndependenceDayPost2013.SetObservance(onlyOnWeekdays(time.Wednesday))
+	c.AddEarlyClosingDays(
+		MonTuesThursBeforeIndependenceDay,
+		FridayAfterIndependenceDayPre2013,
+		WednesdayBeforeIndependenceDayPost2013,
 		BlackFriday,
+		ChristmasEve,
 	)
 	return c
 }
