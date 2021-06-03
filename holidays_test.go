@@ -204,6 +204,16 @@ func TestAssumptionOfMary(t *testing.T) {
 	assert.Equal(time.Date(2025, 8, 15, 0, 0, 0, 0, Paris), AssumptionOfMary.Calc(2025, Paris))
 }
 
+func TestReformationDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Time{}, ReformationDay.Calc(2020, Paris))
+	assert.Equal(time.Time{}, ReformationDay.Calc(2021, Paris))
+	assert.Equal(time.Date(2022, 10, 31, 0, 0, 0, 0, Paris), ReformationDay.Calc(2022, Paris))
+	assert.Equal(time.Date(2023, 10, 31, 0, 0, 0, 0, Paris), ReformationDay.Calc(2023, Paris))
+	assert.Equal(time.Date(2024, 10, 31, 0, 0, 0, 0, Paris), ReformationDay.Calc(2024, Paris))
+	assert.Equal(time.Date(2025, 10, 31, 0, 0, 0, 0, Paris), ReformationDay.Calc(2025, Paris))
+}
+
 func TestAllSaintsDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, AllSaintsDay.Calc(2020, Paris))

@@ -28,6 +28,21 @@ func previousFriday(t time.Time) time.Time {
 	return t
 }
 
+// Saturday, Sunday or Monday => previous Friday
+func previousWorkday(t time.Time) time.Time {
+	wd := t.Weekday()
+	if wd == time.Saturday {
+		return t.AddDate(0, 0, -1)
+	}
+	if wd == time.Sunday {
+		return t.AddDate(0, 0, -2)
+	}
+	if wd == time.Monday {
+		return t.AddDate(0, 0, -3)
+	}
+	return t
+}
+
 // Saturday => previous Friday, Sunday => next Monday
 func nearestWorkday(t time.Time) time.Time {
 	wd := t.Weekday()

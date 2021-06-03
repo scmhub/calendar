@@ -158,8 +158,8 @@ func euronext(name string, loc *time.Location, years ...int) *Calendar {
 		NewYear,
 		GoodFriday,
 		EasterMonday,
-		PentecostMonday.Copy().SetBeforeYear(2002),
 		WorkersDay,
+		PentecostMonday.Copy().SetBeforeYear(2002),
 		ChristmasDay.Copy().SetObservance(nextMonday),
 		BoxingDay,
 		NewYearsEve.Copy().SetBeforeYear(2002),
@@ -263,38 +263,77 @@ func XMAD(years ...int) *Calendar {
 	return c
 }
 
-// Frankfurt Stock Exchange
-func XFRA(years ...int) *Calendar {
-	c := NewCalendar("Deutsche Boerse", Franckfurt, years...)
+// german
+func german(name string, loc *time.Location, years ...int) *Calendar {
+	c := NewCalendar(name, loc, years...)
 	// Session
 	c.SetSession(&Session{
-		EarlyOpen: 8 * time.Hour,
-		Open:      9 * time.Hour,
-		Close:     17*time.Hour + 30*time.Minute,
-		LateClose: 20 * time.Hour,
+		EarlyOpen:  8 * time.Hour,
+		Open:       9 * time.Hour,
+		Close:      17*time.Hour + 30*time.Minute,
+		EarlyClose: 12*time.Hour + 30*time.Minute,
+		LateClose:  20 * time.Hour,
 	})
-	//TODO: add holidays
+	// Recurring Holidays
+	c.AddHolidays(
+		NewYear,
+		GoodFriday,
+		EasterMonday,
+		WorkersDay,
+		PentecostMonday.Copy().SetAfterYear(2015),
+		GermanUnityDay,
+		ChristmasEve,
+		ChristmasDay.Copy().SetObservance(nextMonday),
+		BoxingDay,
+		NewYearsEve,
+	)
+	// Non Recurring Holidays
+	c.AddHolidays(
+		PentecostMonday.Copy().SetOnYear(2007),
+		ReformationDay.Copy("Reformation 500th Anniversary").SetOnYear(2017),
+	)
+	// Early Closing
+	c.AddEarlyClosingDays(
+		NewYearsEve.Copy("New Year's Eve Eve").SetObservance(previousWorkday).SetAfterYear(2002),
+	)
+	return c
+}
+
+// Frankfurt Stock Exchange
+func XFRA(years ...int) *Calendar {
+	c := german("Deutsche Boerse", Franckfurt, years...)
 	return c
 }
 
 // Deutsche Borse Xetra
 func XETR(years ...int) *Calendar {
-	c := NewCalendar("Deutsche Borse Xetra", Franckfurt, years...)
-	// Session
-	c.SetSession(&Session{
-		EarlyOpen: 8 * time.Hour,
-		Open:      9 * time.Hour,
-		Close:     17*time.Hour + 30*time.Minute,
-		LateClose: 20 * time.Hour,
-	})
-	//TODO: add holidays
+	c := german("Deutsche Borse Xetra", Franckfurt, years...)
 	return c
 }
 
 // SIX Group (SWX Swiss Exchange)
 func XSWX(years ...int) *Calendar {
 	c := NewCalendar("SIX Group", Zurich, years...)
-	//TODO: add holidays
+	// Session
+	c.SetSession(&Session{
+		Open:  9 * time.Hour,
+		Close: 17*time.Hour + 30*time.Minute,
+	})
+	// Recurring Holidays
+	c.AddHolidays(
+		NewYear,
+		BerchtoldsDay,
+		GoodFriday,
+		EasterMonday,
+		WorkersDay,
+		AscensionDay,
+		PentecostMonday,
+		SwissNationalDay,
+		ChristmasEve,
+		ChristmasDay,
+		BoxingDay,
+		NewYearsEve,
+	)
 	return c
 }
 

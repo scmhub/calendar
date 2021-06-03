@@ -24,6 +24,12 @@ func (h Holiday) Copy(name ...string) *Holiday {
 	}
 	return &h
 }
+
+func (h *Holiday) SetOnYear(year int) *Holiday {
+	h.OnYear = year
+	return h
+}
+
 func (h *Holiday) SetBeforeYear(year int) *Holiday {
 	h.BeforeYear = year
 	return h

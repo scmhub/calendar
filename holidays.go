@@ -86,6 +86,14 @@ var (
 		calc:  CalcDayOfMonth,
 	}
 
+	// Reformation Day - 31-Oct-2017
+	ReformationDay = &Holiday{
+		Name:  "Reformation Day",
+		Month: time.October,
+		Day:   31,
+		calc:  CalcDayOfMonth,
+	}
+
 	// All Saints' Day on 1-Nov
 	AllSaintsDay = &Holiday{
 		Name:  "All Saints' Day",
@@ -480,6 +488,37 @@ var (
 		Name:  "Constitution Day",
 		Month: time.December,
 		Day:   6,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Germany Holidays
+
+var (
+	// German Unity Day - 3-Oct
+	GermanUnityDay = &Holiday{
+		Name:  "German Unity Day",
+		Month: time.October,
+		Day:   3,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Swiss Holidays
+
+var (
+	// Berchtold's Day
+	BerchtoldsDay = &Holiday{
+		Name:  "Berchtold's Day",
+		Month: time.January,
+		Day:   2,
+		calc:  CalcDayOfMonth,
+	}
+	// Swiss National Day
+	SwissNationalDay = &Holiday{
+		Name:  "Swiss National Day",
+		Month: time.August,
+		Day:   1,
 		calc:  CalcDayOfMonth,
 	}
 )
