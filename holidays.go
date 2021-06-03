@@ -21,6 +21,13 @@ var (
 		calc:  CalcDayOfMonth,
 	}
 
+	// Carnival, Mardi Gras or Fat Tuesday  - 47 days before Easter
+	Carnival = &Holiday{
+		Name:   "Carnival",
+		Offset: -47,
+		calc:   CalcEasterOffset,
+	}
+
 	// Maundy Thursday - three days before Easter
 	MaundyThursday = &Holiday{
 		Name:   "Maundy Thursday",
@@ -61,6 +68,13 @@ var (
 	PentecostMonday = &Holiday{
 		Name:   "Pentecost Monday",
 		Offset: 50,
+		calc:   CalcEasterOffset,
+	}
+
+	// Corpus Christi 60 days after Easter
+	CorpusChristi = &Holiday{
+		Name:   "Corpus Christi",
+		Offset: 60,
 		calc:   CalcEasterOffset,
 	}
 
@@ -338,6 +352,58 @@ var (
 		Name:  "Queen's Day",
 		Month: time.April,
 		Day:   30,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Brussels Holiday
+
+var (
+	// Belgium Independence Day - 21-Jul
+	BelgiumIndependenceDay = &Holiday{
+		Name:  "Belgium Independence Day",
+		Month: time.July,
+		Day:   21,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Lisbon Holiday
+
+var (
+	// Liberty Day - 25-Apr
+	LibertyDay = &Holiday{
+		Name:  "Liberty Day",
+		Month: time.April,
+		Day:   25,
+		calc:  CalcDayOfMonth,
+	}
+	// Portugal Day - 10-Jun
+	PortugalDay = &Holiday{
+		Name:  "Portugal Republic Day",
+		Month: time.October,
+		Day:   5,
+		calc:  CalcDayOfMonth,
+	}
+	// Portugal Independence Day - 13-Jun
+	SaintAnthonysDay = &Holiday{
+		Name:  "Saint Anthony's Day",
+		Month: time.December,
+		Day:   1,
+		calc:  CalcDayOfMonth,
+	}
+	// Portugal Republic Day - 5-Oct
+	PortugalRepublicDay = &Holiday{
+		Name:  "Portugal REpublic Day",
+		Month: time.October,
+		Day:   5,
+		calc:  CalcDayOfMonth,
+	}
+	// Portugal Independence Day - 1-Dec
+	PortugalIndependenceDay = &Holiday{
+		Name:  "Portugal Independence Day",
+		Month: time.December,
+		Day:   1,
 		calc:  CalcDayOfMonth,
 	}
 )

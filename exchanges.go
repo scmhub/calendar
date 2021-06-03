@@ -173,12 +173,25 @@ func XAMS(years ...int) *Calendar {
 
 // Euronext Brussels
 func XBRU(years ...int) *Calendar {
-	return euronext("Euronext Brussels", Brussels, years...)
+	c := euronext("Euronext Brussels", Brussels, years...)
+	c.AddHolidays(
+		BelgiumIndependenceDay.Copy().SetBeforeYear(2002),
+	)
+	return c
 }
 
 // Euronext Lisbon
 func XLIS(years ...int) *Calendar {
-	return euronext("Euronext Lisbon", Lisbon, years...)
+	c := euronext("Euronext Lisbon", Lisbon, years...)
+	c.AddHolidays(
+		Carnival.Copy().SetBeforeYear(2003),
+		LibertyDay.Copy().SetBeforeYear(2003),
+		CorpusChristi.Copy().SetBeforeYear(2003),
+		PortugalDay.Copy().SetBeforeYear(2003),
+		SaintAnthonysDay.Copy().SetBeforeYear(2002),
+		PortugalRepublicDay.Copy().SetBeforeYear(2003),
+	)
+	return c
 }
 
 // Euronext Paris
