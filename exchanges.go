@@ -120,6 +120,7 @@ func XLON(years ...int) *Calendar {
 		BreakStop:  12*time.Hour + 2*time.Minute,
 		Close:      16*time.Hour + 30*time.Minute,
 	})
+	// Recurring Holidays
 	c.AddHolidays(
 		NewYear.Copy().SetObservance(nextMonday),
 		GoodFriday,
@@ -127,10 +128,18 @@ func XLON(years ...int) *Calendar {
 		EarlyMay,
 		LateMay,
 		SummerHoliday,
-		ChristmasEve, // early-closing
 		ChristmasDay.Copy().SetObservance(nextMonday),
-		BoxingDay.Copy().SetObservance(nextMonday), // PB!!!! if christmas on saturday
-		NewYearsEve, // early-closing
+		BoxingDay.Copy().SetObservance(nextMonday),
+	)
+	// Non Recurring Holidays
+	c.AddHolidays(GoldenJubileeDays...)
+	c.AddHolidays(WilliamWedding)
+	c.AddHolidays(DiamondJubileeDays...)
+	c.AddHolidays(VEAnniversary)
+	// Early Closing
+	c.AddEarlyClosingDays(
+		ChristmasEve,
+		NewYearsEve,
 	)
 	return c
 }
@@ -212,7 +221,9 @@ func XMIL(years ...int) *Calendar {
 		Open:  8 * time.Hour,
 		Close: 17*time.Hour + 30*time.Minute,
 	})
-	//TODO: add holidays
+	c.AddHolidays(
+		AssumptionOfMary.Copy("Ferragosto"),
+	)
 	return c
 }
 

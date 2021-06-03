@@ -238,10 +238,9 @@ var (
 		Offset:     1,
 		calc:       CalcNthWeekday,
 	}
-)
 
-// Special Non Working days for the United States of America.
-var (
+	// Special Non Working days for the United States of America.
+
 	// President Richard Nixon - April 27, 1994
 	NixonMourningDay = &Holiday{
 		Name:   "President Richard Nixon Mourning Day",
@@ -341,6 +340,52 @@ var (
 		Weekday:    time.Monday,
 		NthWeekday: -1,
 		calc:       CalcNthWeekday,
+	}
+
+	// Special Non Working days for the UK
+
+	// Queen Elizabeth II Golden Jubilee - 3,4 Jun 2002
+	GoldenJubilee = &Holiday{
+		Name:   "Golden Jubilee",
+		Month:  time.June,
+		Day:    3,
+		OnYear: 2002,
+		calc:   CalcDayOfMonth,
+	}
+	GoldenJubileeDays = []*Holiday{
+		GoldenJubilee,
+		GoldenJubilee.Copy("Golden Jubilee day 2").SetOffset(1),
+	}
+
+	// Wedding Day of Prince William and Catherine Middleton
+	WilliamWedding = &Holiday{
+		Name:   "Wedding Day of Prince William and Catherine Middleton",
+		Month:  time.April,
+		Day:    29,
+		OnYear: 2011,
+		calc:   CalcDayOfMonth,
+	}
+
+	// Queen Elizabeth II Diamond Jubilee - 4,5 Jun 2012
+	DiamondJubilee = &Holiday{
+		Name:   "Diamond Jubilee",
+		Month:  time.June,
+		Day:    4,
+		OnYear: 2012,
+		calc:   CalcDayOfMonth,
+	}
+	DiamondJubileeDays = []*Holiday{
+		DiamondJubilee,
+		DiamondJubilee.Copy("Diamond Jubilee day 2").SetOffset(1),
+	}
+
+	// VE-Day 75th Anniversary
+	VEAnniversary = &Holiday{
+		Name:   "VE-Day 75th Anniversary",
+		Month:  time.May,
+		Day:    8,
+		OnYear: 2020,
+		calc:   CalcDayOfMonth,
 	}
 )
 
