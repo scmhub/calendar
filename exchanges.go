@@ -153,6 +153,7 @@ func euronext(name string, loc *time.Location, years ...int) *Calendar {
 		Close:      17*time.Hour + 30*time.Minute,
 		EarlyClose: 14*time.Hour + 5*time.Minute,
 	})
+	// Recurring Holidays
 	c.AddHolidays(
 		NewYear,
 		GoodFriday,
@@ -163,6 +164,7 @@ func euronext(name string, loc *time.Location, years ...int) *Calendar {
 		BoxingDay,
 		NewYearsEve.Copy().SetBeforeYear(2002),
 	)
+	// Early Closing
 	c.AddEarlyClosingDays(
 		ChristmasEve,
 		NewYearsEve.Copy().SetAfterYear(2002),
@@ -215,7 +217,7 @@ func XPAR(years ...int) *Calendar {
 
 // Euronext Milan - Borsa Italiana S.P.A
 func XMIL(years ...int) *Calendar {
-	c := NewCalendar("Euronext Milan", Milan, years...)
+	c := euronext("Euronext Milan", Milan, years...)
 	// Session
 	c.SetSession(&Session{
 		Open:  8 * time.Hour,
@@ -232,10 +234,32 @@ func XMAD(years ...int) *Calendar {
 	c := NewCalendar("Madrid Stock Exchange", Madrid, years...)
 	// Session
 	c.SetSession(&Session{
-		Open:  9 * time.Hour,
-		Close: 17*time.Hour + 30*time.Minute,
+		Open:       9 * time.Hour,
+		Close:      17*time.Hour + 30*time.Minute,
+		EarlyClose: 14 * time.Hour,
 	})
-	//TODO: add holidays
+	// Recurring Holidays
+	c.AddHolidays(
+		NewYear,
+		Epiphany.Copy().SetBeforeYear(2007),
+		GoodFriday,
+		EasterMonday,
+		WorkersDay,
+		AssumptionOfMary.Copy().SetObservance(nextMonday).SetBeforeYear(2005),
+		SpainNationalDay.Copy().SetBeforeYear(2005),
+		AllSaintsDay.Copy().SetBeforeYear(2005),
+		SpainConstitutionDay.Copy().SetBeforeYear(2005),
+		ImmaculateConception.Copy().SetBeforeYear(2005),
+		ChristmasEve.Copy().SetBeforeYear(2012),
+		ChristmasDay.Copy().SetObservance(nextMonday),
+		BoxingDay,
+		NewYearsEve.Copy().SetBeforeYear(2012),
+	)
+	// Early Closing
+	c.AddEarlyClosingDays(
+		ChristmasEve.Copy().SetAfterYear(2012),
+		NewYearsEve.Copy().SetAfterYear(2012),
+	)
 	return c
 }
 

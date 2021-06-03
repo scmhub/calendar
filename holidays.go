@@ -389,7 +389,7 @@ var (
 	}
 )
 
-// Amsterdam Holiday
+// Netherlands Holidays
 
 var (
 	// Koninginnedag (Koningsdag King's day since 2013) - 30-Apr
@@ -401,7 +401,7 @@ var (
 	}
 )
 
-// Brussels Holiday
+// Belgium Holidays
 
 var (
 	// Belgium Independence Day - 21-Jul
@@ -413,7 +413,7 @@ var (
 	}
 )
 
-// Lisbon Holiday
+// Portugal Holidays
 
 var (
 	// Liberty Day - 25-Apr
@@ -453,7 +453,7 @@ var (
 	}
 )
 
-// Paris Holidays
+// France Holidays
 
 var (
 	// Bastille Day - 14-Jul
@@ -461,6 +461,25 @@ var (
 		Name:  "Bastille Day",
 		Month: time.July,
 		Day:   14,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Spain Holidays
+
+var (
+	// National Day of Spain - 5-Oct
+	SpainNationalDay = &Holiday{
+		Name:  "National Day of Spain",
+		Month: time.October,
+		Day:   12,
+		calc:  CalcDayOfMonth,
+	}
+	// Constitution Day - 6-Dec
+	SpainConstitutionDay = &Holiday{
+		Name:  "Constitution Day",
+		Month: time.December,
+		Day:   6,
 		calc:  CalcDayOfMonth,
 	}
 )
