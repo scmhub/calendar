@@ -24,21 +24,21 @@ var (
 	// Maundy Thursday - three days before Easter
 	MaundyThursday = &Holiday{
 		Name:   "Maundy Thursday",
-		offset: -3,
+		Offset: -3,
 		calc:   CalcEasterOffset,
 	}
 
 	// Good Friday - two days before Easter
 	GoodFriday = &Holiday{
 		Name:   "Good Friday",
-		offset: -2,
+		Offset: -2,
 		calc:   CalcEasterOffset,
 	}
 
 	// Easter Monday - the day after Easter
 	EasterMonday = &Holiday{
 		Name:   "Easter Monday",
-		offset: 1,
+		Offset: 1,
 		calc:   CalcEasterOffset,
 	}
 
@@ -53,14 +53,14 @@ var (
 	// Ascension Day on the 39th day after Easter
 	AscensionDay = &Holiday{
 		Name:   "Ascension Day",
-		offset: 39,
+		Offset: 39,
 		calc:   CalcEasterOffset,
 	}
 
-	// Pentecost Monday on the day after Pentecost (50 days after Easter)
+	// Pentecost Monday (or Whit Monday) on the day after Pentecost (50 days after Easter)
 	PentecostMonday = &Holiday{
 		Name:   "Pentecost Monday",
-		offset: 50,
+		Offset: 50,
 		calc:   CalcEasterOffset,
 	}
 
@@ -161,7 +161,7 @@ var (
 		Name:       "Independence Day",
 		Month:      time.July,
 		Day:        4,
-		observance: nearestWorkday,
+		Observance: nearestWorkday,
 		calc:       CalcDayOfMonth,
 	}
 
@@ -221,7 +221,7 @@ var (
 		Month:      time.November,
 		Weekday:    time.Thursday,
 		NthWeekday: 4,
-		offset:     1,
+		Offset:     1,
 		calc:       CalcNthWeekday,
 	}
 )
@@ -327,5 +327,29 @@ var (
 		Weekday:    time.Monday,
 		NthWeekday: -1,
 		calc:       CalcNthWeekday,
+	}
+)
+
+// Amsterdam Holiday
+
+var (
+	// Koninginnedag (Koningsdag King's day since 2013) - 30-Apr
+	QueensDay = &Holiday{
+		Name:  "Queen's Day",
+		Month: time.April,
+		Day:   30,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Paris Holidays
+
+var (
+	// Bastille Day - 14-Jul
+	BastilleDay = &Holiday{
+		Name:  "Bastille Day",
+		Month: time.July,
+		Day:   14,
+		calc:  CalcDayOfMonth,
 	}
 )

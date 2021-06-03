@@ -18,9 +18,12 @@ func TestCopy(t *testing.T) {
 	h2.SetObservance(nearestWorkday)
 	assert.Equal("Christmas", h1.Name)
 	assert.Equal("USChristmas", h2.Name)
-	assert.Empty(h1.Observance())
-	assert.NotEmpty(h2.Observance())
+	assert.Empty(h1.Observance)
+	assert.NotEmpty(h2.Observance)
+	h3 := h1.Copy()
+	assert.Equal("Christmas", h3.Name)
 }
+
 func TestOffset(t *testing.T) {
 	assert := assert.New(t)
 	h := &Holiday{
@@ -28,9 +31,9 @@ func TestOffset(t *testing.T) {
 		Month: time.December,
 		Day:   25,
 	}
-	assert.Equal(0, h.Offset())
+	assert.Equal(0, h.Offset)
 	h.SetOffset(1)
-	assert.Equal(1, h.Offset())
+	assert.Equal(1, h.Offset)
 }
 func TestObservance(t *testing.T) {
 	assert := assert.New(t)
@@ -39,9 +42,9 @@ func TestObservance(t *testing.T) {
 		Month: time.December,
 		Day:   25,
 	}
-	assert.Nil(h.Observance())
+	assert.Nil(h.Observance)
 	h.SetObservance(nearestWorkday)
-	assert.NotNil(h.Observance())
+	assert.NotNil(h.Observance)
 }
 
 func TestCalc(t *testing.T) {
@@ -53,11 +56,11 @@ func TestCalc(t *testing.T) {
 		calc:  CalcDayOfMonth,
 	}
 	assert.Equal(time.Date(2020, 3, 17, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
-	h.offset = 1
+	h.Offset = 1
 	assert.Equal(time.Date(2020, 3, 18, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
-	h.offset = -1
+	h.Offset = -1
 	assert.Equal(time.Date(2020, 3, 16, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))
-	h.offset = -2
+	h.Offset = -2
 	assert.Equal(time.Time{}, h.Calc(2020, Paris))
 	h.SetObservance(nearestWorkday)
 	assert.Equal(time.Date(2020, 3, 16, 0, 0, 0, 0, Paris), h.Calc(2020, Paris))

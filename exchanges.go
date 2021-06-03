@@ -23,7 +23,7 @@ func usEquities(name string, loc *time.Location, years ...int) *Calendar {
 	})
 	// Recurring Holidays
 	c.AddHolidays(
-		NewYear.Copy("New Year's Day").SetObservance(sundayToMonday),
+		NewYear.Copy().SetObservance(sundayToMonday),
 		MLKDay,
 		PresidentsDay,
 		GoodFriday,
@@ -31,25 +31,17 @@ func usEquities(name string, loc *time.Location, years ...int) *Calendar {
 		IndependenceDay,
 		LaborDay,
 		ThanksgivingDay,
-		ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
+		ChristmasDay.Copy().SetObservance(nearestWorkday),
 	)
 	// Non Recurring Holidays
 	c.AddHolidays(USNationalDaysOfMourning...)
 	c.AddHolidays(SeptemberElevenDays...)
 	c.AddHolidays(HurricaneSandyDays...)
 	// Early Closing
-	MonTuesThursBeforeIndependenceDay := BeforeIndependenceDay.Copy("Day before Independence day")
-	MonTuesThursBeforeIndependenceDay.SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday))
-	FridayAfterIndependenceDayPre2013 := AfterIndependenceDay.Copy("Day after Independence day")
-	FridayAfterIndependenceDayPre2013.BeforeYear = 2012
-	FridayAfterIndependenceDayPre2013.SetObservance(onlyOnWeekdays(time.Friday))
-	WednesdayBeforeIndependenceDayPost2013 := BeforeIndependenceDay.Copy("Day before Independence day")
-	WednesdayBeforeIndependenceDayPost2013.AfterYear = 2013
-	WednesdayBeforeIndependenceDayPost2013.SetObservance(onlyOnWeekdays(time.Wednesday))
 	c.AddEarlyClosingDays(
-		MonTuesThursBeforeIndependenceDay,
-		FridayAfterIndependenceDayPre2013,
-		WednesdayBeforeIndependenceDayPost2013,
+		BeforeIndependenceDay.Copy().SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday)),
+		AfterIndependenceDay.Copy().SetBeforeYear(2013).SetObservance(onlyOnWeekdays(time.Friday)),
+		BeforeIndependenceDay.Copy().SetAfterYear(2013).SetObservance(onlyOnWeekdays(time.Wednesday)),
 		BlackFriday,
 		ChristmasEve,
 	)
@@ -129,15 +121,15 @@ func XLON(years ...int) *Calendar {
 		Close:      16*time.Hour + 30*time.Minute,
 	})
 	c.AddHolidays(
-		NewYear.Copy("New Year's Day").SetObservance(nextMonday),
+		NewYear.Copy().SetObservance(nextMonday),
 		GoodFriday,
 		EasterMonday,
 		EarlyMay,
 		LateMay,
 		SummerHoliday,
 		ChristmasEve, // early-closing
-		ChristmasDay.Copy("Christmas Day").SetObservance(nextMonday),
-		BoxingDay.Copy("Boxing Day").SetObservance(nextMonday), // PB!!!! if christmas on saturday
+		ChristmasDay.Copy().SetObservance(nextMonday),
+		BoxingDay.Copy().SetObservance(nextMonday), // PB!!!! if christmas on saturday
 		NewYearsEve, // early-closing
 	)
 	return c
@@ -148,16 +140,23 @@ func euronext(name string, loc *time.Location, years ...int) *Calendar {
 	c := NewCalendar(name, loc, years...)
 	// Session
 	c.SetSession(&Session{
-		Open:  9 * time.Hour,
-		Close: 17*time.Hour + 30*time.Minute,
+		Open:       9 * time.Hour,
+		Close:      17*time.Hour + 30*time.Minute,
+		EarlyClose: 14*time.Hour + 5*time.Minute,
 	})
 	c.AddHolidays(
 		NewYear,
 		GoodFriday,
 		EasterMonday,
+		PentecostMonday.Copy().SetBeforeYear(2002),
 		WorkersDay,
-		ChristmasDay,
-		ChristmasEve, // early-closing
+		ChristmasDay.Copy().SetObservance(nextMonday),
+		BoxingDay,
+		NewYearsEve.Copy().SetBeforeYear(2002),
+	)
+	c.AddEarlyClosingDays(
+		ChristmasEve,
+		NewYearsEve.Copy().SetAfterYear(2002),
 	)
 	return c
 }
@@ -166,6 +165,9 @@ func euronext(name string, loc *time.Location, years ...int) *Calendar {
 func XAMS(years ...int) *Calendar {
 	c := euronext("Euronext Amsterdam", Amsterdam, years...)
 	c.session.Close = 17*time.Hour + 40*time.Minute
+	c.AddHolidays(
+		QueensDay.Copy().SetBeforeYear(2002),
+	)
 	return c
 }
 
@@ -181,7 +183,12 @@ func XLIS(years ...int) *Calendar {
 
 // Euronext Paris
 func XPAR(years ...int) *Calendar {
-	return euronext("Euronext Paris", Paris, years...)
+	c := euronext("Euronext Paris", Paris, years...)
+	c.AddHolidays(
+		BastilleDay.Copy().SetBeforeYear(2002),
+	)
+
+	return c
 }
 
 // Euronext Milan - Borsa Italiana S.P.A

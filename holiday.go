@@ -7,37 +7,40 @@ type holidayCalc func(*Holiday, int, *time.Location) time.Time
 type Holiday struct {
 	Name       string
 	OnYear     int // Used if holiday occures only on specific year
-	BeforeYear int // Used if holiday occures before or on a specific year
+	BeforeYear int // Used if holiday occures before a specific year
 	AfterYear  int // Used if holiday occures after or on a specific year
 	Month      time.Month
 	Day        int
 	Weekday    time.Weekday
 	NthWeekday int
-	offset     int
+	Offset     int
 	calc       holidayCalc
-	observance observance
+	Observance observance
 }
 
-func (h Holiday) Copy(name string) *Holiday {
-	h.Name = name
+func (h Holiday) Copy(name ...string) *Holiday {
+	if len(name) > 0 {
+		h.Name = name[0]
+	}
 	return &h
 }
-
-func (h *Holiday) Offset() int {
-	return h.offset
-}
-
-func (h *Holiday) SetOffset(o int) *Holiday {
-	h.offset = o
+func (h *Holiday) SetBeforeYear(year int) *Holiday {
+	h.BeforeYear = year
 	return h
 }
 
-func (h *Holiday) Observance() observance {
-	return h.observance
+func (h *Holiday) SetAfterYear(year int) *Holiday {
+	h.AfterYear = year
+	return h
+}
+
+func (h *Holiday) SetOffset(o int) *Holiday {
+	h.Offset = o
+	return h
 }
 
 func (h *Holiday) SetObservance(o observance) *Holiday {
-	h.observance = o
+	h.Observance = o
 	return h
 }
 
@@ -46,7 +49,7 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 		return time.Time{}
 	}
 
-	if h.BeforeYear != 0 && year > h.BeforeYear {
+	if h.BeforeYear != 0 && year >= h.BeforeYear {
 		return time.Time{}
 	}
 
@@ -56,18 +59,18 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 
 	t := h.calc(h, year, loc)
 
-	if h.offset != 0 {
-		t = t.AddDate(0, 0, h.offset)
+	if h.Offset != 0 {
+		t = t.AddDate(0, 0, h.Offset)
 	}
 
-	if h.observance == nil {
+	if h.Observance == nil {
 		if IsWeekend(t) {
 			return time.Time{}
 		}
 		return t
 	}
 
-	return h.observance(t)
+	return h.Observance(t)
 }
 
 func CalcDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {

@@ -265,5 +265,5 @@ func (c *Calendar) String() string {
 	return str
 }
 
-var errNoSession = errors.New("No Session defined")
-var errNoEarlyClose = errors.New("No Early closed defined")
+var errNoSession = errors.New("no Session defined")
+var errNoEarlyClose = errors.New("no EarlyClose defined")

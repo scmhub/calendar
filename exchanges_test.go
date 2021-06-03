@@ -171,6 +171,75 @@ func TestXLON(t *testing.T) {
 	assert.Equal("London Stock Exchange", x.Name)
 	assert.Equal(London, x.Loc)
 }
+func TestEuronext(t *testing.T) {
+	assert := assert.New(t)
+	x := euronext("Euronext Paris", Paris, 2000, 2025)
+	assert.Equal("Euronext Paris", x.Name)
+	assert.Equal(Paris, x.Loc)
+	assert.Equal(time.Duration(0), x.Session().EarlyOpen)
+	assert.Equal(9*time.Hour, x.Session().Open)
+	assert.Equal(time.Duration(0), x.Session().BreakStart)
+	assert.Equal(time.Duration(0), x.Session().BreakStop)
+	assert.Equal(17*time.Hour+30*time.Minute, x.Session().Close)
+	assert.Equal(14*time.Hour+5*time.Minute, x.Session().EarlyClose)
+	assert.Equal(time.Duration(0), x.Session().LateClose)
+	// 2015
+	assert.True(x.IsHoliday(time.Date(2015, 1, 1, 0, 0, 0, 0, Paris)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2015, 4, 3, 0, 0, 0, 0, Paris)))      // Good Friday
+	assert.True(x.IsHoliday(time.Date(2015, 4, 6, 0, 0, 0, 0, Paris)))      // Easter Monday
+	assert.True(x.IsHoliday(time.Date(2015, 5, 1, 0, 0, 0, 0, Paris)))      // Worker's day
+	assert.True(x.IsEarlyClose(time.Date(2015, 12, 24, 0, 0, 0, 0, Paris))) // Christmas Eve
+	assert.True(x.IsHoliday(time.Date(2015, 12, 25, 0, 0, 0, 0, Paris)))    // Christmas
+	assert.False(x.IsHoliday(time.Date(2015, 12, 26, 0, 0, 0, 0, Paris)))   // Boxing day
+	assert.True(x.IsEarlyClose(time.Date(2015, 12, 31, 0, 0, 0, 0, Paris))) // New year's eve
+	// 2016
+	assert.True(x.IsHoliday(time.Date(2016, 1, 1, 0, 0, 0, 0, Paris)))       //New Year's day
+	assert.True(x.IsHoliday(time.Date(2016, 3, 25, 0, 0, 0, 0, Paris)))      // Good Friday
+	assert.True(x.IsHoliday(time.Date(2016, 3, 28, 0, 0, 0, 0, Paris)))      // Easter Monday
+	assert.False(x.IsHoliday(time.Date(2016, 5, 1, 0, 0, 0, 0, Paris)))      // Worker's day
+	assert.False(x.IsEarlyClose(time.Date(2016, 12, 24, 0, 0, 0, 0, Paris))) // Christmas Eve
+	assert.True(x.IsHoliday(time.Date(2016, 12, 26, 0, 0, 0, 0, Paris)))     // Christmas
+	assert.True(x.IsHoliday(time.Date(2016, 12, 26, 0, 0, 0, 0, Paris)))     // Boxing day
+	assert.False(x.IsEarlyClose(time.Date(2016, 12, 31, 0, 0, 0, 0, Paris))) // New year's eve
+	// 2017
+	assert.False(x.IsHoliday(time.Date(2017, 1, 1, 0, 0, 0, 0, Paris)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2017, 4, 14, 0, 0, 0, 0, Paris)))      // Good Friday
+	assert.True(x.IsHoliday(time.Date(2017, 4, 17, 0, 0, 0, 0, Paris)))      // Easter Monday
+	assert.True(x.IsHoliday(time.Date(2017, 5, 1, 0, 0, 0, 0, Paris)))       // Worker's day
+	assert.False(x.IsEarlyClose(time.Date(2017, 12, 24, 0, 0, 0, 0, Paris))) // Christmas Eve
+	assert.True(x.IsHoliday(time.Date(2017, 12, 25, 0, 0, 0, 0, Paris)))     // Christmas
+	assert.True(x.IsHoliday(time.Date(2017, 12, 26, 0, 0, 0, 0, Paris)))     // Boxing day
+	assert.False(x.IsEarlyClose(time.Date(2017, 12, 31, 0, 0, 0, 0, Paris))) // New year's eve
+	// 2018
+	assert.True(x.IsHoliday(time.Date(2018, 1, 1, 0, 0, 0, 0, Paris)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2018, 3, 30, 0, 0, 0, 0, Paris)))     // Good Friday
+	assert.True(x.IsHoliday(time.Date(2018, 4, 2, 0, 0, 0, 0, Paris)))      // Easter Monday
+	assert.True(x.IsHoliday(time.Date(2018, 5, 1, 0, 0, 0, 0, Paris)))      // Worker's day
+	assert.True(x.IsEarlyClose(time.Date(2018, 12, 24, 0, 0, 0, 0, Paris))) // Christmas Eve
+	assert.True(x.IsHoliday(time.Date(2018, 12, 25, 0, 0, 0, 0, Paris)))    // Christmas
+	assert.True(x.IsHoliday(time.Date(2018, 12, 26, 0, 0, 0, 0, Paris)))    // Boxing day
+	assert.True(x.IsEarlyClose(time.Date(2018, 12, 31, 0, 0, 0, 0, Paris))) // New year's eve
+	// 2019
+	assert.True(x.IsHoliday(time.Date(2019, 1, 1, 0, 0, 0, 0, Paris)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2019, 4, 19, 0, 0, 0, 0, Paris)))     // Good Friday
+	assert.True(x.IsHoliday(time.Date(2019, 4, 22, 0, 0, 0, 0, Paris)))     // Easter Monday
+	assert.True(x.IsHoliday(time.Date(2019, 5, 1, 0, 0, 0, 0, Paris)))      // Worker's day
+	assert.True(x.IsEarlyClose(time.Date(2019, 12, 24, 0, 0, 0, 0, Paris))) // Christmas Eve
+	assert.True(x.IsHoliday(time.Date(2019, 12, 25, 0, 0, 0, 0, Paris)))    // Christmas
+	assert.True(x.IsHoliday(time.Date(2019, 12, 26, 0, 0, 0, 0, Paris)))    // Boxing day
+	assert.True(x.IsEarlyClose(time.Date(2019, 12, 31, 0, 0, 0, 0, Paris))) // New year's eve
+	// 2020
+	assert.True(x.IsHoliday(time.Date(2020, 1, 1, 0, 0, 0, 0, Paris)))      //New Year's day
+	assert.True(x.IsHoliday(time.Date(2020, 4, 10, 0, 0, 0, 0, Paris)))     // Good Friday
+	assert.True(x.IsHoliday(time.Date(2020, 4, 13, 0, 0, 0, 0, Paris)))     // Easter Monday
+	assert.True(x.IsHoliday(time.Date(2020, 5, 1, 0, 0, 0, 0, Paris)))      // Worker's day
+	assert.True(x.IsEarlyClose(time.Date(2020, 12, 24, 0, 0, 0, 0, Paris))) // Christmas Eve
+	assert.True(x.IsHoliday(time.Date(2020, 12, 25, 0, 0, 0, 0, Paris)))    // Christmas
+	assert.False(x.IsHoliday(time.Date(2020, 12, 26, 0, 0, 0, 0, Paris)))   // Boxing day
+	assert.True(x.IsEarlyClose(time.Date(2020, 12, 31, 0, 0, 0, 0, Paris))) // New year's eve
+
+}
+
 func TestXAMS(t *testing.T) {
 	assert := assert.New(t)
 	x := XAMS(2010, 2025)
