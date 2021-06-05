@@ -82,3 +82,31 @@ func TestCalcNthWeekday(t *testing.T) {
 	h := &Holiday{Month: time.December, Weekday: time.Thursday, NthWeekday: 3}
 	assert.Equal(time.Date(2020, 12, 17, 0, 0, 0, 0, Paris), CalcNthWeekday(h, 2020, Paris))
 }
+
+func TestCalcNorthwardEquinox(t *testing.T) {
+	assert := assert.New(t)
+	h := &Holiday{}
+	assert.Equal(time.Date(2020, 3, 20, 0, 0, 0, 0, Paris), CalcNorthwardEquinox(h, 2020, Paris))
+	assert.Equal(time.Date(2020, 3, 20, 0, 0, 0, 0, Tokyo), CalcNorthwardEquinox(h, 2020, Tokyo))
+}
+
+func TestCalcNorthernSolstice(t *testing.T) {
+	assert := assert.New(t)
+	h := &Holiday{}
+	assert.Equal(time.Date(2020, 6, 20, 0, 0, 0, 0, Paris), CalcNorthernSolstice(h, 2020, Paris))
+	assert.Equal(time.Date(2020, 6, 21, 0, 0, 0, 0, Tokyo), CalcNorthernSolstice(h, 2020, Tokyo))
+}
+
+func TestCalcSouthwardEquinox(t *testing.T) {
+	assert := assert.New(t)
+	h := &Holiday{}
+	assert.Equal(time.Date(2020, 9, 22, 0, 0, 0, 0, Paris), CalcSouthwardEquinox(h, 2020, Paris))
+	assert.Equal(time.Date(2020, 9, 22, 0, 0, 0, 0, Tokyo), CalcSouthwardEquinox(h, 2020, Tokyo))
+}
+
+func TestCalcSouthernSolstice(t *testing.T) {
+	assert := assert.New(t)
+	h := &Holiday{}
+	assert.Equal(time.Date(2020, 12, 21, 0, 0, 0, 0, Paris), CalcSouthernSolstice(h, 2020, Paris))
+	assert.Equal(time.Date(2020, 12, 21, 0, 0, 0, 0, Tokyo), CalcSouthernSolstice(h, 2020, Tokyo))
+}

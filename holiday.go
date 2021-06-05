@@ -1,6 +1,8 @@
 package calendar
 
-import "time"
+import (
+	"time"
+)
 
 type holidayCalc func(*Holiday, int, *time.Location) time.Time
 
@@ -113,4 +115,28 @@ func CalcEasterOffset(ho *Holiday, year int, loc *time.Location) time.Time {
 
 	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, loc)
 
+}
+
+// March Equinox
+func CalcNorthwardEquinox(h *Holiday, year int, loc *time.Location) time.Time {
+	c := northwardEquinox(year).In(loc)
+	return time.Date(year, time.March, c.Day(), 0, 0, 0, 0, loc)
+}
+
+// June Solstice
+func CalcNorthernSolstice(h *Holiday, year int, loc *time.Location) time.Time {
+	c := northernSolstice(year).In(loc)
+	return time.Date(year, time.June, c.Day(), 0, 0, 0, 0, loc)
+}
+
+// September Equinox
+func CalcSouthwardEquinox(h *Holiday, year int, loc *time.Location) time.Time {
+	c := southwardEquinox(year).In(loc)
+	return time.Date(year, time.September, c.Day(), 0, 0, 0, 0, loc)
+}
+
+// December Solstice
+func CalcSouthernSolstice(h *Holiday, year int, loc *time.Location) time.Time {
+	c := southernSolstice(year).In(loc)
+	return time.Date(year, time.December, c.Day(), 0, 0, 0, 0, loc)
 }

@@ -42,6 +42,12 @@ var (
 		calc:   CalcEasterOffset,
 	}
 
+	// Northward Equinox - March Equinox - ~20-Mar
+	NorthwardEquinox = &Holiday{
+		Name: "Northward Equinox",
+		calc: CalcNorthwardEquinox,
+	}
+
 	// Easter Monday - the day after Easter
 	EasterMonday = &Holiday{
 		Name:   "Easter Monday",
@@ -78,12 +84,24 @@ var (
 		calc:   CalcEasterOffset,
 	}
 
+	// Northern Solstice - June Solstice - ~20-Jun
+	NorthernSolstice = &Holiday{
+		Name: "Northern Solstice",
+		calc: CalcNorthernSolstice,
+	}
+
 	// Assumption of Mary on 15-Aug
 	AssumptionOfMary = &Holiday{
 		Name:  "Assumption of Mary",
 		Month: time.August,
 		Day:   15,
 		calc:  CalcDayOfMonth,
+	}
+
+	// Souththward Equinox - September Equinox - ~20-Sep
+	SouthwardEquinox = &Holiday{
+		Name: "Souththward Equinox",
+		calc: CalcSouthwardEquinox,
 	}
 
 	// Reformation Day - 31-Oct-2017
@@ -116,6 +134,12 @@ var (
 		Month: time.December,
 		Day:   8,
 		calc:  CalcDayOfMonth,
+	}
+
+	// Southern Solstice - December Solstice - ~20-Dec
+	SouthernSolstice = &Holiday{
+		Name: "Southern Solstice",
+		calc: CalcSouthernSolstice,
 	}
 
 	// Christmas Eve on 24-Dec
@@ -520,5 +544,268 @@ var (
 		Month: time.August,
 		Day:   1,
 		calc:  CalcDayOfMonth,
+	}
+)
+
+// Japan Holidays
+
+var (
+	// Coming of Age Day - Seijin no hi - 成人の日 - 2nd monday of January
+	ComingOfAgeDay = &Holiday{
+		Name:       "Coming of Age Day",
+		Month:      time.January,
+		Weekday:    time.Monday,
+		NthWeekday: 2,
+		calc:       CalcNthWeekday,
+	}
+	// National Foundation Day - Kenkoku kinen no hi - 建国記念の日 - 11-Feb
+	NationalFoundationDay = &Holiday{
+		Name:  "National Foundation Day",
+		Month: time.February,
+		Day:   11,
+		calc:  CalcDayOfMonth,
+	}
+	// Greenery Day Before 2007 - Midori no hi - みどりの日 - 29-Apr before 2007
+	GreeneryDayBefore2007 = &Holiday{
+		Name:       "Greenery Day",
+		Month:      time.April,
+		Day:        29,
+		BeforeYear: 2007,
+		calc:       CalcDayOfMonth,
+	}
+	// Showa Day - Shōwa no hi - 昭和の日 - 29-Apr after 2007
+	ShowaDay = &Holiday{
+		Name:      "Showa Day",
+		Month:     time.April,
+		Day:       29,
+		AfterYear: 2007,
+		calc:      CalcDayOfMonth,
+	}
+	// Constitution Memorial Day - Kenpō kinen bi - 憲法記念日 - 3-May
+	ConstitutionMemorialDay = &Holiday{
+		Name:  "Constitution Memorial Day",
+		Month: time.May,
+		Day:   3,
+		calc:  CalcDayOfMonth,
+	}
+	// Citizen's Holiday ot the Golden Week before 2007 - Kokumin no kyūjitsu - 国民の休日 - 4-May before 2007
+	CitizensHolidayGoldenWeek = &Holiday{
+		Name:       "Citizen's Holiday of the Golden Week",
+		Month:      time.May,
+		Day:        4,
+		BeforeYear: 2007,
+		calc:       CalcDayOfMonth,
+	}
+	// Greenery Day After 2007 - Midori no hi - みどりの日 - 4-May after 2007
+	GreeneryDayAfter2007 = &Holiday{
+		Name:      "Greenery Day",
+		Month:     time.May,
+		Day:       4,
+		AfterYear: 2007,
+		calc:      CalcDayOfMonth,
+	}
+	// Children's Day - Kodomo no hi - こどもの日 - 5-May
+	ChildrensDay = &Holiday{
+		Name:  "Children's Day",
+		Month: time.May,
+		Day:   5,
+		calc:  CalcDayOfMonth,
+	}
+	// Marine Day - Umi no hi - 海の日 - 3rd monday of July
+	MarineDay = &Holiday{
+		Name:       "Marine Day",
+		Month:      time.July,
+		Weekday:    time.Monday,
+		NthWeekday: 3,
+		AfterYear:  2003,
+		calc:       CalcNthWeekday,
+	}
+	// Marine Day before 2003 - Umi no hi - 海の日 - 20-July
+	MarineDayBefore2003 = &Holiday{
+		Name:       "Marine Day before 2003",
+		Month:      time.July,
+		Day:        23,
+		BeforeYear: 2003,
+		calc:       CalcDayOfMonth,
+	}
+	// Marine Day 2020- Umi no hi - 海の日 - Changed for Tokyo Olympics - 23-Jul-2020
+	MarineDay2020 = &Holiday{
+		Name:   "Marine Day 2020",
+		Month:  time.July,
+		Day:    23,
+		OnYear: 2020,
+		calc:   CalcDayOfMonth,
+	}
+	// Marine Day 2021- Umi no hi - 海の日 - Changed for Tokyo Olympics (2020 postponed) - 22-Jul-2021
+	MarineDay2021 = &Holiday{
+		Name:   "Marine Day 2021",
+		Month:  time.July,
+		Day:    22,
+		OnYear: 2021,
+		calc:   CalcDayOfMonth,
+	}
+	// Mountain Day - Yama no hi - 山の日 - 3rd monday of July
+	MountainDay = &Holiday{
+		Name:      "Mountain Day",
+		Month:     time.August,
+		Day:       11,
+		AfterYear: 2016,
+		calc:      CalcDayOfMonth,
+	}
+	// Mountain Day 2020 - Yama no hi - 山の日 - Changed for Tokyo Olympics - 10-Aug-2020
+	MountainDay2020 = &Holiday{
+		Name:   "Mountain Day 2020",
+		Month:  time.August,
+		Day:    10,
+		OnYear: 2020,
+		calc:   CalcDayOfMonth,
+	}
+	// Mountain Day 2021 - Yama no hi - 山の日 - Changed for Tokyo Olympics (2020 postponed) - 9-Aug-2021
+	MountainDay2021 = &Holiday{
+		Name:   "Mountain Day 2021",
+		Month:  time.August,
+		Day:    9,
+		OnYear: 2021,
+		calc:   CalcDayOfMonth,
+	}
+	// Respect for the Aged Day - Keirō no hi - 敬老の日 - 3rd monday of September after 2003
+	RespectForTheAgedDay = &Holiday{
+		Name:       "Respect for the Aged Day",
+		Month:      time.September,
+		Weekday:    time.Monday,
+		NthWeekday: 3,
+		AfterYear:  2003,
+		calc:       CalcNthWeekday,
+	}
+	// Respect for the Aged Day before 2003 - Keirō no hi - 敬老の日 - 15-Sep before 2003
+	RespectForTheAgedDayBefore2003 = &Holiday{
+		Name:       "Respect for the Aged Day before 2003",
+		Month:      time.September,
+		Day:        15,
+		NthWeekday: 3,
+		BeforeYear: 2003,
+		calc:       CalcDayOfMonth,
+	}
+	// Health and Sports Day - Supōtsu no hi - スポーツの日 - 2nd monday of October
+	HealthAndSportsDay = &Holiday{
+		Name:       "Health and Sports Day",
+		Month:      time.October,
+		Weekday:    time.Monday,
+		NthWeekday: 2,
+		calc:       CalcNthWeekday,
+	}
+	// Health and Sports Day 2020 - Changed for Tokyo Olympics - 24-Jul-2020
+	HealthAndSportsDay2020 = &Holiday{
+		Name:   "Health and Sports Day",
+		Month:  time.July,
+		Day:    24,
+		OnYear: 2020,
+		calc:   CalcDayOfMonth,
+	}
+	// Health and Sports Day 2021 - Changed for Tokyo Olympics (2020 postponed) - 23-Jul-2021
+	HealthAndSportsDay2021 = &Holiday{
+		Name:   "Health and Sports Day",
+		Month:  time.July,
+		Day:    23,
+		OnYear: 2021,
+		calc:   CalcDayOfMonth,
+	}
+	// Culture Day - Bunka no hi - 文化の日 - 3-Nov
+	CultureDay = &Holiday{
+		Name:  "Culture Day",
+		Month: time.November,
+		Day:   3,
+		calc:  CalcDayOfMonth,
+	}
+	// Labor Thanksgiving Day - Kinrō Kansha no hi - 勤労感謝の日 - 23-Nov
+	LaborThanksgivingDay = &Holiday{
+		Name:  "Labor Thanksgiving Day",
+		Month: time.November,
+		Day:   23,
+		calc:  CalcDayOfMonth,
+	}
+	// Emperor Akihito's Birthday - Tennō tanjōbi - 天皇誕生日 - 23-Dec before 30-Apr-2019
+	EmperorAkihitoBirthday = &Holiday{
+		Name:       "Emperor Akihito's Birthday",
+		Month:      time.December,
+		Day:        23,
+		BeforeYear: 2019,
+		calc:       CalcDayOfMonth,
+	}
+	// Emperor Naruhito's Birthday - Tennō tanjōbi - 天皇誕生日 - 23-Feb before 30-Apr-2019
+	EmperorNaruhitoBirthday = &Holiday{
+		Name:      "Emperor Naruhito's Birthday",
+		Month:     time.February,
+		Day:       23,
+		AfterYear: 2020,
+		calc:      CalcDayOfMonth,
+	}
+
+	// Special Non Working days for Japan
+
+	// Emperor Akihito's Abdication Day - Taiirei-Seiden-no-gi - 退位礼正殿の儀 - 30-Apr-2019
+	AbdicationDay = &Holiday{
+		Name:   "Emperor Akihito's Abdication Day",
+		Month:  time.April,
+		Day:    30,
+		OnYear: 2019,
+		calc:   CalcDayOfMonth,
+	}
+	// Beginning of the Reiwa era and accession date of Emperor Naruhito - 1-May-2019
+	AccessionDay = &Holiday{
+		Name:   "Naruhito's Accession Day",
+		Month:  time.May,
+		Day:    1,
+		OnYear: 2019,
+		calc:   CalcDayOfMonth,
+	}
+	// Accession Citizen's Holiday - 2-May-2019
+	AccessionCitizensHoliday = &Holiday{
+		Name:   "Accession Citizen's Holiday",
+		Month:  time.May,
+		Day:    2,
+		OnYear: 2019,
+		calc:   CalcDayOfMonth,
+	}
+	// Enthronement Ceremony - Sokuirei-Seiden-no-gi - 即位礼正殿の儀 - 22-Oct-2019
+	EnthronementCeremony = &Holiday{
+		Name:   "Enthronement Ceremony",
+		Month:  time.October,
+		Day:    22,
+		OnYear: 2019,
+		calc:   CalcDayOfMonth,
+	}
+	// Silver Week Citizen's Holidays on 22nd of September
+	SilverWeekCitizensHoliday = &Holiday{
+		Name:   "Silver Week Citizen's Holidays",
+		Month:  time.September,
+		Day:    22,
+		OnYear: 2009,
+		calc:   CalcDayOfMonth,
+	}
+	// Silver Week Citizen's Holidays on 21st of September
+	SilverWeekCitizensHoliday21 = &Holiday{
+		Name:   "Silver Week Citizen's Holidays on the 21st",
+		Month:  time.September,
+		Day:    21,
+		OnYear: 2032,
+		calc:   CalcDayOfMonth,
+	}
+	SilverWeekCitizensHolidays = []*Holiday{
+		SilverWeekCitizensHoliday,
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2015),
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2020),
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2026),
+		SilverWeekCitizensHoliday21,
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2037),
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2043),
+		SilverWeekCitizensHoliday21.Copy().SetOnYear(2049),
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2054),
+		SilverWeekCitizensHoliday21.Copy().SetOnYear(2060),
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2071),
+		SilverWeekCitizensHoliday21.Copy().SetOnYear(2077),
+		SilverWeekCitizensHoliday21.Copy().SetOnYear(2088),
+		SilverWeekCitizensHoliday21.Copy().SetOnYear(2094),
+		SilverWeekCitizensHoliday.Copy().SetOnYear(2099),
 	}
 )

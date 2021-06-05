@@ -424,7 +424,51 @@ func XJPX(years ...int) *Calendar {
 		BreakStop:  12*time.Hour + 30*time.Minute,
 		Close:      15 * time.Hour,
 	})
-	//TODO: add holidays
+	// Recurring Holidays
+	c.AddHolidays(
+		NewYear,
+		NewYear.Copy().SetOffset(1),
+		NewYear.Copy().SetOffset(2),
+		ComingOfAgeDay,
+		NationalFoundationDay.Copy().SetObservance(sundayToMonday),
+		NorthwardEquinox,
+		GreeneryDayBefore2007,
+		ShowaDay,
+		ConstitutionMemorialDay.Copy().SetBeforeYear(2007).SetObservance(sundayToTuesday),
+		ConstitutionMemorialDay.Copy().SetAfterYear(2007).SetObservance(sundayToWednesday),
+		CitizensHolidayGoldenWeek,
+		GreeneryDayAfter2007,
+		ChildrensDay.SetObservance(sundayToMonday),
+		MarineDayBefore2003.SetObservance(sundayToMonday),
+		MarineDay.Copy().SetBeforeYear(2020),
+		MarineDay2020,
+		MarineDay2021,
+		MarineDay.Copy().SetAfterYear(2022),
+		MountainDay.SetObservance(sundayToMonday),
+		MountainDay2020,
+		MountainDay2021,
+		MountainDay.SetAfterYear(2022).SetObservance(sundayToMonday),
+		SouthwardEquinox,
+		RespectForTheAgedDayBefore2003.SetObservance(sundayToMonday),
+		RespectForTheAgedDay,
+		HealthAndSportsDay.Copy().SetBeforeYear(2020),
+		HealthAndSportsDay2020,
+		HealthAndSportsDay2021,
+		HealthAndSportsDay.SetAfterYear(2022),
+		CultureDay,
+		LaborThanksgivingDay,
+		EmperorAkihitoBirthday,
+		EmperorNaruhitoBirthday,
+		NewYearsEve,
+	)
+	// Non Recurring Holidays
+	c.AddHolidays(
+		AbdicationDay,
+		AccessionDay,
+		AccessionCitizensHoliday,
+		EnthronementCeremony,
+	)
+	c.AddHolidays(SilverWeekCitizensHolidays...)
 	return c
 }
 

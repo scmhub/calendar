@@ -64,6 +64,24 @@ func sundayToMonday(t time.Time) time.Time {
 	return t
 }
 
+// Sunday => next Tuesday
+func sundayToTuesday(t time.Time) time.Time {
+	wd := t.Weekday()
+	if wd == time.Sunday {
+		return t.AddDate(0, 0, 2)
+	}
+	return t
+}
+
+// Sunday => next Wednesday
+func sundayToWednesday(t time.Time) time.Time {
+	wd := t.Weekday()
+	if wd == time.Sunday {
+		return t.AddDate(0, 0, 3)
+	}
+	return t
+}
+
 // Closure of observance.
 // time.Time{} if not a passed Weekday.
 func onlyOnWeekdays(wd ...time.Weekday) observance {

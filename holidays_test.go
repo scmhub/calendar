@@ -50,7 +50,6 @@ func TestCarnival(t *testing.T) {
 }
 func TestMaundyThursday(t *testing.T) {
 	assert := assert.New(t)
-	fmt.Println(MaundyThursday.Calc(2012, Paris))
 	assert.Equal(time.Date(2010, 4, 1, 0, 0, 0, 0, Paris), MaundyThursday.Calc(2010, Paris))
 	assert.Equal(time.Date(2011, 4, 21, 0, 0, 0, 0, Paris), MaundyThursday.Calc(2011, Paris))
 	assert.Equal(time.Date(2012, 4, 5, 0, 0, 0, 0, Paris), MaundyThursday.Calc(2012, Paris))
@@ -71,7 +70,6 @@ func TestMaundyThursday(t *testing.T) {
 
 func TestGoodFriday(t *testing.T) {
 	assert := assert.New(t)
-	fmt.Println(MaundyThursday.Calc(2012, Paris))
 	assert.Equal(time.Date(2010, 4, 2, 0, 0, 0, 0, Paris), GoodFriday.Calc(2010, Paris))
 	assert.Equal(time.Date(2011, 4, 22, 0, 0, 0, 0, Paris), GoodFriday.Calc(2011, Paris))
 	assert.Equal(time.Date(2012, 4, 6, 0, 0, 0, 0, Paris), GoodFriday.Calc(2012, Paris))
@@ -89,10 +87,27 @@ func TestGoodFriday(t *testing.T) {
 	assert.Equal(time.Date(2024, 3, 29, 0, 0, 0, 0, Paris), GoodFriday.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 4, 18, 0, 0, 0, 0, Paris), GoodFriday.Calc(2025, Paris))
 }
-
+func TestNorthwardEquinox(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Time{}, NorthwardEquinox.Calc(2010, time.UTC))
+	assert.Equal(time.Time{}, NorthwardEquinox.Calc(2011, time.UTC))
+	assert.Equal(time.Date(2012, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2012, time.UTC))
+	assert.Equal(time.Date(2013, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2013, time.UTC))
+	assert.Equal(time.Date(2014, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2014, time.UTC))
+	assert.Equal(time.Date(2015, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2015, time.UTC))
+	assert.Equal(time.Time{}, NorthwardEquinox.Calc(2016, time.UTC))
+	assert.Equal(time.Date(2017, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2017, time.UTC))
+	assert.Equal(time.Date(2018, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2018, time.UTC))
+	assert.Equal(time.Date(2019, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2019, time.UTC))
+	assert.Equal(time.Date(2020, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2020, time.UTC))
+	assert.Equal(time.Time{}, NorthwardEquinox.Calc(2021, time.UTC))
+	assert.Equal(time.Time{}, NorthwardEquinox.Calc(2022, time.UTC))
+	assert.Equal(time.Date(2023, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2023, time.UTC))
+	assert.Equal(time.Date(2024, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2024, time.UTC))
+	assert.Equal(time.Date(2025, 3, 20, 0, 0, 0, 0, time.UTC), NorthwardEquinox.Calc(2025, time.UTC))
+}
 func TestEasterMonday(t *testing.T) {
 	assert := assert.New(t)
-	fmt.Println(MaundyThursday.Calc(2012, Paris))
 	assert.Equal(time.Date(2010, 4, 5, 0, 0, 0, 0, Paris), EasterMonday.Calc(2010, Paris))
 	assert.Equal(time.Date(2011, 4, 25, 0, 0, 0, 0, Paris), EasterMonday.Calc(2011, Paris))
 	assert.Equal(time.Date(2012, 4, 9, 0, 0, 0, 0, Paris), EasterMonday.Calc(2012, Paris))
@@ -123,7 +138,6 @@ func TestWorkerDays(t *testing.T) {
 
 func TestAscensionDay(t *testing.T) {
 	assert := assert.New(t)
-	fmt.Println(MaundyThursday.Calc(2012, Paris))
 	assert.Equal(time.Date(2010, 5, 13, 0, 0, 0, 0, Paris), AscensionDay.Calc(2010, Paris))
 	assert.Equal(time.Date(2011, 6, 2, 0, 0, 0, 0, Paris), AscensionDay.Calc(2011, Paris))
 	assert.Equal(time.Date(2012, 5, 17, 0, 0, 0, 0, Paris), AscensionDay.Calc(2012, Paris))
@@ -144,7 +158,6 @@ func TestAscensionDay(t *testing.T) {
 
 func TestPentecostMonday(t *testing.T) {
 	assert := assert.New(t)
-	fmt.Println(MaundyThursday.Calc(2012, Paris))
 	assert.Equal(time.Date(2010, 5, 24, 0, 0, 0, 0, Paris), PentecostMonday.Calc(2010, Paris))
 	assert.Equal(time.Date(2011, 6, 13, 0, 0, 0, 0, Paris), PentecostMonday.Calc(2011, Paris))
 	assert.Equal(time.Date(2012, 5, 28, 0, 0, 0, 0, Paris), PentecostMonday.Calc(2012, Paris))
@@ -165,7 +178,6 @@ func TestPentecostMonday(t *testing.T) {
 
 func TestCorpsChristi(t *testing.T) {
 	assert := assert.New(t)
-	fmt.Println(MaundyThursday.Calc(2012, Paris))
 	assert.Equal(time.Date(2010, 6, 3, 0, 0, 0, 0, Paris), CorpusChristi.Calc(2010, Paris))
 	assert.Equal(time.Date(2011, 6, 23, 0, 0, 0, 0, Paris), CorpusChristi.Calc(2011, Paris))
 	assert.Equal(time.Date(2012, 6, 7, 0, 0, 0, 0, Paris), CorpusChristi.Calc(2012, Paris))
@@ -183,7 +195,25 @@ func TestCorpsChristi(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 30, 0, 0, 0, 0, Paris), CorpusChristi.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 6, 19, 0, 0, 0, 0, Paris), CorpusChristi.Calc(2025, Paris))
 }
-
+func TestNorthernSolstice(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2010, time.UTC))
+	assert.Equal(time.Date(2011, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2011, time.UTC))
+	assert.Equal(time.Date(2012, 6, 20, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2012, time.UTC))
+	assert.Equal(time.Date(2013, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2013, time.UTC))
+	assert.Equal(time.Time{}, NorthernSolstice.Calc(2014, time.UTC))
+	assert.Equal(time.Time{}, NorthernSolstice.Calc(2015, time.UTC))
+	assert.Equal(time.Date(2016, 6, 20, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2016, time.UTC))
+	assert.Equal(time.Date(2017, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2017, time.UTC))
+	assert.Equal(time.Date(2018, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2018, time.UTC))
+	assert.Equal(time.Date(2019, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2019, time.UTC))
+	assert.Equal(time.Time{}, NorthernSolstice.Calc(2020, time.UTC))
+	assert.Equal(time.Date(2021, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2021, time.UTC))
+	assert.Equal(time.Date(2022, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2022, time.UTC))
+	assert.Equal(time.Date(2023, 6, 21, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2023, time.UTC))
+	assert.Equal(time.Date(2024, 6, 20, 0, 0, 0, 0, time.UTC), NorthernSolstice.Calc(2024, time.UTC))
+	assert.Equal(time.Time{}, NorthernSolstice.Calc(2025, time.UTC))
+}
 func TestAssumptionOfMary(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, AssumptionOfMary.Calc(2010, Paris))
@@ -203,7 +233,25 @@ func TestAssumptionOfMary(t *testing.T) {
 	assert.Equal(time.Date(2024, 8, 15, 0, 0, 0, 0, Paris), AssumptionOfMary.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 8, 15, 0, 0, 0, 0, Paris), AssumptionOfMary.Calc(2025, Paris))
 }
-
+func TestSouthwardEquinox(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 9, 23, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2010, time.UTC))
+	assert.Equal(time.Date(2011, 9, 23, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2011, time.UTC))
+	assert.Equal(time.Time{}, SouthwardEquinox.Calc(2012, time.UTC))
+	assert.Equal(time.Time{}, SouthwardEquinox.Calc(2013, time.UTC))
+	assert.Equal(time.Date(2014, 9, 23, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2014, time.UTC))
+	assert.Equal(time.Date(2015, 9, 23, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2015, time.UTC))
+	assert.Equal(time.Date(2016, 9, 22, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2016, time.UTC))
+	assert.Equal(time.Date(2017, 9, 22, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2017, time.UTC))
+	assert.Equal(time.Time{}, SouthwardEquinox.Calc(2018, time.UTC))
+	assert.Equal(time.Date(2019, 9, 23, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2019, time.UTC))
+	assert.Equal(time.Date(2020, 9, 22, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2020, time.UTC))
+	assert.Equal(time.Date(2021, 9, 22, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2021, time.UTC))
+	assert.Equal(time.Date(2022, 9, 23, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2022, time.UTC))
+	assert.Equal(time.Time{}, SouthwardEquinox.Calc(2023, time.UTC))
+	assert.Equal(time.Time{}, SouthwardEquinox.Calc(2024, time.UTC))
+	assert.Equal(time.Date(2025, 9, 22, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2025, time.UTC))
+}
 func TestReformationDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, ReformationDay.Calc(2020, Paris))
@@ -244,6 +292,26 @@ func TestImmaculateConception(t *testing.T) {
 	assert.Equal(time.Date(2025, 12, 8, 0, 0, 0, 0, Paris), ImmaculateConception.Calc(2025, Paris))
 }
 
+func TestSouthernSolstice(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2010, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2010, time.UTC))
+	assert.Equal(time.Date(2011, 12, 22, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2011, time.UTC))
+	assert.Equal(time.Date(2012, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2012, time.UTC))
+	assert.Equal(time.Time{}, SouthernSolstice.Calc(2013, time.UTC))
+	assert.Equal(time.Time{}, SouthernSolstice.Calc(2014, time.UTC))
+	assert.Equal(time.Date(2015, 12, 22, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2015, time.UTC))
+	assert.Equal(time.Date(2016, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2016, time.UTC))
+	assert.Equal(time.Date(2017, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2017, time.UTC))
+	assert.Equal(time.Date(2018, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2018, time.UTC))
+	assert.Equal(time.Time{}, SouthernSolstice.Calc(2019, time.UTC))
+	assert.Equal(time.Date(2020, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2020, time.UTC))
+	assert.Equal(time.Date(2021, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2021, time.UTC))
+	assert.Equal(time.Date(2022, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2022, time.UTC))
+	assert.Equal(time.Date(2023, 12, 22, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2023, time.UTC))
+	assert.Equal(time.Time{}, SouthernSolstice.Calc(2024, time.UTC))
+	assert.Equal(time.Time{}, SouthernSolstice.Calc(2025, time.UTC))
+}
+
 func TestChristmasEve(t *testing.T) {
 	assert := assert.New(t)
 	fmt.Println(MaundyThursday.Calc(2012, Paris))
@@ -277,7 +345,6 @@ func TestBoxingDay(t *testing.T) {
 
 func TestNewYearsEve(t *testing.T) {
 	assert := assert.New(t)
-	fmt.Println(MaundyThursday.Calc(2012, Paris))
 	assert.Equal(time.Date(2020, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2020, Paris))
 	assert.Equal(time.Date(2021, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2021, Paris))
 	assert.Equal(time.Time{}, NewYearsEve.Calc(2022, Paris))
