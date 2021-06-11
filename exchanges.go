@@ -379,10 +379,11 @@ func XSHE(years ...int) *Calendar {
 	c := NewCalendar("Shenzhen Stock Exchange", Shenzhen, years...)
 	// Session
 	c.SetSession(&Session{
+		EarlyOpen:  9*time.Hour + 15*time.Minute,
 		Open:       9*time.Hour + 30*time.Minute,
 		BreakStart: 11*time.Hour + 30*time.Minute,
 		BreakStop:  13 * time.Hour,
-		Close:      16 * time.Hour,
+		Close:      14*time.Hour + 57*time.Minute,
 	})
 	//TODO: add holidays
 	return c
@@ -393,12 +394,32 @@ func XSHG(years ...int) *Calendar {
 	c := NewCalendar("Shanghai Stock Exchange", Shanghai, years...)
 	// Session
 	c.SetSession(&Session{
+		EarlyOpen:  9*time.Hour + 15*time.Minute,
 		Open:       9*time.Hour + 30*time.Minute,
 		BreakStart: 11*time.Hour + 30*time.Minute,
 		BreakStop:  13 * time.Hour,
-		Close:      16 * time.Hour,
+		Close:      15 * time.Hour,
+		EarlyClose: 15*time.Hour + 30*time.Minute,
 	})
-	//TODO: add holidays
+	// Recurring Holidays
+	c.AddHolidays(
+		NewYear,
+		LunarNewYear.Copy().SetOffset(-1),
+		LunarNewYear,
+		LunarNewYear.Copy().SetOffset(1),
+		LunarNewYear.Copy().SetOffset(2),
+		LunarNewYear.Copy().SetOffset(3),
+		LunarNewYear.Copy().SetOffset(4),
+		LunarNewYear.Copy().SetOffset(5),
+		WorkersDay,
+		ChinaNationalDay,
+		ChinaNationalDay.Copy().SetOffset(1),
+		ChinaNationalDay.Copy().SetOffset(2),
+		ChinaNationalDay.Copy().SetOffset(3),
+		ChinaNationalDay.Copy().SetOffset(4),
+		ChinaNationalDay.Copy().SetOffset(5),
+		ChinaNationalDay.Copy().SetOffset(6),
+	)
 	return c
 }
 

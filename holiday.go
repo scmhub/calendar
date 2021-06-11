@@ -140,3 +140,8 @@ func CalcSouthernSolstice(h *Holiday, year int, loc *time.Location) time.Time {
 	c := southernSolstice(year).In(loc)
 	return time.Date(year, time.December, c.Day(), 0, 0, 0, 0, loc)
 }
+
+func CalcLunarNewYear(h *Holiday, year int, loc *time.Location) time.Time {
+	lunarNewYear := time.Date(year, time.January, 1, 0, 0, 0, 0, loc)
+	return FromLunar(lunarNewYear, false)
+}

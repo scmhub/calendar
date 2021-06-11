@@ -94,3 +94,46 @@ func TestNthWeekday(t *testing.T) {
 	assert.Equal(time.Date(2019, 11, 22, 0, 0, 0, 0, Paris), NthWeekday(2020, 1, time.Friday, -6, Paris))
 
 }
+
+func TestJulianGregorian(t *testing.T) {
+	assert := assert.New(t)
+	gregorian := time.Date(2021, 6, 8, 12, 0, 0, 0, time.UTC)
+	julian := time.Date(2021, 5, 26, 12, 0, 0, 0, time.UTC)
+	jd := 2459374
+	assert.Equal(jd, GtoJDN(gregorian))
+	assert.Equal(jd, JtoJDN(julian))
+	assert.Equal(julian, JDNtoJ(jd))
+	assert.Equal(gregorian, JDNtoG(jd))
+	assert.Equal(gregorian, JulianToGegorian(julian))
+	assert.Equal(julian, GregorianToJulian(gregorian))
+}
+
+func TestLeapYear(t *testing.T) {
+	assert := assert.New(t)
+	assert.False(IsJulianLeapYear(2021))
+	assert.False(IsLeapYear(2021))
+	assert.True(IsJulianLeapYear(2008))
+	assert.True(IsLeapYear(2008))
+	assert.True(IsJulianLeapYear(1900))
+	assert.False(IsLeapYear(1900))
+	assert.True(IsJulianLeapYear(2000))
+	assert.True(IsLeapYear(2000))
+}
+
+func TestGetMonthDays(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(31, GetMonthDays(2020, time.January))
+	assert.Equal(29, GetMonthDays(2020, time.February)) // Leap year
+	assert.Equal(28, GetMonthDays(2021, time.February)) // Non leap year
+	assert.Equal(31, GetMonthDays(2020, time.March))
+	assert.Equal(30, GetMonthDays(2020, time.April))
+	assert.Equal(31, GetMonthDays(2020, time.May))
+	assert.Equal(30, GetMonthDays(2020, time.June))
+	assert.Equal(31, GetMonthDays(2020, time.July))
+	assert.Equal(31, GetMonthDays(2020, time.August))
+	assert.Equal(30, GetMonthDays(2020, time.September))
+	assert.Equal(31, GetMonthDays(2020, time.October))
+	assert.Equal(30, GetMonthDays(2020, time.November))
+	assert.Equal(31, GetMonthDays(2020, time.December))
+
+}

@@ -110,3 +110,10 @@ func TestCalcSouthernSolstice(t *testing.T) {
 	assert.Equal(time.Date(2020, 12, 21, 0, 0, 0, 0, Paris), CalcSouthernSolstice(h, 2020, Paris))
 	assert.Equal(time.Date(2020, 12, 21, 0, 0, 0, 0, Tokyo), CalcSouthernSolstice(h, 2020, Tokyo))
 }
+
+func TestCalcLunarNewYear(t *testing.T) {
+	assert := assert.New(t)
+	h := &Holiday{}
+	assert.Equal(time.Date(2020, 1, 25, 0, 0, 0, 0, HongKong), CalcLunarNewYear(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 2, 12, 0, 0, 0, 0, HongKong), CalcLunarNewYear(h, 2021, HongKong))
+}

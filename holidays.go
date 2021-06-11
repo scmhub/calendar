@@ -20,7 +20,11 @@ var (
 		Day:   6,
 		calc:  CalcDayOfMonth,
 	}
-
+	// Lunar New Year's day
+	LunarNewYear = &Holiday{
+		Name: "Lunar New Year's Day",
+		calc: CalcLunarNewYear,
+	}
 	// Carnival, Mardi Gras or Fat Tuesday  - 47 days before Easter
 	Carnival = &Holiday{
 		Name:   "Carnival",
@@ -542,6 +546,24 @@ var (
 	SwissNationalDay = &Holiday{
 		Name:  "Swiss National Day",
 		Month: time.August,
+		Day:   1,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// China Holidays
+var (
+	// Quingming Festival
+	QingmingJie = &Holiday{
+		Name:  "Quingming Festival",
+		Month: time.April,
+		Day:   5,
+		calc:  CalcDayOfMonth,
+	}
+	// People's Republic of China National day - 1-Oct
+	ChinaNationalDay = &Holiday{
+		Name:  "China National Day",
+		Month: time.October,
 		Day:   1,
 		calc:  CalcDayOfMonth,
 	}

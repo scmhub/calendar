@@ -39,6 +39,25 @@ func TestEpiphany(t *testing.T) {
 	assert.Equal(time.Time{}, Epiphany.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 1, 6, 0, 0, 0, 0, Paris), Epiphany.Calc(2025, Paris))
 }
+func TestLunarNewYear(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Time{}, LunarNewYear.Calc(2010, Paris))
+	assert.Equal(time.Date(2011, 2, 3, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2011, Paris))
+	assert.Equal(time.Date(2012, 1, 23, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2012, Paris))
+	assert.Equal(time.Time{}, LunarNewYear.Calc(2013, Paris))
+	assert.Equal(time.Date(2014, 1, 31, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2014, Paris))
+	assert.Equal(time.Date(2015, 2, 19, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2015, Paris))
+	assert.Equal(time.Date(2016, 2, 8, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2016, Paris))
+	assert.Equal(time.Time{}, LunarNewYear.Calc(2017, Paris))
+	assert.Equal(time.Date(2018, 2, 16, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2018, Paris))
+	assert.Equal(time.Date(2019, 2, 5, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2019, Paris))
+	assert.Equal(time.Time{}, LunarNewYear.Calc(2020, Paris))
+	assert.Equal(time.Date(2021, 2, 12, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2021, Paris))
+	assert.Equal(time.Date(2022, 2, 1, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2022, Paris))
+	assert.Equal(time.Time{}, LunarNewYear.Calc(2023, Paris))
+	assert.Equal(time.Time{}, LunarNewYear.Calc(2024, Paris))
+	assert.Equal(time.Date(2025, 1, 29, 0, 0, 0, 0, Paris), LunarNewYear.Calc(2025, Paris))
+}
 func TestCarnival(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 2, 25, 0, 0, 0, 0, Paris), Carnival.Calc(2020, Paris))
