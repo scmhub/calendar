@@ -173,7 +173,7 @@ func TestXLON(t *testing.T) {
 }
 func TestEuronext(t *testing.T) {
 	assert := assert.New(t)
-	x := euronext("Euronext Paris", Paris, 2000, 2025)
+	x := euronext("Euronext Paris", Paris, 2015, 2025)
 	assert.Equal("Euronext Paris", x.Name)
 	assert.Equal(Paris, x.Loc)
 	assert.Equal(time.Duration(0), x.Session().EarlyOpen)

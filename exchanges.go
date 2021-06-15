@@ -43,7 +43,7 @@ func usEquities(name string, loc *time.Location, years ...int) *Calendar {
 		AfterIndependenceDay.Copy().SetBeforeYear(2013).SetObservance(onlyOnWeekdays(time.Friday)),
 		BeforeIndependenceDay.Copy().SetAfterYear(2013).SetObservance(onlyOnWeekdays(time.Wednesday)),
 		BlackFriday,
-		ChristmasEve,
+		ChristmasEve.Copy().SetObservance(exeptOnWeekdays(time.Friday)), // would overlapp Christmas day observance
 	)
 	return c
 }
@@ -411,7 +411,10 @@ func XSHG(years ...int) *Calendar {
 		LunarNewYear.Copy().SetOffset(3),
 		LunarNewYear.Copy().SetOffset(4),
 		LunarNewYear.Copy().SetOffset(5),
+		QingmingJie,
 		WorkersDay,
+		DragonBoatFestival,
+		MidAutumnFestival,
 		ChinaNationalDay,
 		ChinaNationalDay.Copy().SetOffset(1),
 		ChinaNationalDay.Copy().SetOffset(2),

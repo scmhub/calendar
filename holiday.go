@@ -8,10 +8,10 @@ type holidayCalc func(*Holiday, int, *time.Location) time.Time
 
 type Holiday struct {
 	Name       string
-	OnYear     int // Used if holiday occures only on specific year
-	BeforeYear int // Used if holiday occures before a specific year
-	AfterYear  int // Used if holiday occures after or on a specific year
-	Month      time.Month
+	OnYear     int        // Used if holiday occures only on specific year
+	BeforeYear int        // Used if holiday occures before a specific year
+	AfterYear  int        // Used if holiday occures after or on a specific year
+	Month      time.Month // Gregorian month also used for lunar month
 	Day        int
 	Weekday    time.Weekday
 	NthWeekday int
@@ -71,20 +71,28 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 		t = t.AddDate(0, 0, h.Offset)
 	}
 
-	if h.Observance == nil {
-		if IsWeekend(t) {
-			return time.Time{}
-		}
-		return t
+	if h.Observance != nil {
+		t = h.Observance(t)
 	}
 
-	return h.Observance(t)
+	if IsWeekend(t) {
+		return time.Time{}
+	}
+
+	return t
 }
 
+// Day of month in Gregorian Calendar
 func CalcDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
 	return time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc)
 }
 
+// Day of month in Lunar Calendar
+func CalcLunarDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
+	return FromLunar(time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc), false)
+}
+
+// Nth occurence of a weekday like 3rd monday, -1 means last monday of the month
 func CalcNthWeekday(h *Holiday, year int, loc *time.Location) time.Time {
 	month := h.Month
 	if h.NthWeekday < 0 {
@@ -93,28 +101,10 @@ func CalcNthWeekday(h *Holiday, year int, loc *time.Location) time.Time {
 	return NthWeekday(year, month, h.Weekday, h.NthWeekday, loc)
 }
 
-func CalcEasterOffset(ho *Holiday, year int, loc *time.Location) time.Time {
-	var month, day int
-	// Meeus/Jones/Butcher algorithm
-	y := year
-	a := y % 19
-	b := y / 100
-	c := y % 100
-	d := b / 4
-	e := b % 4
-	f := (b + 8) / 25
-	g := (b - f + 1) / 3
-	h := (19*a + b - d - g + 15) % 30
-	i := c / 4
-	k := c % 4
-	l := (32 + 2*e + 2*i - h - k) % 7
-	m := (a + 11*h + 22*l) / 451
-	n := h + l - 7*m + 114
-	month = n / 31
-	day = (n % 31) + 1
-
-	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, loc)
-
+// Easter sunday
+func CalcEasterOffset(h *Holiday, year int, loc *time.Location) time.Time {
+	day, month := Easter(year)
+	return time.Date(year, month, day, 0, 0, 0, 0, loc)
 }
 
 // March Equinox
@@ -139,9 +129,4 @@ func CalcSouthwardEquinox(h *Holiday, year int, loc *time.Location) time.Time {
 func CalcSouthernSolstice(h *Holiday, year int, loc *time.Location) time.Time {
 	c := southernSolstice(year).In(loc)
 	return time.Date(year, time.December, c.Day(), 0, 0, 0, 0, loc)
-}
-
-func CalcLunarNewYear(h *Holiday, year int, loc *time.Location) time.Time {
-	lunarNewYear := time.Date(year, time.January, 1, 0, 0, 0, 0, loc)
-	return FromLunar(lunarNewYear, false)
 }

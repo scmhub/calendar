@@ -256,5 +256,6 @@ func TestCalendarString(t *testing.T) {
 	c := NewCalendar("Calendar", Chicago, 2011, 2015)
 	assert.Equal("Calendar Calendar:\n", c.String())
 	c.AddHolidays(NewYear)
-	assert.Equal("Calendar Calendar:\n\t2013/01/01 New Year's Day\n\t2014/01/01 New Year's Day\n\t2015/01/01 New Year's Day\n", c.String())
+	c.AddEarlyClosingDays(BeforeIndependenceDay)
+	assert.Equal("Calendar Calendar:\n\t2012-Jul-03 Tue ec Day before Independence Day\n\t2013-Jan-01 Tue    New Year's Day\n\t2013-Jul-03 Wed ec Day before Independence Day\n\t2014-Jan-01 Wed    New Year's Day\n\t2014-Jul-03 Thu ec Day before Independence Day\n\t2015-Jan-01 Thu    New Year's Day\n\t2015-Jul-03 Fri ec Day before Independence Day\n", c.String())
 }

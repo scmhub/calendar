@@ -2,6 +2,7 @@ package calendar
 
 import "time"
 
+// time.Time -> Observed time.Time
 type observance func(time.Time) time.Time
 
 // Saturday or Sunday => next Monday
@@ -83,6 +84,18 @@ func sundayToWednesday(t time.Time) time.Time {
 }
 
 // Closure of observance.
+// time.Time{} if a passed Weekday.
+func exeptOnWeekdays(wd ...time.Weekday) observance {
+	return func(t time.Time) time.Time {
+		for _, weekday := range wd {
+			if t.Weekday() == weekday {
+				return time.Time{}
+			}
+		}
+		return t
+	}
+}
+
 // time.Time{} if not a passed Weekday.
 func onlyOnWeekdays(wd ...time.Weekday) observance {
 	return func(t time.Time) time.Time {

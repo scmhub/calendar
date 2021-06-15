@@ -167,10 +167,9 @@ func (c *Calendar) addEarlyClosingDay(h *Holiday) {
 
 func (c *Calendar) AddEarlyClosingDays(h ...*Holiday) {
 	for _, ho := range h {
-		c.h = append(c.h, ho)
 		c.addEarlyClosingDay(ho)
+		c.h = append(c.h, ho)
 	}
-
 }
 
 func (c *Calendar) HasHoliday(h *Holiday) bool {
@@ -259,9 +258,26 @@ func (c *Calendar) NextClose(t time.Time) time.Time {
 
 func (c *Calendar) String() string {
 	str := fmt.Sprintf("Calendar %v:\n", c.Name)
+	var allts []int
 	for _, ts := range c.hts {
-		str += fmt.Sprintf("\t%v %v\n", time.Unix(ts, 0).In(c.Loc).Format("2006/01/02"), c.hmap[ts].Name)
+		allts = append(allts, int(ts))
 	}
+	for _, ts := range c.ects {
+		allts = append(allts, int(ts))
+	}
+	sort.Ints(allts)
+	for _, ts := range allts {
+		t := int64(ts)
+		h, ok := c.hmap[t]
+		if ok {
+			str += fmt.Sprintf("\t%-15v    %v\n", time.Unix(t, 0).In(c.Loc).Format("2006-Jan-02 Mon"), h.Name)
+		}
+		ec, ok := c.ecmap[t]
+		if ok {
+			str += fmt.Sprintf("\t%-15v ec %v\n", time.Unix(t, 0).In(c.Loc).Format("2006-Jan-02 Mon"), ec.Name)
+		}
+	}
+
 	return str
 }
 

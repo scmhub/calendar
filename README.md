@@ -8,17 +8,51 @@ Exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/103
 
 ## Usage
 ```go
-// Get an exchange calendar between a start year and and end year (both included)
+// Get pre-defined exchange +/- 5 years around current year
+nyse := XNYS()
+// Or starting on specfic year, end on year + 10
+nyse := XNYS(2010)
+// Or between a start year and an end year (both included)
 nyse := XNYS(2010, 2025)
 
-today := time.Now()
+now := time.Now()
 
-nyse.IsBusinessDay(today)
-nyse.IsHoliday(today)
+nyse.IsBusinessDay(now)
+nyse.IsHoliday(now)
+nyse.IsEarlyClose(now)
 
-nyse.NextBusinessDay(today)
-nyse.NextHoliday(today)
+nyse.IsOpen(now)
 
+t := nyse.NextBusinessDay(now)
+t, h := nyse.NextHoliday(now)
+t := nyse.NextClose(now)
+
+nyse.SetYears(2020,2021)
+
+fmt.Print(nyse)
+
+Calendar New York Stock Exchange:
+	2020-Jan-01 Wed    New Year's Day
+	2020-Jan-20 Mon    Martin Luther King Jr. Day
+	2020-Feb-17 Mon    Presidents' Day
+	2020-Apr-10 Fri    Good Friday
+	2020-May-25 Mon    Memorial Day
+	2020-Jul-03 Fri    Independence Day
+	2020-Sep-07 Mon    Labor Day
+	2020-Nov-26 Thu    Thanksgiving Day
+	2020-Nov-27 Fri ec Black Friday
+	2020-Dec-24 Thu ec Christmas Eve
+	2020-Dec-25 Fri    Christmas Day
+	2021-Jan-01 Fri    New Year's Day
+	2021-Jan-18 Mon    Martin Luther King Jr. Day
+	2021-Feb-15 Mon    Presidents' Day
+	2021-Apr-02 Fri    Good Friday
+	2021-May-31 Mon    Memorial Day
+	2021-Jul-05 Mon    Independence Day
+	2021-Sep-06 Mon    Labor Day
+	2021-Nov-25 Thu    Thanksgiving Day
+	2021-Nov-26 Fri ec Black Friday
+	2021-Dec-24 Fri    Christmas Day
 
 ```
 ## Existing Calendar
@@ -78,7 +112,7 @@ nyse.NextHoliday(today)
 ## Creating Holidays & Calendars
 
 ```go
-// Create Holidays
+// Create Recurring Holidays
 MemorialDay = &Holiday{
     Name:       "Memorial Day",
     Month:      time.May,
@@ -93,18 +127,41 @@ IndependenceDay = &Holiday{
     observance: nearestWorkday,
     calc:       CalcDayOfMonth,
 }
+
+// Create Non Recurring Holidays
+// September 11 - september 11, 2001
+SeptemberEleven = &Holiday{
+    Name:   "Sepember 11",
+    Month:  time.September,
+    Day:    11,
+    OnYear: 2001,
+    calc:   CalcDayOfMonth,
+}
+
+// September 11 -14 range
+SeptemberElevenDays = []*Holiday{
+    SeptemberEleven,
+    SeptemberEleven.Copy("Sepember 11 day 2").SetOffset(1),
+    SeptemberEleven.Copy("Sepember 11 day 3").SetOffset(2),
+    SeptemberEleven.Copy("Sepember 11 day 4").SetOffset(3),
+}
+
 // Copy an Holiday and set observance
 NewYear.Copy("New Year's Day").SetObservance(sundayToMonday)
 
 // Create a Calendar
-c := NewCalendar("New York Stock Exchange", NewYork)
-// Set Sessions
-c.SetEarlySession(&Session{7 * time.Hour, 9*time.Hour + 30*time.Minute})
-c.SetCoreSessions(&Session{9*time.Hour + 30*time.Minute, 16 * time.Hour})
-c.SetLateSession(&Session{16 * time.Hour, 20 * time.Hour})
-// Add Holidays
+c := NewCalendar("New York Stock Exchange", NewYork, 2010, 2025)
+// Set Session
+c.SetSession(&Session{
+    EarlyOpen:  7 * time.Hour,
+    Open:       9*time.Hour + 30*time.Minute,
+    Close:      16 * time.Hour,
+    EarlyClose: 13 * time.Hour,
+    LateClose:  20 * time.Hour,
+})
+// Add Recurring Holidays
 c.AddHolidays(
-    NewYear.Copy("New Year's Day").SetObservance(sundayToMonday),
+    NewYear.Copy().SetObservance(sundayToMonday),
     MLKDay,
     PresidentsDay,
     GoodFriday,
@@ -112,8 +169,19 @@ c.AddHolidays(
     IndependenceDay,
     LaborDay,
     ThanksgivingDay,
+    ChristmasDay.Copy().SetObservance(nearestWorkday),
+)
+// Add Non Recurring Holidays
+c.AddHolidays(USNationalDaysOfMourning...)
+c.AddHolidays(SeptemberElevenDays...)
+c.AddHolidays(HurricaneSandyDays...)
+// Early Closing
+c.AddEarlyClosingDays(
+    BeforeIndependenceDay.Copy().SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday, time.Thursday)),
+    AfterIndependenceDay.Copy().SetBeforeYear(2013).SetObservance(onlyOnWeekdays(time.Friday)),
+    BeforeIndependenceDay.Copy().SetAfterYear(2013).SetObservance(onlyOnWeekdays(time.Wednesday)),
     BlackFriday,
-    ChristmasDay.Copy("Christmas Day").SetObservance(nearestWorkday),
+    ChristmasEve.Copy().SetObservance(exeptOnWeekdays(time.Friday)), // Overlap Christmas day observance if friday
 )
 
 ```

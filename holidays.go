@@ -22,8 +22,10 @@ var (
 	}
 	// Lunar New Year's day
 	LunarNewYear = &Holiday{
-		Name: "Lunar New Year's Day",
-		calc: CalcLunarNewYear,
+		Name:  "Lunar New Year's Day",
+		Month: time.January,
+		Day:   1,
+		calc:  CalcLunarDayOfMonth,
 	}
 	// Carnival, Mardi Gras or Fat Tuesday  - 47 days before Easter
 	Carnival = &Holiday{
@@ -560,12 +562,26 @@ var (
 		Day:   5,
 		calc:  CalcDayOfMonth,
 	}
+	// Dragon Boat Festival day - 5th day of 5th lunar month
+	DragonBoatFestival = &Holiday{
+		Name:  "Dragon Boat Festival",
+		Month: time.Month(5),
+		Day:   5,
+		calc:  CalcLunarDayOfMonth,
+	}
 	// People's Republic of China National day - 1-Oct
 	ChinaNationalDay = &Holiday{
 		Name:  "China National Day",
 		Month: time.October,
 		Day:   1,
 		calc:  CalcDayOfMonth,
+	}
+	// Mid-Autumn Festival 中秋節 - 15yh day of the 8th lunar month
+	MidAutumnFestival = &Holiday{
+		Name:  "Dragon Boat Festival",
+		Month: time.Month(8),
+		Day:   15,
+		calc:  CalcLunarDayOfMonth,
 	}
 )
 
