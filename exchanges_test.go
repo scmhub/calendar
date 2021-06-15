@@ -1,7 +1,6 @@
 package calendar
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -328,8 +327,6 @@ func TestXHKG(t *testing.T) {
 	assert.Equal(16*time.Hour, x.Session().Close)
 	assert.Equal(12*time.Hour, x.Session().EarlyClose)
 	assert.Equal(time.Duration(0), x.Session().LateClose)
-	fmt.Print(x)
-	assert.Equal("dd", fmt.Sprint(x))
 }
 func TestXSHE(t *testing.T) {
 	assert := assert.New(t)
