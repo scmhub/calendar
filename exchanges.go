@@ -360,7 +360,7 @@ func XSES(years ...int) *Calendar {
 	return c
 }
 
-// Stock Exchange of Hong Kong
+// Stock Exchange of Hong Kong - https://www.hkex.com.hk/News/HKEX-Calendar?sc_lang=en
 func XHKG(years ...int) *Calendar {
 	c := NewCalendar("Stock Exchange of Hong Kong", HongKong, years...)
 	// Session
@@ -369,8 +369,34 @@ func XHKG(years ...int) *Calendar {
 		BreakStart: 12 * time.Hour,
 		BreakStop:  13 * time.Hour,
 		Close:      16 * time.Hour,
+		EarlyClose: 12 * time.Hour,
 	})
-	//TODO: add holidays
+	// Recurring Holidays
+	c.AddHolidays(
+		NewYear,
+		LunarNewYear,
+		LunarNewYear.Copy("The second day of Lunar New Year").SetOffset(1),
+		LunarNewYear.Copy("The third day of Lunar New Year").SetOffset(2),
+		LunarNewYear.Copy("The fourth day of Lunar New Year").SetOffset(3),
+		QingmingJie,
+		GoodFriday,
+		EasterMonday,
+		BuddhasBirthday.SetObservance(nextMonday),
+		WorkersDay,
+		DragonBoatFestival.Copy("Dragon Boat (Tuen Ng) Festival"),
+		EstablishmentDay,
+		MidAutumnFestival.Copy("The day following the Chinese Mid-Autumn Festival").SetOffset(1),
+		ChinaNationalDay.Copy().SetObservance(nextMonday),
+		DoubleNinthFestival.Copy().SetObservance(nextMonday),
+		ChristmasDay.Copy().SetObservance(nextMonday),
+		BoxingDay,
+	)
+	// Early Closing
+	c.AddEarlyClosingDays(
+		LunarNewYearEve,
+		ChristmasEve,
+		NewYearsEve,
+	)
 	return c
 }
 

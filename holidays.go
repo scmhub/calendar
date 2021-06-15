@@ -12,13 +12,20 @@ var (
 		Day:   1,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Epiphany on 6-Jan
 	Epiphany = &Holiday{
 		Name:  "Epiphany",
 		Month: time.January,
 		Day:   6,
 		calc:  CalcDayOfMonth,
+	}
+	// Lunar New Year's Eve
+	LunarNewYearEve = &Holiday{
+		Name:   "Lunar New Year's Eve",
+		Month:  time.January,
+		Day:    1,
+		Offset: -1,
+		calc:   CalcLunarDayOfMonth,
 	}
 	// Lunar New Year's day
 	LunarNewYear = &Holiday{
@@ -33,14 +40,12 @@ var (
 		Offset: -47,
 		calc:   CalcEasterOffset,
 	}
-
 	// Maundy Thursday - three days before Easter
 	MaundyThursday = &Holiday{
 		Name:   "Maundy Thursday",
 		Offset: -3,
 		calc:   CalcEasterOffset,
 	}
-
 	// Good Friday - two days before Easter
 	GoodFriday = &Holiday{
 		Name:   "Good Friday",
@@ -53,14 +58,12 @@ var (
 		Name: "Northward Equinox",
 		calc: CalcNorthwardEquinox,
 	}
-
 	// Easter Monday - the day after Easter
 	EasterMonday = &Holiday{
 		Name:   "Easter Monday",
 		Offset: 1,
 		calc:   CalcEasterOffset,
 	}
-
 	// WorkersDay is the International Workers' Day on 1-May
 	WorkersDay = &Holiday{
 		Name:  "International Workers' Day",
@@ -68,34 +71,36 @@ var (
 		Day:   1,
 		calc:  CalcDayOfMonth,
 	}
-
+	// Buddha's Birthday - 8th day of the 4th lunar month
+	BuddhasBirthday = &Holiday{
+		Name:  "Buddha's Birthday",
+		Month: time.Month(4),
+		Day:   8,
+		calc:  CalcLunarDayOfMonth,
+	}
 	// Ascension Day on the 39th day after Easter
 	AscensionDay = &Holiday{
 		Name:   "Ascension Day",
 		Offset: 39,
 		calc:   CalcEasterOffset,
 	}
-
 	// Pentecost Monday (or Whit Monday) on the day after Pentecost (50 days after Easter)
 	PentecostMonday = &Holiday{
 		Name:   "Pentecost Monday",
 		Offset: 50,
 		calc:   CalcEasterOffset,
 	}
-
 	// Corpus Christi 60 days after Easter
 	CorpusChristi = &Holiday{
 		Name:   "Corpus Christi",
 		Offset: 60,
 		calc:   CalcEasterOffset,
 	}
-
 	// Northern Solstice - June Solstice - ~20-Jun
 	NorthernSolstice = &Holiday{
 		Name: "Northern Solstice",
 		calc: CalcNorthernSolstice,
 	}
-
 	// Assumption of Mary on 15-Aug
 	AssumptionOfMary = &Holiday{
 		Name:  "Assumption of Mary",
@@ -103,13 +108,18 @@ var (
 		Day:   15,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Souththward Equinox - September Equinox - ~20-Sep
 	SouthwardEquinox = &Holiday{
 		Name: "Souththward Equinox",
 		calc: CalcSouthwardEquinox,
 	}
-
+	// Double Ninth (Chung Yeung) Festival- 9th day of the 9th lunar month
+	DoubleNinthFestival = &Holiday{
+		Name:  "Double Ninth (Chung Yeung) Festival",
+		Month: time.Month(9),
+		Day:   9,
+		calc:  CalcLunarDayOfMonth,
+	}
 	// Reformation Day - 31-Oct-2017
 	ReformationDay = &Holiday{
 		Name:  "Reformation Day",
@@ -117,7 +127,6 @@ var (
 		Day:   31,
 		calc:  CalcDayOfMonth,
 	}
-
 	// All Saints' Day on 1-Nov
 	AllSaintsDay = &Holiday{
 		Name:  "All Saints' Day",
@@ -125,7 +134,6 @@ var (
 		Day:   1,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Armistice Day on 11-Nov
 	ArmisticeDay = &Holiday{
 		Name:  "Armistice Day",
@@ -133,7 +141,6 @@ var (
 		Day:   11,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Immaculate Conception on 8-Dec
 	ImmaculateConception = &Holiday{
 		Name:  "Immaculate Conception",
@@ -141,13 +148,11 @@ var (
 		Day:   8,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Southern Solstice - December Solstice - ~20-Dec
 	SouthernSolstice = &Holiday{
 		Name: "Southern Solstice",
 		calc: CalcSouthernSolstice,
 	}
-
 	// Christmas Eve on 24-Dec
 	ChristmasEve = &Holiday{
 		Name:  "Christmas Eve",
@@ -163,7 +168,6 @@ var (
 		Day:   25,
 		calc:  CalcDayOfMonth,
 	}
-
 	// BoxingDay is the day after Christmas (Boxing Day / St. Stephen's Day) on 26-Dec
 	BoxingDay = &Holiday{
 		Name:  "Boxing Day",
@@ -171,7 +175,6 @@ var (
 		Day:   26,
 		calc:  CalcDayOfMonth,
 	}
-
 	// New Year's Eve on 31-Dec
 	NewYearsEve = &Holiday{
 		Name:  "New Year's Eve",
@@ -548,6 +551,17 @@ var (
 	SwissNationalDay = &Holiday{
 		Name:  "Swiss National Day",
 		Month: time.August,
+		Day:   1,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Hong kong Holidays
+var (
+	// Hong Kong Special Administrative Region Establishment Day - 香港特別行政區成立紀念日 - 1st of Jul
+	EstablishmentDay = &Holiday{
+		Name:  "Hong kong Establishment Day",
+		Month: time.July,
 		Day:   1,
 		calc:  CalcDayOfMonth,
 	}

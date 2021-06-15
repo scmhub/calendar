@@ -29,7 +29,6 @@ func TestNewYear(t *testing.T) {
 	assert.Equal(time.Date(2024, 1, 1, 0, 0, 0, 0, Paris), NewYear.Calc(2024, Paris)) // monday
 	assert.Equal(time.Date(2025, 1, 1, 0, 0, 0, 0, Paris), NewYear.Calc(2025, Paris)) // wednesday
 }
-
 func TestEpiphany(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 1, 6, 0, 0, 0, 0, Paris), Epiphany.Calc(2020, Paris))
@@ -144,7 +143,6 @@ func TestEasterMonday(t *testing.T) {
 	assert.Equal(time.Date(2024, 4, 1, 0, 0, 0, 0, Paris), EasterMonday.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 4, 21, 0, 0, 0, 0, Paris), EasterMonday.Calc(2025, Paris))
 }
-
 func TestWorkerDays(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 5, 1, 0, 0, 0, 0, Paris), WorkersDay.Calc(2020, Paris))
@@ -154,7 +152,15 @@ func TestWorkerDays(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 1, 0, 0, 0, 0, Paris), WorkersDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 5, 1, 0, 0, 0, 0, Paris), WorkersDay.Calc(2025, Paris))
 }
-
+func TestBuddhasBirthday(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Date(2020, 4, 30, 0, 0, 0, 0, HongKong), BuddhasBirthday.Calc(2020, HongKong))
+	assert.Equal(time.Date(2021, 5, 19, 0, 0, 0, 0, HongKong), BuddhasBirthday.Calc(2021, HongKong))
+	assert.Equal(time.Time{}, BuddhasBirthday.Calc(2022, HongKong))
+	assert.Equal(time.Date(2023, 5, 26, 0, 0, 0, 0, HongKong), BuddhasBirthday.Calc(2023, HongKong))
+	assert.Equal(time.Date(2024, 5, 15, 0, 0, 0, 0, HongKong), BuddhasBirthday.Calc(2024, HongKong))
+	assert.Equal(time.Date(2025, 5, 5, 0, 0, 0, 0, HongKong), BuddhasBirthday.Calc(2025, HongKong))
+}
 func TestAscensionDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 5, 13, 0, 0, 0, 0, Paris), AscensionDay.Calc(2010, Paris))
@@ -174,7 +180,6 @@ func TestAscensionDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 9, 0, 0, 0, 0, Paris), AscensionDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 5, 29, 0, 0, 0, 0, Paris), AscensionDay.Calc(2025, Paris))
 }
-
 func TestPentecostMonday(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 5, 24, 0, 0, 0, 0, Paris), PentecostMonday.Calc(2010, Paris))
@@ -194,7 +199,6 @@ func TestPentecostMonday(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 20, 0, 0, 0, 0, Paris), PentecostMonday.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 6, 9, 0, 0, 0, 0, Paris), PentecostMonday.Calc(2025, Paris))
 }
-
 func TestCorpsChristi(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 6, 3, 0, 0, 0, 0, Paris), CorpusChristi.Calc(2010, Paris))
@@ -271,6 +275,15 @@ func TestSouthwardEquinox(t *testing.T) {
 	assert.Equal(time.Time{}, SouthwardEquinox.Calc(2024, time.UTC))
 	assert.Equal(time.Date(2025, 9, 22, 0, 0, 0, 0, time.UTC), SouthwardEquinox.Calc(2025, time.UTC))
 }
+func TestDoubleNinthFestival(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(time.Time{}, DoubleNinthFestival.Calc(2020, HongKong))
+	assert.Equal(time.Date(2021, 10, 14, 0, 0, 0, 0, HongKong), DoubleNinthFestival.Calc(2021, HongKong))
+	assert.Equal(time.Date(2022, 10, 4, 0, 0, 0, 0, HongKong), DoubleNinthFestival.Calc(2022, HongKong))
+	assert.Equal(time.Date(2023, 10, 23, 0, 0, 0, 0, HongKong), DoubleNinthFestival.Calc(2023, HongKong))
+	assert.Equal(time.Date(2024, 10, 11, 0, 0, 0, 0, HongKong), DoubleNinthFestival.Calc(2024, HongKong))
+	assert.Equal(time.Date(2025, 10, 29, 0, 0, 0, 0, HongKong), DoubleNinthFestival.Calc(2025, HongKong))
+}
 func TestReformationDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, ReformationDay.Calc(2020, Paris))
@@ -280,7 +293,6 @@ func TestReformationDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 10, 31, 0, 0, 0, 0, Paris), ReformationDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 10, 31, 0, 0, 0, 0, Paris), ReformationDay.Calc(2025, Paris))
 }
-
 func TestAllSaintsDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, AllSaintsDay.Calc(2020, Paris))
@@ -290,7 +302,6 @@ func TestAllSaintsDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 11, 1, 0, 0, 0, 0, Paris), AllSaintsDay.Calc(2024, Paris))
 	assert.Equal(time.Time{}, AllSaintsDay.Calc(2025, Paris))
 }
-
 func TestArmisticeDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 11, 11, 0, 0, 0, 0, Paris), ArmisticeDay.Calc(2020, Paris))
@@ -300,7 +311,6 @@ func TestArmisticeDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 11, 11, 0, 0, 0, 0, Paris), ArmisticeDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 11, 11, 0, 0, 0, 0, Paris), ArmisticeDay.Calc(2025, Paris))
 }
-
 func TestImmaculateConception(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 12, 8, 0, 0, 0, 0, Paris), ImmaculateConception.Calc(2020, Paris))
@@ -310,7 +320,6 @@ func TestImmaculateConception(t *testing.T) {
 	assert.Equal(time.Time{}, ImmaculateConception.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 12, 8, 0, 0, 0, 0, Paris), ImmaculateConception.Calc(2025, Paris))
 }
-
 func TestSouthernSolstice(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 12, 21, 0, 0, 0, 0, time.UTC), SouthernSolstice.Calc(2010, time.UTC))
@@ -330,7 +339,6 @@ func TestSouthernSolstice(t *testing.T) {
 	assert.Equal(time.Time{}, SouthernSolstice.Calc(2024, time.UTC))
 	assert.Equal(time.Time{}, SouthernSolstice.Calc(2025, time.UTC))
 }
-
 func TestChristmasEve(t *testing.T) {
 	assert := assert.New(t)
 	fmt.Println(MaundyThursday.Calc(2012, Paris))
@@ -341,7 +349,6 @@ func TestChristmasEve(t *testing.T) {
 	assert.Equal(time.Date(2024, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 12, 24, 0, 0, 0, 0, Paris), ChristmasEve.Calc(2025, Paris))
 }
-
 func TestChristmasDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 12, 25, 0, 0, 0, 0, Paris), ChristmasDay.Calc(2020, Paris))
@@ -351,7 +358,6 @@ func TestChristmasDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 12, 25, 0, 0, 0, 0, Paris), ChristmasDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 12, 25, 0, 0, 0, 0, Paris), ChristmasDay.Calc(2025, Paris))
 }
-
 func TestBoxingDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Time{}, BoxingDay.Calc(2020, Paris))
@@ -361,7 +367,6 @@ func TestBoxingDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 12, 26, 0, 0, 0, 0, Paris), BoxingDay.Calc(2024, Paris))
 	assert.Equal(time.Date(2025, 12, 26, 0, 0, 0, 0, Paris), BoxingDay.Calc(2025, Paris))
 }
-
 func TestNewYearsEve(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 12, 31, 0, 0, 0, 0, Paris), NewYearsEve.Calc(2020, Paris))
@@ -393,7 +398,6 @@ func TestMLK(t *testing.T) {
 	assert.Equal(time.Date(2024, 1, 15, 0, 0, 0, 0, NewYork), MLKDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 1, 20, 0, 0, 0, 0, NewYork), MLKDay.Calc(2025, NewYork))
 }
-
 func TestPresidentsDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 2, 15, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2010, NewYork))
@@ -413,7 +417,6 @@ func TestPresidentsDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 2, 19, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 2, 17, 0, 0, 0, 0, NewYork), PresidentsDay.Calc(2025, NewYork))
 }
-
 func TestMemorialDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 5, 31, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2010, NewYork))
@@ -433,7 +436,6 @@ func TestMemorialDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 27, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 5, 26, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2025, NewYork))
 }
-
 func TestIndependenceDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 7, 5, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2010, NewYork))
@@ -453,7 +455,6 @@ func TestIndependenceDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 7, 4, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2025, NewYork))
 }
-
 func TestLaborDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 9, 6, 0, 0, 0, 0, NewYork), LaborDay.Calc(2010, NewYork))
@@ -473,7 +474,6 @@ func TestLaborDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 9, 2, 0, 0, 0, 0, NewYork), LaborDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 9, 1, 0, 0, 0, 0, NewYork), LaborDay.Calc(2025, NewYork))
 }
-
 func TestColombusDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 10, 11, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2010, NewYork))
@@ -493,7 +493,6 @@ func TestColombusDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 10, 14, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 10, 13, 0, 0, 0, 0, NewYork), ColumbusDay.Calc(2025, NewYork))
 }
-
 func TestVeteransDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2020, NewYork))
@@ -503,7 +502,6 @@ func TestVeteransDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 11, 11, 0, 0, 0, 0, NewYork), VeteransDay.Calc(2025, NewYork))
 }
-
 func TestThanksgivingDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 11, 25, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2010, NewYork))
@@ -523,7 +521,6 @@ func TestThanksgivingDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 11, 28, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 11, 27, 0, 0, 0, 0, NewYork), ThanksgivingDay.Calc(2025, NewYork))
 }
-
 func TestBlackFriday(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 11, 25+1, 0, 0, 0, 0, NewYork), BlackFriday.Calc(2010, NewYork))
@@ -565,7 +562,6 @@ func TestEarlyMay(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 6, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 5, 5, 0, 0, 0, 0, NewYork), EarlyMay.Calc(2025, NewYork))
 }
-
 func TestLateMay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 5, 31, 0, 0, 0, 0, NewYork), LateMay.Calc(2010, NewYork))
@@ -585,7 +581,6 @@ func TestLateMay(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 27, 0, 0, 0, 0, NewYork), LateMay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 5, 26, 0, 0, 0, 0, NewYork), LateMay.Calc(2025, NewYork))
 }
-
 func TestSummerHoliday(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 8, 30, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2010, NewYork))
@@ -605,7 +600,6 @@ func TestSummerHoliday(t *testing.T) {
 	assert.Equal(time.Date(2024, 8, 26, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 8, 25, 0, 0, 0, 0, NewYork), SummerHoliday.Calc(2025, NewYork))
 }
-
 func TestQueensday(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2020, 4, 30, 0, 0, 0, 0, NewYork), QueensDay.Calc(2020, NewYork))
