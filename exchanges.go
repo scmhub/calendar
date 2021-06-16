@@ -365,6 +365,7 @@ func XHKG(years ...int) *Calendar {
 	c := NewCalendar("Stock Exchange of Hong Kong", HongKong, years...)
 	// Session
 	c.SetSession(&Session{
+		EarlyOpen:  9 * time.Hour,
 		Open:       9*time.Hour + 30*time.Minute,
 		BreakStart: 12 * time.Hour,
 		BreakStop:  13 * time.Hour,
@@ -373,7 +374,7 @@ func XHKG(years ...int) *Calendar {
 	})
 	// Recurring Holidays
 	c.AddHolidays(
-		NewYear,
+		NewYear.Copy().SetObservance(sundayToMonday),
 		LunarNewYear,
 		LunarNewYear.Copy("The second day of Lunar New Year").SetOffset(1),
 		LunarNewYear.Copy("The third day of Lunar New Year").SetOffset(2).SetAfterYear(2013),

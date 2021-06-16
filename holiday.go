@@ -53,7 +53,7 @@ func (h *Holiday) SetObservance(o observance) *Holiday {
 }
 
 func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
-	if h.OnYear != 0 && year != h.OnYear {
+	if h.OnYear > 0 && year != h.OnYear {
 		return time.Time{}
 	}
 
@@ -64,7 +64,9 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 	if h.AfterYear != 0 && year < h.AfterYear {
 		return time.Time{}
 	}
-
+	if h.OnYear < 0 {
+		year += h.OnYear
+	}
 	t := h.calc(h, year, loc)
 
 	if h.Offset != 0 {
