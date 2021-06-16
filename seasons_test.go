@@ -23,7 +23,7 @@ func TestSolsticesAndEquinoxes(t *testing.T) {
 	assert := assert.New(t)
 	// 2020
 	assert.Equal(time.Date(2020, 3, 20, 3, 50, 0, 0, time.UTC), northwardEquinox(2020))
-	assert.Equal(time.Date(2020, 16, 20, 2, 43, 0, 0, time.UTC), northernSolstice(2020))
+	assert.Equal(time.Date(2020, 6, 20, 21, 43, 0, 0, time.UTC), northernSolstice(2020))
 	assert.Equal(time.Date(2020, 9, 22, 13, 31, 0, 0, time.UTC), southwardEquinox(2020))
 	assert.Equal(time.Date(2020, 12, 21, 10, 03, 0, 0, time.UTC), southernSolstice(2020))
 	// 2021

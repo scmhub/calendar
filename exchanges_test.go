@@ -1,7 +1,6 @@
 package calendar
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -321,14 +320,14 @@ func TestXHKG(t *testing.T) {
 	x := XHKG(2017, 2021)
 	assert.Equal("Stock Exchange of Hong Kong", x.Name)
 	assert.Equal(HongKong, x.Loc)
-	assert.Equal(8*time.Hour, x.Session().EarlyOpen)
+	assert.Equal(9*time.Hour, x.Session().EarlyOpen)
 	assert.Equal(9*time.Hour+30*time.Minute, x.Session().Open)
 	assert.Equal(12*time.Hour, x.Session().BreakStart)
 	assert.Equal(13*time.Hour, x.Session().BreakStop)
 	assert.Equal(16*time.Hour, x.Session().Close)
 	assert.Equal(12*time.Hour, x.Session().EarlyClose)
 	assert.Equal(time.Duration(0), x.Session().LateClose)
-	fmt.Print(x)
+
 }
 func TestXSHE(t *testing.T) {
 	assert := assert.New(t)
