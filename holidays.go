@@ -64,6 +64,20 @@ var (
 		Offset: 1,
 		calc:   CalcEasterOffset,
 	}
+	// Eid al-Fitr - 1st day of Shawwal (10th month)
+	EidAlFitr = &Holiday{
+		Name:  "Eid al-Fitr",
+		Month: Shawwal,
+		Day:   1,
+		calc:  CalcHijriDayOfMonth,
+	}
+	// Eid al-Adha - 1st day of Dhu al-Hijjah (10th month)
+	EidAlAdha = &Holiday{
+		Name:  "Eid al-Adha",
+		Month: DhuAlHijjah,
+		Day:   10,
+		calc:  CalcHijriDayOfMonth,
+	}
 	// WorkersDay is the International Workers' Day on 1-May
 	WorkersDay = &Holiday{
 		Name:  "International Workers' Day",
@@ -76,6 +90,20 @@ var (
 		Name:  "Buddha's Birthday",
 		Month: time.Month(4),
 		Day:   8,
+		calc:  CalcLunarDayOfMonth,
+	}
+	// Vesak Day - 15th day of the fourth lunar month
+	VesakDay = &Holiday{
+		Name:  "Vesak Day",
+		Month: time.Month(4),
+		Day:   15,
+		calc:  CalcLunarDayOfMonth,
+	}
+	// Deepavali or Diwali, victory of light - the last day of the lunar month Asvina
+	Deepavali = &Holiday{
+		Name:  "Deepavali",
+		Month: time.Month(9),
+		Day:   -1,
 		calc:  CalcLunarDayOfMonth,
 	}
 	// Ascension Day on the 39th day after Easter
@@ -556,7 +584,18 @@ var (
 	}
 )
 
-// Hong kong Holidays
+// Singapore Holidays
+var (
+	// Singapore National Day - 9th of Aug
+	SingaporeNationalDay = &Holiday{
+		Name:  "Singapore National Day ",
+		Month: time.August,
+		Day:   9,
+		calc:  CalcDayOfMonth,
+	}
+)
+
+// Hong kong Holidays *  https://www.hkex.com.hk/News/HKEX-Calendar?sc_lang=en
 var (
 	// Hong Kong Special Administrative Region Establishment Day - 香港特別行政區成立紀念日 - 1st of Jul
 	EstablishmentDay = &Holiday{

@@ -314,6 +314,13 @@ func TestXSES(t *testing.T) {
 	x := XSES(2010, 2025)
 	assert.Equal("Singapore Exchange", x.Name)
 	assert.Equal(Singapore, x.Loc)
+	assert.Equal(8*time.Hour+30*time.Minute, x.Session().EarlyOpen)
+	assert.Equal(9*time.Hour, x.Session().Open)
+	assert.Equal(time.Duration(0), x.Session().BreakStart)
+	assert.Equal(time.Duration(0), x.Session().BreakStop)
+	assert.Equal(17*time.Hour, x.Session().Close)
+	assert.Equal(12*time.Hour, x.Session().EarlyClose)
+
 }
 func TestXHKG(t *testing.T) {
 	assert := assert.New(t)

@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+// https://www.hko.gov.hk/en/gts/time/conversion.htm
+
 var lunarInfomation = [...]int{
 	0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2, //1900-1909
 	0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977, //1910-1919
@@ -56,8 +58,8 @@ func GetLeapMonth(year int) int {
 	return lunarInfomation[year-1900] & 0xf
 }
 
-// Gregorian calendar to lunar calendar
-func ToLunar(t time.Time) (time.Time, bool) {
+// Gregorian calendar -> lunar calendar
+func GregorianToLunar(t time.Time) (time.Time, bool) {
 
 	// 1900-1-31 timestamp
 	t0 := time.Date(1900, 1, 31, 0, 0, 0, 0, t.Location())
@@ -122,8 +124,8 @@ func ToLunar(t time.Time) (time.Time, bool) {
 	return time.Date(lunarYear, time.Month(month), day, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location()), leapMonth != 0
 }
 
-// Lunar calendar to Gregorian calendar
-func FromLunar(t time.Time, leap bool) time.Time {
+// Lunar calendar -> Gregorian calendar
+func LunarToGregorian(t time.Time, leap bool) time.Time {
 	var sum int = 0
 	for i := 1900; i < t.Year(); i++ {
 		sum += yearSum[i]
@@ -182,4 +184,26 @@ func FromLunar(t time.Time, leap bool) time.Time {
 	lastMonth := GetMonthDays(solarYear, time.Month(solarMonth))
 	solarDay := lastMonth - (tempSum - sumMonth)
 	return time.Date(solarYear, time.Month(solarMonth), solarDay, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
+}
+
+// Get the number of days in a lunar month
+func GetLunarMonthDays(year int, month time.Month, leapMonth bool) int {
+	hex := lunarInfomation[year-1900]
+	if leapMonth {
+		if hex&0xf > 0 {
+			if hex&0xf0000 > 0 {
+				return 30
+			} else {
+				return 29
+			}
+		} else {
+			return 0
+		}
+	} else {
+		if hex&(0x08000>>(uint(month)-1)) > 0 {
+			return 30
+		} else {
+			return 29
+		}
+	}
 }

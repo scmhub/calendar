@@ -100,6 +100,15 @@ func JtoJDN(t time.Time) int {
 	return t.Day() + (153*m+2)/5 + 365*y + y/4 - 32083
 }
 
+// Hijri calendar time -> Julian Day Number
+func HtoJDN(t time.Time) int {
+	t = t.UTC()
+	y := (10631*t.Year() - 10617) / 30
+	m := (325*int(t.Month()) - 320) / 11
+	d := t.Day()
+	return y + m + d + 1948439
+}
+
 // Julian Day Number -> Gregorian calendar time (UTC default loc if not provided)
 func JDNtoG(jd int, loc ...*time.Location) time.Time {
 	a := jd + 32044
@@ -135,6 +144,20 @@ func JDNtoJ(jd int, loc ...*time.Location) time.Time {
 	return t
 }
 
+// Julian Day Number -> Hijri calendar time (UTC default loc if not provided)
+func JDNtoH(jd int, loc ...*time.Location) time.Time {
+	k2 := 30*(jd-1948440) + 15
+	k1 := 11*((k2%10631)/30) + 5
+	year := k2/10631 + 1
+	month := time.Month(k1/325 + 1)
+	day := (k1%325)/11 + 1
+	t := time.Date(year, month, day, 12, 0, 0, 0, time.UTC)
+	if len(loc) != 0 {
+		t = t.In(loc[0])
+	}
+	return t
+}
+
 // Julian calendar Time -> Gregorian calendar Time
 func JulianToGegorian(t time.Time) time.Time {
 	g := JDNtoG(JtoJDN(t), t.Location())
@@ -147,6 +170,25 @@ func GregorianToJulian(t time.Time) time.Time {
 	j := JDNtoJ(GtoJDN(t), t.Location())
 	j = time.Date(j.Year(), j.Month(), j.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), j.Location())
 	return j
+}
+
+// Hijri calendar Time -> Gregorian calendar Time
+func HijriToGregorian(t time.Time) time.Time {
+	g := JDNtoG(HtoJDN(t), t.Location())
+	g = time.Date(g.Year(), g.Month(), g.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), g.Location())
+	return g
+}
+
+// Gregorian calendar Time -> Hijri calendar Time
+func GregorianToHijri(t time.Time) time.Time {
+	j := JDNtoH(GtoJDN(t), t.Location())
+	j = time.Date(j.Year(), j.Month(), j.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), j.Location())
+	return j
+}
+
+// Gregorian Year -> Hijri Year
+func HijriYear(gy int) int {
+	return int((float64(gy) - 621.5709) * 1.0306888)
 }
 
 // Is a Leap Year in the Julian calendar
@@ -175,3 +217,19 @@ func GetYearDays(year int) int {
 	}
 	return 365
 }
+
+// Hijri Calendar months
+const (
+	AlMuharram       = time.Month(1)
+	Safar            = time.Month(2)
+	RabiAlAwwal      = time.Month(3)
+	RabiAlAkhir      = time.Month(4)
+	JumadaAlUla      = time.Month(5)
+	JumadaAlThaniyah = time.Month(6)
+	Rajab            = time.Month(7)
+	ShaBan           = time.Month(8)
+	Ramadan          = time.Month(9)
+	Shawwal          = time.Month(10)
+	DhuAlQaDah       = time.Month(11)
+	DhuAlHijjah      = time.Month(12)
+)

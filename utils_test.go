@@ -99,13 +99,19 @@ func TestJulianGregorian(t *testing.T) {
 	assert := assert.New(t)
 	gregorian := time.Date(2021, 6, 8, 12, 0, 0, 0, time.UTC)
 	julian := time.Date(2021, 5, 26, 12, 0, 0, 0, time.UTC)
+	hijri := time.Date(1442, 10, 27, 12, 0, 0, 0, time.UTC)
 	jd := 2459374
 	assert.Equal(jd, GtoJDN(gregorian))
 	assert.Equal(jd, JtoJDN(julian))
+	assert.Equal(jd, HtoJDN(hijri))
 	assert.Equal(julian, JDNtoJ(jd))
 	assert.Equal(gregorian, JDNtoG(jd))
+	assert.Equal(hijri, JDNtoH(jd))
 	assert.Equal(gregorian, JulianToGegorian(julian))
 	assert.Equal(julian, GregorianToJulian(gregorian))
+	assert.Equal(gregorian, HijriToGregorian(hijri))
+	assert.Equal(hijri, GregorianToHijri(gregorian))
+	assert.Equal(1442, HijriYear(2021))
 }
 
 func TestLeapYear(t *testing.T) {

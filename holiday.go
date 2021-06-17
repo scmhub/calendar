@@ -20,6 +20,7 @@ type Holiday struct {
 	Observance observance
 }
 
+// Copy holiday. Always set observance on a copy.
 func (h Holiday) Copy(name ...string) *Holiday {
 	if len(name) > 0 {
 		h.Name = name[0]
@@ -52,6 +53,7 @@ func (h *Holiday) SetObservance(o observance) *Holiday {
 	return h
 }
 
+// Calculate the holiday time.Time for a given year
 func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 	if h.OnYear > 0 && year != h.OnYear {
 		return time.Time{}
@@ -84,14 +86,28 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 	return t
 }
 
-// Day of month in Gregorian Calendar
+// Day of month in Gregorian Calendar, -1 means last day of the month
 func CalcDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
+	if h.Day < 0 {
+		return time.Date(year, h.Month, 1, 0, 0, 0, 0, loc).AddDate(0, 1, h.Day)
+	}
 	return time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc)
 }
 
-// Day of month in Lunar Calendar
+// Day of month in Lunar Calendar, -1 means last day of the month
 func CalcLunarDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
-	return FromLunar(time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc), false)
+	if h.Day < 0 {
+		return LunarToGregorian(time.Date(year, h.Month, 1, 0, 0, 0, 0, loc).AddDate(0, 1, 0), false).AddDate(0, 0, h.Day)
+	}
+	return LunarToGregorian(time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc), false)
+}
+
+// Day of month in Hijri Calendar, -1 means last day of the month
+func CalcHijriDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
+	if h.Day < 0 {
+		return HijriToGregorian(time.Date(HijriYear(year), h.Month, 1, 0, 0, 0, 0, loc).AddDate(0, 1, 0)).AddDate(0, 0, h.Day)
+	}
+	return HijriToGregorian(time.Date(HijriYear(year), h.Month, h.Day, 0, 0, 0, 0, loc))
 }
 
 // Nth occurence of a weekday like 3rd monday, -1 means last monday of the month

@@ -87,9 +87,38 @@ func TestLunarConv(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		toLunarTime, toLunarLeap := ToLunar(test.solar)
+		toLunarTime, toLunarLeap := GregorianToLunar(test.solar)
 		assert.Equal(test.lunar, toLunarTime)
 		assert.Equal(test.leap, toLunarLeap)
-		assert.Equal(test.solar, FromLunar(test.lunar, test.leap))
+		assert.Equal(test.solar, LunarToGregorian(test.lunar, test.leap))
 	}
+}
+
+func TestGetLunarMonthDays(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(29, GetLunarMonthDays(2020, time.Month(1), false))
+	assert.Equal(30, GetLunarMonthDays(2020, time.Month(2), false))
+	assert.Equal(30, GetLunarMonthDays(2020, time.Month(3), false))
+	assert.Equal(30, GetLunarMonthDays(2020, time.Month(4), false))
+	assert.Equal(29, GetLunarMonthDays(2020, time.Month(4), true))
+	assert.Equal(30, GetLunarMonthDays(2020, time.Month(5), false))
+	assert.Equal(29, GetLunarMonthDays(2020, time.Month(6), false))
+	assert.Equal(29, GetLunarMonthDays(2020, time.Month(7), false))
+	assert.Equal(30, GetLunarMonthDays(2020, time.Month(8), false))
+	assert.Equal(29, GetLunarMonthDays(2020, time.Month(9), false))
+	assert.Equal(30, GetLunarMonthDays(2020, time.Month(10), false))
+	assert.Equal(29, GetLunarMonthDays(2020, time.Month(11), false))
+	assert.Equal(30, GetLunarMonthDays(2020, time.Month(12), false))
+	assert.Equal(29, GetLunarMonthDays(2021, time.Month(1), false))
+	assert.Equal(30, GetLunarMonthDays(2021, time.Month(2), false))
+	assert.Equal(30, GetLunarMonthDays(2021, time.Month(3), false))
+	assert.Equal(29, GetLunarMonthDays(2021, time.Month(4), false))
+	assert.Equal(30, GetLunarMonthDays(2021, time.Month(5), false))
+	assert.Equal(29, GetLunarMonthDays(2021, time.Month(6), false))
+	assert.Equal(30, GetLunarMonthDays(2021, time.Month(7), false))
+	assert.Equal(29, GetLunarMonthDays(2021, time.Month(8), false))
+	assert.Equal(30, GetLunarMonthDays(2021, time.Month(9), false))
+	assert.Equal(29, GetLunarMonthDays(2021, time.Month(10), false))
+	assert.Equal(30, GetLunarMonthDays(2021, time.Month(11), false))
+	assert.Equal(29, GetLunarMonthDays(2021, time.Month(12), false))
 }

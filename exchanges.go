@@ -356,11 +356,37 @@ func XBKK(years ...int) *Calendar {
 // Singapore Exchange (SGX)
 func XSES(years ...int) *Calendar {
 	c := NewCalendar("Singapore Exchange", Singapore, years...)
-	//TODO: add holidays
+	// Session
+	c.SetSession(&Session{
+		EarlyOpen:  8*time.Hour + 30*time.Minute,
+		Open:       9 * time.Hour,
+		Close:      17 * time.Hour,
+		EarlyClose: 12 * time.Hour,
+	})
+	// Recurring Holidays
+	c.AddHolidays(
+		NewYear.Copy().SetObservance(sundayToMonday),
+		LunarNewYear,
+		LunarNewYear.Copy("Lunar New Year's 2nd Day").SetOffset(1),
+		GoodFriday,
+		WorkersDay,
+		EidAlFitr.Copy("Hari Raya Puasa").SetOffset(1),
+		VesakDay,
+		EidAlAdha.Copy("Hari Raya Haji").SetOffset(1),
+		SingaporeNationalDay,
+		Deepavali,
+		ChristmasDay.Copy().SetObservance(sundayToMonday),
+	)
+	// Early Closing
+	c.AddEarlyClosingDays(
+		LunarNewYearEve,
+		ChristmasEve,
+		NewYearsEve,
+	)
 	return c
 }
 
-// Stock Exchange of Hong Kong - https://www.hkex.com.hk/News/HKEX-Calendar?sc_lang=en
+// Stock Exchange of Hong Kong
 func XHKG(years ...int) *Calendar {
 	c := NewCalendar("Stock Exchange of Hong Kong", HongKong, years...)
 	// Session
@@ -376,9 +402,9 @@ func XHKG(years ...int) *Calendar {
 	c.AddHolidays(
 		NewYear.Copy().SetObservance(sundayToMonday),
 		LunarNewYear,
-		LunarNewYear.Copy("The second day of Lunar New Year").SetOffset(1),
-		LunarNewYear.Copy("The third day of Lunar New Year").SetOffset(2).SetAfterYear(2013),
-		LunarNewYear.Copy("The fourth day of Lunar New Year").SetOffset(3).SetAfterYear(2017).SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday)),
+		LunarNewYear.Copy("Lunar New Year's 2nd Day").SetOffset(1),
+		LunarNewYear.Copy("Lunar New Year's 3rd Day").SetOffset(2).SetAfterYear(2013),
+		LunarNewYear.Copy("Lunar New Year's 4th Day").SetOffset(3).SetAfterYear(2017).SetObservance(onlyOnWeekdays(time.Monday, time.Tuesday)),
 		QingmingJie.Copy().SetObservance(sundayToMonday),
 		GoodFriday,
 		EasterMonday,
@@ -431,24 +457,24 @@ func XSHG(years ...int) *Calendar {
 	// Recurring Holidays
 	c.AddHolidays(
 		NewYear,
-		LunarNewYear.Copy().SetOffset(-1),
+		LunarNewYearEve,
 		LunarNewYear,
-		LunarNewYear.Copy().SetOffset(1),
-		LunarNewYear.Copy().SetOffset(2),
-		LunarNewYear.Copy().SetOffset(3),
-		LunarNewYear.Copy().SetOffset(4),
-		LunarNewYear.Copy().SetOffset(5),
+		LunarNewYear.Copy("Lunar New Year's 2nd day").SetOffset(1),
+		LunarNewYear.Copy("Lunar New Year's 3rd day").SetOffset(2),
+		LunarNewYear.Copy("Lunar New Year's 4th day").SetOffset(3),
+		LunarNewYear.Copy("Lunar New Year's 5th day").SetOffset(4),
+		LunarNewYear.Copy("Lunar New Year's 6th day").SetOffset(5),
 		QingmingJie,
 		WorkersDay,
 		DragonBoatFestival,
 		MidAutumnFestival,
 		ChinaNationalDay,
-		ChinaNationalDay.Copy().SetOffset(1),
-		ChinaNationalDay.Copy().SetOffset(2),
-		ChinaNationalDay.Copy().SetOffset(3),
-		ChinaNationalDay.Copy().SetOffset(4),
-		ChinaNationalDay.Copy().SetOffset(5),
-		ChinaNationalDay.Copy().SetOffset(6),
+		ChinaNationalDay.Copy("China National Day's 2nd day").SetOffset(1),
+		ChinaNationalDay.Copy("China National Day's 3rd day").SetOffset(2),
+		ChinaNationalDay.Copy("China National Day's 4th day").SetOffset(3),
+		ChinaNationalDay.Copy("China National Day's 5th day").SetOffset(4),
+		ChinaNationalDay.Copy("China National Day's 6th day").SetOffset(5),
+		ChinaNationalDay.Copy("China National Day's 7th day").SetOffset(6),
 	)
 	return c
 }

@@ -61,13 +61,13 @@ type Calendar struct {
 	Name      string
 	Loc       *time.Location     // NewYork or time.LoadLocation("America/New_York")
 	startYear int                // default is time.Now().Year() - YearsPast
-	endYear   int                //default is time.Now().Year() + YearsAhead
-	session   *Session           // regular session
+	endYear   int                // default is time.Now().Year() + YearsAhead
+	session   *Session           // Session
 	h         []*Holiday         // Holidays list
 	hts       []int64            // Sorted holidays timestamps (Unix time)
-	hmap      map[int64]*Holiday // timestamps: *Holiday map
+	hmap      map[int64]*Holiday // {timestamps: *Holiday} map
 	ects      []int64            // Sorted early close timestamps (Unix time)
-	ecmap     map[int64]*Holiday // timestamps: *Holiday map for early close days
+	ecmap     map[int64]*Holiday // {timestamps: *Holiday} map for early close days
 }
 
 func newCalendar(name string, loc *time.Location, start, end int) *Calendar {

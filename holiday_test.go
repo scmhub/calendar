@@ -75,13 +75,31 @@ func TestCalcDayOfMonth(t *testing.T) {
 	h := &Holiday{Month: time.December, Day: 25}
 	assert.Equal(time.Date(2020, 12, 25, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2020, Paris))
 	assert.Equal(time.Date(2021, 12, 25, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2021, Paris))
+	h = &Holiday{Month: time.December, Day: -1}
+	assert.Equal(time.Date(2020, 12, 31, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2020, Paris))
+	assert.Equal(time.Date(2021, 12, 31, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2021, Paris))
+	h = &Holiday{Month: time.December, Day: -2}
+	assert.Equal(time.Date(2020, 12, 30, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2020, Paris))
+	assert.Equal(time.Date(2021, 12, 30, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2021, Paris))
+	h = &Holiday{Month: time.November, Day: -1}
+	assert.Equal(time.Date(2020, 11, 30, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2020, Paris))
+	assert.Equal(time.Date(2021, 11, 30, 0, 0, 0, 0, Paris), CalcDayOfMonth(h, 2021, Paris))
 }
 
 func TestCalcLunarNewYear(t *testing.T) {
 	assert := assert.New(t)
-	h := &Holiday{Month: time.January, Day: 1}
+	h := &Holiday{Month: time.Month(1), Day: 1}
 	assert.Equal(time.Date(2020, 1, 25, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
 	assert.Equal(time.Date(2021, 2, 12, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
+	h = &Holiday{Month: time.Month(1), Day: -1}
+	assert.Equal(time.Date(2020, 2, 22, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 3, 12, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
+	h = &Holiday{Month: time.Month(1), Day: -2}
+	assert.Equal(time.Date(2020, 2, 21, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 3, 11, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
+	h = &Holiday{Month: time.Month(2), Day: -1}
+	assert.Equal(time.Date(2020, 3, 23, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 4, 11, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
 }
 
 func TestCalcNthWeekday(t *testing.T) {
