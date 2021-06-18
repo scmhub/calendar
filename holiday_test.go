@@ -34,6 +34,9 @@ func TestOffset(t *testing.T) {
 	assert.Equal(0, h.Offset)
 	h.SetOffset(1)
 	assert.Equal(1, h.Offset)
+	h.AddOffset(1)
+	assert.Equal(2, h.Offset)
+
 }
 func TestObservance(t *testing.T) {
 	assert := assert.New(t)

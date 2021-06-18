@@ -43,6 +43,11 @@ func (h *Holiday) SetAfterYear(year int) *Holiday {
 	return h
 }
 
+func (h *Holiday) AddOffset(o int) *Holiday {
+	h.Offset += o
+	return h
+}
+
 func (h *Holiday) SetOffset(o int) *Holiday {
 	h.Offset = o
 	return h
@@ -66,7 +71,7 @@ func (h *Holiday) Calc(year int, loc *time.Location) time.Time {
 	if h.AfterYear != 0 && year < h.AfterYear {
 		return time.Time{}
 	}
-	if h.OnYear < 0 {
+	if h.OnYear < 0 { // so you can offset from a previous year
 		year += h.OnYear
 	}
 	t := h.calc(h, year, loc)

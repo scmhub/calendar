@@ -610,9 +610,7 @@ var (
 var (
 	// Quingming Festival (Tomb Sweeping Day) - 104 days after start of winter usually April 4 or 5
 	QingmingJie = &Holiday{
-		Name: "Quingming Festival",
-		//Month: time.April,
-		//Day:   5,
+		Name:   "Quingming Festival",
 		OnYear: -1,
 		Offset: 104,
 		calc:   CalcSouthernSolstice,

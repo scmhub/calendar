@@ -1,7 +1,6 @@
 package calendar
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -322,14 +321,12 @@ func TestXSES(t *testing.T) {
 	x := XSES(2010, 2025)
 	assert.Equal("Singapore Exchange", x.Name)
 	assert.Equal(Singapore, x.Loc)
-	assert.Equal(7*time.Hour+30*time.Minute, x.Session().EarlyOpen)
+	assert.Equal(8*time.Hour+30*time.Minute, x.Session().EarlyOpen)
 	assert.Equal(9*time.Hour, x.Session().Open)
 	assert.Equal(time.Duration(0), x.Session().BreakStart)
 	assert.Equal(time.Duration(0), x.Session().BreakStop)
 	assert.Equal(17*time.Hour, x.Session().Close)
 	assert.Equal(12*time.Hour, x.Session().EarlyClose)
-	fmt.Print(x)
-
 }
 func TestXHKG(t *testing.T) {
 	assert := assert.New(t)
@@ -350,20 +347,26 @@ func TestXSHE(t *testing.T) {
 	x := XSHE(2010, 2025)
 	assert.Equal("Shenzhen Stock Exchange", x.Name)
 	assert.Equal(Shenzhen, x.Loc)
+	assert.Equal(9*time.Hour+15*time.Minute, x.Session().EarlyOpen)
+	assert.Equal(9*time.Hour+30*time.Minute, x.Session().Open)
+	assert.Equal(11*time.Hour+30*time.Minute, x.Session().BreakStart)
+	assert.Equal(13*time.Hour, x.Session().BreakStop)
+	assert.Equal(14*time.Hour+57*time.Minute, x.Session().Close)
+	assert.Equal(time.Duration(0), x.Session().EarlyClose)
+	assert.Equal(time.Duration(0), x.Session().LateClose)
 }
 func TestXSHG(t *testing.T) {
 	assert := assert.New(t)
 	x := XSHG(2010, 2025)
 	assert.Equal("Shanghai Stock Exchange", x.Name)
 	assert.Equal(Shanghai, x.Loc)
-	assert.Equal(8*time.Hour+15*time.Minute, x.Session().EarlyOpen)
+	assert.Equal(9*time.Hour+15*time.Minute, x.Session().EarlyOpen)
 	assert.Equal(9*time.Hour+30*time.Minute, x.Session().Open)
 	assert.Equal(11*time.Hour+30*time.Minute, x.Session().BreakStart)
 	assert.Equal(13*time.Hour, x.Session().BreakStop)
 	assert.Equal(15*time.Hour, x.Session().Close)
 	assert.Equal(time.Duration(0), x.Session().EarlyClose)
 	assert.Equal(15*time.Hour+30*time.Minute, x.Session().LateClose)
-	fmt.Println(x)
 }
 func TestXKRX(t *testing.T) {
 	assert := assert.New(t)
