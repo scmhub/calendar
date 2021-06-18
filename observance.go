@@ -1,6 +1,8 @@
 package calendar
 
-import "time"
+import (
+	"time"
+)
 
 // time.Time -> Observed time.Time
 type observance func(time.Time) time.Time
@@ -105,5 +107,26 @@ func onlyOnWeekdays(wd ...time.Weekday) observance {
 			}
 		}
 		return time.Time{}
+	}
+}
+
+// add days over week end for offseted day
+func offsetOverWeekend(offset int) observance {
+	return func(t time.Time) time.Time {
+		o := offset
+		for i := 0; i <= o; {
+			if t.AddDate(0, 0, i-o).Weekday() == time.Saturday {
+				t = t.AddDate(0, 0, 2)
+				o += 2
+				i += 2
+			} else if t.AddDate(0, 0, i-o).Weekday() == time.Sunday {
+				t = t.AddDate(0, 0, 1)
+				o++
+				i++
+			} else {
+				i++
+			}
+		}
+		return t
 	}
 }

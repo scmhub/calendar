@@ -89,17 +89,17 @@ func TestCalcDayOfMonth(t *testing.T) {
 func TestCalcLunarNewYear(t *testing.T) {
 	assert := assert.New(t)
 	h := &Holiday{Month: time.Month(1), Day: 1}
-	assert.Equal(time.Date(2020, 1, 25, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
-	assert.Equal(time.Date(2021, 2, 12, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
+	assert.Equal(time.Date(2020, 1, 25, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 2, 12, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2021, HongKong))
 	h = &Holiday{Month: time.Month(1), Day: -1}
-	assert.Equal(time.Date(2020, 2, 22, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
-	assert.Equal(time.Date(2021, 3, 12, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
+	assert.Equal(time.Date(2020, 2, 22, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 3, 12, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2021, HongKong))
 	h = &Holiday{Month: time.Month(1), Day: -2}
-	assert.Equal(time.Date(2020, 2, 21, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
-	assert.Equal(time.Date(2021, 3, 11, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
+	assert.Equal(time.Date(2020, 2, 21, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 3, 11, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2021, HongKong))
 	h = &Holiday{Month: time.Month(2), Day: -1}
-	assert.Equal(time.Date(2020, 3, 23, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2020, HongKong))
-	assert.Equal(time.Date(2021, 4, 11, 0, 0, 0, 0, HongKong), CalcLunarDayOfMonth(h, 2021, HongKong))
+	assert.Equal(time.Date(2020, 3, 23, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2020, HongKong))
+	assert.Equal(time.Date(2021, 4, 11, 0, 0, 0, 0, HongKong), CalcLunisolarDayOfMonth(h, 2021, HongKong))
 }
 
 func TestCalcNthWeekday(t *testing.T) {

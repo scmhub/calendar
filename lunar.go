@@ -58,8 +58,8 @@ func GetLeapMonth(year int) int {
 	return lunarInfomation[year-1900] & 0xf
 }
 
-// Gregorian calendar -> lunar calendar
-func GregorianToLunar(t time.Time) (time.Time, bool) {
+// Gregorian calendar -> Lunisolar calendar
+func GregorianToLunisolar(t time.Time) (time.Time, bool) {
 
 	// 1900-1-31 timestamp
 	t0 := time.Date(1900, 1, 31, 0, 0, 0, 0, t.Location())
@@ -124,8 +124,8 @@ func GregorianToLunar(t time.Time) (time.Time, bool) {
 	return time.Date(lunarYear, time.Month(month), day, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location()), leapMonth != 0
 }
 
-// Lunar calendar -> Gregorian calendar
-func LunarToGregorian(t time.Time, leap bool) time.Time {
+// Lunisolar calendar -> Gregorian calendar
+func LunisolarToGregorian(t time.Time, leap bool) time.Time {
 	var sum int = 0
 	for i := 1900; i < t.Year(); i++ {
 		sum += yearSum[i]
@@ -187,7 +187,7 @@ func LunarToGregorian(t time.Time, leap bool) time.Time {
 }
 
 // Get the number of days in a lunar month
-func GetLunarMonthDays(year int, month time.Month, leapMonth bool) int {
+func GetLunisolarMonthDays(year int, month time.Month, leapMonth bool) int {
 	hex := lunarInfomation[year-1900]
 	if leapMonth {
 		if hex&0xf > 0 {

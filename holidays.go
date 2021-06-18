@@ -25,14 +25,14 @@ var (
 		Month:  time.January,
 		Day:    1,
 		Offset: -1,
-		calc:   CalcLunarDayOfMonth,
+		calc:   CalcLunisolarDayOfMonth,
 	}
 	// Lunar New Year's day
 	LunarNewYear = &Holiday{
 		Name:  "Lunar New Year's Day",
 		Month: time.January,
 		Day:   1,
-		calc:  CalcLunarDayOfMonth,
+		calc:  CalcLunisolarDayOfMonth,
 	}
 	// Carnival, Mardi Gras or Fat Tuesday  - 47 days before Easter
 	Carnival = &Holiday{
@@ -90,21 +90,21 @@ var (
 		Name:  "Buddha's Birthday",
 		Month: time.Month(4),
 		Day:   8,
-		calc:  CalcLunarDayOfMonth,
+		calc:  CalcLunisolarDayOfMonth,
 	}
 	// Vesak Day - 15th day of the fourth lunar month
 	VesakDay = &Holiday{
 		Name:  "Vesak Day",
 		Month: time.Month(4),
 		Day:   15,
-		calc:  CalcLunarDayOfMonth,
+		calc:  CalcLunisolarDayOfMonth,
 	}
 	// Deepavali or Diwali, victory of light - the last day of the lunar month Asvina
 	Deepavali = &Holiday{
 		Name:  "Deepavali",
 		Month: time.Month(9),
 		Day:   -1,
-		calc:  CalcLunarDayOfMonth,
+		calc:  CalcLunisolarDayOfMonth,
 	}
 	// Ascension Day on the 39th day after Easter
 	AscensionDay = &Holiday{
@@ -146,7 +146,7 @@ var (
 		Name:  "Double Ninth (Chung Yeung) Festival",
 		Month: time.Month(9),
 		Day:   9,
-		calc:  CalcLunarDayOfMonth,
+		calc:  CalcLunisolarDayOfMonth,
 	}
 	// Reformation Day - 31-Oct-2017
 	ReformationDay = &Holiday{
@@ -622,7 +622,7 @@ var (
 		Name:  "Dragon Boat Festival",
 		Month: time.Month(5),
 		Day:   5,
-		calc:  CalcLunarDayOfMonth,
+		calc:  CalcLunisolarDayOfMonth,
 	}
 	// People's Republic of China National day - 1-Oct
 	ChinaNationalDay = &Holiday{
@@ -633,10 +633,10 @@ var (
 	}
 	// Mid-Autumn Festival 中秋節 - 15yh day of the 8th lunar month
 	MidAutumnFestival = &Holiday{
-		Name:  "Dragon Boat Festival",
+		Name:  "Mid-Autumn Festival",
 		Month: time.Month(8),
 		Day:   15,
-		calc:  CalcLunarDayOfMonth,
+		calc:  CalcLunisolarDayOfMonth,
 	}
 )
 

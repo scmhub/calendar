@@ -94,12 +94,12 @@ func CalcDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
 	return time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc)
 }
 
-// Day of month in Lunar Calendar, -1 means last day of the month
-func CalcLunarDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
+// Day of month in Lunisolar Calendar, -1 means last day of the month
+func CalcLunisolarDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
 	if h.Day < 0 {
-		return LunarToGregorian(time.Date(year, h.Month, 1, 0, 0, 0, 0, loc).AddDate(0, 1, 0), false).AddDate(0, 0, h.Day)
+		return LunisolarToGregorian(time.Date(year, h.Month, 1, 0, 0, 0, 0, loc).AddDate(0, 1, 0), false).AddDate(0, 0, h.Day)
 	}
-	return LunarToGregorian(time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc), false)
+	return LunisolarToGregorian(time.Date(year, h.Month, h.Day, 0, 0, 0, 0, loc), false)
 }
 
 // Day of month in Hijri Calendar, -1 means last day of the month

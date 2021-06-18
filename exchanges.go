@@ -119,6 +119,7 @@ func XLON(years ...int) *Calendar {
 		BreakStart: 12 * time.Hour,
 		BreakStop:  12*time.Hour + 2*time.Minute,
 		Close:      16*time.Hour + 30*time.Minute,
+		EarlyClose: 12*time.Hour + 30*time.Minute,
 	})
 	// Recurring Holidays
 	c.AddHolidays(
@@ -342,6 +343,11 @@ func XSWX(years ...int) *Calendar {
 // Bombay Stock Exchange
 func XBOM(years ...int) *Calendar {
 	c := NewCalendar("Bombay Stock Exchange", Mumbai, years...)
+	// Session
+	c.SetSession(&Session{
+		Open:  9 * time.Hour,
+		Close: 15*time.Hour + 30*time.Minute,
+	})
 	//TODO: add holidays
 	return c
 }
@@ -452,22 +458,30 @@ func XSHG(years ...int) *Calendar {
 		BreakStart: 11*time.Hour + 30*time.Minute,
 		BreakStop:  13 * time.Hour,
 		Close:      15 * time.Hour,
-		EarlyClose: 15*time.Hour + 30*time.Minute,
+		LateClose:  15*time.Hour + 30*time.Minute,
 	})
 	// Recurring Holidays
 	c.AddHolidays(
 		NewYear,
-		LunarNewYearEve,
+		LunarNewYearEve.Copy().SetAfterYear(2008),
 		LunarNewYear,
 		LunarNewYear.Copy("Lunar New Year's 2nd day").SetOffset(1),
 		LunarNewYear.Copy("Lunar New Year's 3rd day").SetOffset(2),
 		LunarNewYear.Copy("Lunar New Year's 4th day").SetOffset(3),
 		LunarNewYear.Copy("Lunar New Year's 5th day").SetOffset(4),
 		LunarNewYear.Copy("Lunar New Year's 6th day").SetOffset(5),
-		QingmingJie,
-		WorkersDay,
-		DragonBoatFestival,
-		MidAutumnFestival,
+		QingmingJie.Copy().SetAfterYear(2008).SetOffset(-1).SetObservance(onlyOnWeekdays(time.Monday)),
+		QingmingJie.Copy("hey!!!").SetAfterYear(2008).SetObservance(nextMonday),
+		QingmingJie.Copy("hey 2 !!!!").SetAfterYear(2008).SetOffset(1).SetObservance(onlyOnWeekdays(time.Friday)),
+		WorkersDay.Copy().SetObservance(nextMonday),
+		WorkersDay.Copy("Worker's day 2nd day").SetOffset(1).SetObservance(offsetOverWeekend(1)),
+		WorkersDay.Copy("Worker's day 3rd day").SetOffset(2).SetObservance(offsetOverWeekend(2)),
+		DragonBoatFestival.Copy().SetAfterYear(2008).SetOffset(-1).SetObservance(onlyOnWeekdays(time.Monday)),
+		DragonBoatFestival.Copy().SetAfterYear(2008).SetObservance(nextMonday),
+		DragonBoatFestival.Copy().SetAfterYear(2008).SetOffset(1).SetObservance(onlyOnWeekdays(time.Friday)),
+		MidAutumnFestival.Copy().SetAfterYear(2008).SetOffset(-1).SetObservance(onlyOnWeekdays(time.Monday)),
+		MidAutumnFestival.Copy().SetAfterYear(2008).SetObservance(nextMonday),
+		MidAutumnFestival.Copy().SetAfterYear(2008).SetOffset(1).SetObservance(onlyOnWeekdays(time.Friday)),
 		ChinaNationalDay,
 		ChinaNationalDay.Copy("China National Day's 2nd day").SetOffset(1),
 		ChinaNationalDay.Copy("China National Day's 3rd day").SetOffset(2),
