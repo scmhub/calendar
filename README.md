@@ -79,8 +79,8 @@ Calendar New York Stock Exchange:
 | Bangkok        | [Stock Exchange of Thailand](http://www.set.or.th/set/mainpage.do)                       | XBKK |    |
 | Singapore      | [Singapore Exchange](https://www.sgx.com)                                                | XSES | ✅ |
 | Hong Kong      | [Hong Kong Stock Exchange](https://www.hkex.com.hk/index.html)                           | XHKG | ✅ |
-| Shenzhen       | [Shenzhen Stock Exchange](http://www.szse.cn/English/index.html)                         | XSHE |    |
-| Shanghai       | [Shanghai Stock Exchange](http://www.sse.com.cn/sseportal/en/home/home.html)             | XSHG |    |
+| Shenzhen       | [Shenzhen Stock Exchange](http://www.szse.cn/English/index.html)                         | XSHE | ✅ |
+| Shanghai       | [Shanghai Stock Exchange](http://www.sse.com.cn/sseportal/en/home/home.html)             | XSHG | ✅ |
 | Seoul          | [Korea Exchange](http://eng.krx.co.kr)                                                   | XKRX |    |
 | Tokyo          | [Japan Exchange Group](https://www.jpx.co.jp/english/)                                   | XJPX | ✅ |
 | Sidney         | [Austrialian Securities Exchange](https://www.asx.com.au/)                               | XASX |    |

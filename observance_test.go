@@ -16,7 +16,6 @@ var (
 	tuesday   = time.Date(2020, 1, 7, 0, 0, 0, 0, Paris)
 	wednesday = time.Date(2020, 1, 8, 0, 0, 0, 0, Paris)
 	thursday2 = time.Date(2020, 1, 9, 0, 0, 0, 0, Paris)
-	friday2   = time.Date(2020, 1, 10, 0, 0, 0, 0, Paris)
 )
 
 func TestNextMonday(t *testing.T) {
