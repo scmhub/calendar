@@ -1,6 +1,8 @@
 # ![SCM logo](logo.png) Exchange Calendars
 
 ![Build Status](https://github.com/scmhub/calendar/workflows/Build%20and%20Test/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 A Golang package of Exchange Calendars
 
