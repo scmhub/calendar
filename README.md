@@ -2,7 +2,6 @@
 
 ![Build Status](https://github.com/scmhub/calendar/workflows/Build%20and%20Test/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/scmhub/calendar)
 
 A Golang package of Exchange Calendars
 
