@@ -383,23 +383,23 @@ var (
 // UK Holidays
 
 var (
-	// Early May or MAy Day on the first monday of May
+	// Early May or May Day on the first monday of May
 	EarlyMay = &Holiday{
-		Name:       "Early May",
+		Name:       "Early May Bank Holiday",
 		Month:      time.May,
 		Weekday:    time.Monday,
 		NthWeekday: 1,
 		calc:       CalcNthWeekday,
 	}
-	// Late May on the last monday of May
-	LateMay = &Holiday{
-		Name:       "May Day",
+	// Spring Bank Holiday or Late May on the last monday of May
+	SpringHoliday = &Holiday{
+		Name:       "Spring Bank Holiday",
 		Month:      time.May,
 		Weekday:    time.Monday,
 		NthWeekday: -1,
 		calc:       CalcNthWeekday,
 	}
-	// Late May on the last monday of May
+	// Summer Bank Holiday on the last monday of August
 	SummerHoliday = &Holiday{
 		Name:       "Summer Bank Holiday",
 		Month:      time.August,
@@ -448,6 +448,19 @@ var (
 		Day:    8,
 		OnYear: 2020,
 		calc:   CalcDayOfMonth,
+	}
+	// Queen Elizabeth II Platinum Jubilee - 2,3 Jun 2022
+	//  The late May bank holiday will be moved to Thursday 2nd June 2022 and the new, additional bank holiday will be on Friday 3rd June
+	PlatinumJubilee = &Holiday{
+		Name:   "Platinum Jubilee",
+		Month:  time.June,
+		Day:    2,
+		OnYear: 2022,
+		calc:   CalcDayOfMonth,
+	}
+	PlatinumJubileeDays = []*Holiday{
+		PlatinumJubilee,
+		PlatinumJubilee.Copy("Platinum Jubilee day 2").SetOffset(1),
 	}
 )
 

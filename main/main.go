@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	nyse := calendar.XNYS(2010, 2025)
+	nyse := calendar.XLON(2010, 2025)
 
 	now := time.Now()
 
@@ -19,7 +19,7 @@ func main() {
 
 	nyse.IsOpen(now)
 
-	nyse.SetYears(2021, 2022)
+	nyse.SetYears(2021, 2023)
 
 	fmt.Print(nyse)
 }

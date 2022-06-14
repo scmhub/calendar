@@ -128,7 +128,8 @@ func XLON(years ...int) *Calendar {
 		GoodFriday,
 		EasterMonday,
 		EarlyMay,
-		LateMay,
+		SpringHoliday.Copy().SetBeforeYear(2022), // No Spring holiday on 2023 due to jubilee
+		SpringHoliday.Copy().SetAfterYear(2023),  // No Spring holiday on 2023 due to jubilee
 		SummerHoliday,
 		ChristmasDay.Copy().SetObservance(nextMonday),
 		BoxingDay.Copy().SetObservance(nextMonday),
@@ -138,6 +139,7 @@ func XLON(years ...int) *Calendar {
 	c.AddHolidays(WilliamWedding)
 	c.AddHolidays(DiamondJubileeDays...)
 	c.AddHolidays(VEAnniversary)
+	c.AddHolidays(PlatinumJubileeDays...)
 	// Early Closing
 	c.AddEarlyClosingDays(
 		ChristmasEve,
