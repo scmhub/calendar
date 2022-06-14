@@ -1,12 +1,15 @@
 # ![SCM logo](logo.png) Exchange Calendars
 
 ![Build Status](https://github.com/scmhub/calendar/workflows/Build%20and%20Test/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A Golang package of Exchange Calendars
 
 Exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/10383/iso-10383-market-identifier-codes) Market Identifier Code (MIC).
 
+
 ## Usage
+
 ```go
 // Get pre-defined exchange +/- 5 years around current year
 nyse := XNYS()
@@ -54,7 +57,9 @@ Calendar New York Stock Exchange:
         2022-Dec-26 Mon    Christmas Day
 
 ```
+
 ## Existing Calendar
+
 | Market place   | Exchange                                                                                 | MIC  |    |
 | -------------- | ---------------------------------------------------------------------------------------- | -----|--- |
 | New York       | [New York Stock Exchange](https://www.nyse.com/index)                                    | XNYS | ✅ |
