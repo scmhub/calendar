@@ -170,6 +170,7 @@ c.AddHolidays(
     PresidentsDay,
     GoodFriday,
     MemorialDay,
+    JuneteenthDay,
     IndependenceDay,
     LaborDay,
     ThanksgivingDay,
