@@ -28,6 +28,7 @@ func usEquities(name string, loc *time.Location, years ...int) *Calendar {
 		PresidentsDay,
 		GoodFriday,
 		MemorialDay,
+		JuneteenthDay,
 		IndependenceDay,
 		LaborDay,
 		ThanksgivingDay,

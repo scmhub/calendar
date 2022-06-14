@@ -27,32 +27,31 @@ t := nyse.NextBusinessDay(now)
 t, h := nyse.NextHoliday(now)
 t := nyse.NextClose(now)
 
-nyse.SetYears(2020,2021)
+nyse.SetYears(2021,2022)
 
 fmt.Print(nyse)
 
 Calendar New York Stock Exchange:
-	2020-Jan-01 Wed    New Year's Day
-	2020-Jan-20 Mon    Martin Luther King Jr. Day
-	2020-Feb-17 Mon    Presidents' Day
-	2020-Apr-10 Fri    Good Friday
-	2020-May-25 Mon    Memorial Day
-	2020-Jul-03 Fri    Independence Day
-	2020-Sep-07 Mon    Labor Day
-	2020-Nov-26 Thu    Thanksgiving Day
-	2020-Nov-27 Fri ec Black Friday
-	2020-Dec-24 Thu ec Christmas Eve
-	2020-Dec-25 Fri    Christmas Day
-	2021-Jan-01 Fri    New Year's Day
-	2021-Jan-18 Mon    Martin Luther King Jr. Day
-	2021-Feb-15 Mon    Presidents' Day
-	2021-Apr-02 Fri    Good Friday
-	2021-May-31 Mon    Memorial Day
-	2021-Jul-05 Mon    Independence Day
-	2021-Sep-06 Mon    Labor Day
-	2021-Nov-25 Thu    Thanksgiving Day
-	2021-Nov-26 Fri ec Black Friday
-	2021-Dec-24 Fri    Christmas Day
+        2021-Jan-01 Fri    New Year's Day
+        2021-Jan-18 Mon    Martin Luther King Jr. Day
+        2021-Feb-15 Mon    Presidents' Day
+        2021-Apr-02 Fri    Good Friday
+        2021-May-31 Mon    Memorial Day
+        2021-Jul-05 Mon    Independence Day
+        2021-Sep-06 Mon    Labor Day
+        2021-Nov-25 Thu    Thanksgiving Day
+        2021-Nov-26 Fri    Black Friday
+        2021-Dec-24 Fri    Christmas Day
+        2022-Jan-17 Mon    Martin Luther King Jr. Day
+        2022-Feb-21 Mon    Presidents' Day
+        2022-Apr-15 Fri    Good Friday
+        2022-May-30 Mon    Memorial Day
+        2022-Jun-20 Mon    Juneteenth National Independance Day
+        2022-Jul-04 Mon    Independence Day
+        2022-Sep-05 Mon    Labor Day
+        2022-Nov-24 Thu    Thanksgiving Day
+        2022-Nov-25 Fri    Black Friday
+        2022-Dec-26 Mon    Christmas Day
 
 ```
 ## Existing Calendar

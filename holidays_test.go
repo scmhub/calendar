@@ -436,6 +436,15 @@ func TestMemorialDay(t *testing.T) {
 	assert.Equal(time.Date(2024, 5, 27, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2024, NewYork))
 	assert.Equal(time.Date(2025, 5, 26, 0, 0, 0, 0, NewYork), MemorialDay.Calc(2025, NewYork))
 }
+func TestJuneteenthDay(t *testing.T) {
+	assert := assert.New(t)
+	assert.NotEqual(time.Date(2020, 6, 19, 0, 0, 0, 0, NewYork), JuneteenthDay.Calc(2020, NewYork))
+	assert.NotEqual(time.Date(2021, 6, 19, 0, 0, 0, 0, NewYork), JuneteenthDay.Calc(2021, NewYork))
+	assert.Equal(time.Date(2022, 6, 20, 0, 0, 0, 0, NewYork), JuneteenthDay.Calc(2022, NewYork))
+	assert.Equal(time.Date(2023, 6, 19, 0, 0, 0, 0, NewYork), JuneteenthDay.Calc(2023, NewYork))
+	assert.Equal(time.Date(2024, 6, 19, 0, 0, 0, 0, NewYork), JuneteenthDay.Calc(2024, NewYork))
+	assert.Equal(time.Date(2025, 6, 19, 0, 0, 0, 0, NewYork), JuneteenthDay.Calc(2025, NewYork))
+}
 func TestIndependenceDay(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(time.Date(2010, 7, 5, 0, 0, 0, 0, NewYork), IndependenceDay.Calc(2010, NewYork))

@@ -52,7 +52,6 @@ var (
 		Offset: -2,
 		calc:   CalcEasterOffset,
 	}
-
 	// Northward Equinox - March Equinox - ~20-Mar
 	NorthwardEquinox = &Holiday{
 		Name: "Northward Equinox",
@@ -188,7 +187,6 @@ var (
 		Day:   24,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Christmas Day on 25-Dec
 	ChristmasDay = &Holiday{
 		Name:  "Christmas Day",
@@ -239,6 +237,15 @@ var (
 		NthWeekday: -1,
 		calc:       CalcNthWeekday,
 	}
+	// Juneteenth National Independance Day on 19-Jun
+	JuneteenthDay = &Holiday{
+		Name:       "Juneteenth National Independance Day",
+		Month:      time.June,
+		Day:        19,
+		AfterYear:  2022,
+		Observance: nearestWorkday,
+		calc:       CalcDayOfMonth,
+	}
 	// Independence Day on 4-Jul
 	IndependenceDay = &Holiday{
 		Name:       "Independence Day",
@@ -247,7 +254,6 @@ var (
 		Observance: nearestWorkday,
 		calc:       CalcDayOfMonth,
 	}
-
 	// Day Before Independence Day
 	BeforeIndependenceDay = &Holiday{
 		Name:  "Day before Independence Day",
@@ -262,7 +268,6 @@ var (
 		Day:   5,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Labor Day on the first Monday in September
 	LaborDay = &Holiday{
 		Name:       "Labor Day",
@@ -280,7 +285,6 @@ var (
 		NthWeekday: 2,
 		calc:       CalcNthWeekday,
 	}
-
 	// Veterans Day on 11-Nov
 	VeteransDay = &Holiday{
 		Name:  "Veterans Day",
@@ -288,7 +292,6 @@ var (
 		Day:   11,
 		calc:  CalcDayOfMonth,
 	}
-
 	// Thanksgiving Day on the fourth Thursday in November
 	ThanksgivingDay = &Holiday{
 		Name:       "Thanksgiving Day",
@@ -297,7 +300,6 @@ var (
 		NthWeekday: 4,
 		calc:       CalcNthWeekday,
 	}
-
 	// Black Friday is the day following Thanksgiving
 	BlackFriday = &Holiday{
 		Name:       "Black Friday",
@@ -349,7 +351,6 @@ var (
 		FordMourningDay,
 		BushSeniorMourningDay,
 	}
-
 	// September 11 - september 11, 2001
 	SeptemberEleven = &Holiday{
 		Name:   "Sepember 11",
@@ -358,7 +359,6 @@ var (
 		OnYear: 2001,
 		calc:   CalcDayOfMonth,
 	}
-
 	// September 11 -14 range
 	SeptemberElevenDays = []*Holiday{
 		SeptemberEleven,
@@ -366,7 +366,6 @@ var (
 		SeptemberEleven.Copy("Sepember 11 day 3").SetOffset(2),
 		SeptemberEleven.Copy("Sepember 11 day 4").SetOffset(3),
 	}
-
 	// Hurricane Sandy - october 29, 2012
 	HurricaneSandy = &Holiday{
 		Name:   "Hurricane Sandy",
@@ -392,7 +391,6 @@ var (
 		NthWeekday: 1,
 		calc:       CalcNthWeekday,
 	}
-
 	// Late May on the last monday of May
 	LateMay = &Holiday{
 		Name:       "May Day",
@@ -401,7 +399,6 @@ var (
 		NthWeekday: -1,
 		calc:       CalcNthWeekday,
 	}
-
 	// Late May on the last monday of May
 	SummerHoliday = &Holiday{
 		Name:       "Summer Bank Holiday",
@@ -410,7 +407,6 @@ var (
 		NthWeekday: -1,
 		calc:       CalcNthWeekday,
 	}
-
 	// Special Non Working days for the UK
 
 	// Queen Elizabeth II Golden Jubilee - 3,4 Jun 2002
@@ -425,7 +421,6 @@ var (
 		GoldenJubilee,
 		GoldenJubilee.Copy("Golden Jubilee day 2").SetOffset(1),
 	}
-
 	// Wedding Day of Prince William and Catherine Middleton
 	WilliamWedding = &Holiday{
 		Name:   "Wedding Day of Prince William and Catherine Middleton",
@@ -434,7 +429,6 @@ var (
 		OnYear: 2011,
 		calc:   CalcDayOfMonth,
 	}
-
 	// Queen Elizabeth II Diamond Jubilee - 4,5 Jun 2012
 	DiamondJubilee = &Holiday{
 		Name:   "Diamond Jubilee",
@@ -447,7 +441,6 @@ var (
 		DiamondJubilee,
 		DiamondJubilee.Copy("Diamond Jubilee day 2").SetOffset(1),
 	}
-
 	// VE-Day 75th Anniversary
 	VEAnniversary = &Holiday{
 		Name:   "VE-Day 75th Anniversary",
