@@ -115,7 +115,7 @@ func CalcHijriDayOfMonth(h *Holiday, year int, loc *time.Location) time.Time {
 	return HijriToGregorian(time.Date(HijriYear(year), h.Month, h.Day, 0, 0, 0, 0, loc))
 }
 
-// Nth occurence of a weekday like 3rd monday, -1 means last monday of the month
+// Nth occurrence of a weekday like 3rd monday, -1 means last monday of the month
 func CalcNthWeekday(h *Holiday, year int, loc *time.Location) time.Time {
 	month := h.Month
 	if h.NthWeekday < 0 {

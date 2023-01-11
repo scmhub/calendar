@@ -41,7 +41,7 @@ func EOD(t time.Time) time.Time {
 	return time.Date(y, m, d, 23, 59, 59, 999999999, t.Location())
 }
 
-// Nth occurence of a weekday like 3rd monday
+// Nth occurrence of a weekday like 3rd monday
 func NthWeekday(year int, month time.Month, weekday time.Weekday, n int, loc *time.Location) time.Time {
 	if n == 0 {
 		return time.Time{}

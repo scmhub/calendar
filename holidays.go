@@ -237,9 +237,9 @@ var (
 		NthWeekday: -1,
 		calc:       CalcNthWeekday,
 	}
-	// Juneteenth National Independance Day on 19-Jun
+	// Juneteenth National Independence Day on 19-Jun
 	JuneteenthDay = &Holiday{
-		Name:       "Juneteenth National Independance Day",
+		Name:       "Juneteenth National Independence Day",
 		Month:      time.June,
 		Day:        19,
 		AfterYear:  2022,
