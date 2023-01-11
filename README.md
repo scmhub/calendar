@@ -49,7 +49,7 @@ Calendar New York Stock Exchange:
         2022-Feb-21 Mon    Presidents' Day
         2022-Apr-15 Fri    Good Friday
         2022-May-30 Mon    Memorial Day
-        2022-Jun-20 Mon    Juneteenth National Independance Day
+        2022-Jun-20 Mon    Juneteenth National Independence Day
         2022-Jul-04 Mon    Independence Day
         2022-Sep-05 Mon    Labor Day
         2022-Nov-24 Thu    Thanksgiving Day
