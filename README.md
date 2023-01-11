@@ -3,8 +3,9 @@
 ![Build Status](https://github.com/scmhub/calendar/workflows/Build%20and%20Test/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GoReportCard](https://goreportcard.com/badge/github.com/scmhub/calendar)](https://goreportcard.com/report/github.com/scmhub/calendar)
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/scmhub/calendar)](https://goreportcard.com/report/github.com/scmhub/calendar)
 A Golang package of Exchange Calendars
+[![codecov](https://codecov.io/gh/scmhub/calendar/branch/master/graph/badge.svg)](https://codecov.io/gh/scmhub/calendar)
 
 Exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/10383/iso-10383-market-identifier-codes) Market Identifier Code (MIC).
 
