@@ -17,6 +17,7 @@ Exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/103
 nyse := XNYS()
 // Or starting on specfic year, end on year + 10
 nyse := XNYS(2010)
+nyse := XNYS(2010, 3)
 // Or between a start year and an end year (both included)
 nyse := XNYS(2010, 2025)
 
