@@ -1,7 +1,7 @@
 # ![SCM logo](logo.png) Exchange Calendars
 
 ![Build Status](https://github.com/scmhub/calendar/workflows/Build%20and%20Test/badge.svg)
-![Coverage](https://img.shields.io/badge/Coverage-98.7%25-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-97.5%25-brightgreen)
 [![GoReportCard](https://goreportcard.com/badge/github.com/scmhub/calendar)](https://goreportcard.com/report/github.com/scmhub/calendar)
 [![Go Reference](https://pkg.go.dev/badge/github.com/scmhub/calendar.svg)](https://pkg.go.dev/github.com/scmhub/calendar)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
