@@ -6,37 +6,73 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/scmhub/calendar.svg)](https://pkg.go.dev/github.com/scmhub/calendar)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A Golang package of Exchange Calendars
+## Overview
 
-Exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/10383/iso-10383-market-identifier-codes) Market Identifier Code (MIC).
+`calendar` is a Golang package that provides exchange-specific calendar functionality. It enables you to manage market holidays, business days, early closes, and sessions defined by Market Identifier Codes (MIC) for various financial exchanges globally.
+
+## Features
+
+- **Business Day Calculations**: Check if a date is a business day, holiday, or early close.
+- **Custom Holidays**: Define and manage custom holidays (recurring or one-time events).
+- **Exchange Sessions**: Handle exchange sessions with customizable open/close times.
+- **Multi-Year Support**: Supports predefined calendars for financial exchanges over several years.
+-  **Market Identifier Code**: Exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/10383/iso-10383-market-identifier-codes) Market Identifier Code (MIC).
+
+## Installation
+
+Install the package by running:
+
+```bash
+go get github.com/scmhub/calendar
+```
 
 ## Usage
-
+#### Basic example
 ```go
-// Get pre-defined exchange +/- 5 years around current year
-nyse := XNYS()
-// Or starting on specfic year, end on year + 10
-nyse := XNYS(2010)
-nyse := XNYS(2010, 3)
-// Or between a start year and an end year (both included)
-nyse := XNYS(2010, 2025)
+import (
+    "fmt"
+    "time"
+    "github.com/scmhub/calendar"
+)
 
-now := time.Now()
+func main() {
+    // Load the New York Stock Exchange (XNYS) calendar
+    nyse := calendar.XNYS()
 
-nyse.IsBusinessDay(now)
-nyse.IsHoliday(now)
-nyse.IsEarlyClose(now)
+    today := time.Now()
 
-nyse.IsOpen(now)
+    // Check if today is a business day
+    if nyse.IsBusinessDay(today) {
+        fmt.Println("Today is a business day.")
+    } else {
+        fmt.Println("Today is not a business day.")
+    }
 
-t := nyse.NextBusinessDay(now)
-t, h := nyse.NextHoliday(now)
-t := nyse.NextClose(now)
+    // Get the next business day
+    nextBusinessDay := nyse.NextBusinessDay(today)
+    fmt.Printf("Next business day: %v\n", nextBusinessDay)
+    fmt.
+}
+```
 
-nyse.SetYears(2021,2022)
+#### Print specific calendar
+```go
+import (
+    "fmt"
+    "github.com/scmhub/calendar"
+)
 
-fmt.Print(nyse)
+func main() {
+    // Load the New York Stock Exchange (XNYS) calendar
+    nyse := calendar.XNYS()
 
+    nyse.SetYears(2021,2022)
+
+    fmt.Print(nyse)
+}
+```
+Output
+```
 Calendar New York Stock Exchange:
         2021-Jan-01 Fri    New Year's Day
         2021-Jan-18 Mon    Martin Luther King Jr. Day
@@ -61,61 +97,7 @@ Calendar New York Stock Exchange:
 
 ```
 
-## Existing Calendar
-
-| Market place | Exchange                                                                     | MIC  |     |
-| ------------ | ---------------------------------------------------------------------------- | ---- | --- |
-| New York     | [New York Stock Exchange](https://www.nyse.com/index)                        | XNYS | ✅  |
-| New York     | [NASDAQ](https://www.nasdaq.com/)                                            | XNAS | ✅  |
-| Chicago      | [CBOE](http://markets.cboe.com)                                              | XCBO | ✅  |
-| Chicago      | [CBOE Futures Exchange](http://www.cfe.cboe.com)                             | XCBF | ✅  |
-| Toronto      | [Toronto Stock Exchange](https://www.tsx.com/)                               | XTSE |     |
-| Mexico       | [Mexican Stock Exchange](https://www.bmv.com.mx)                             | XMEX |     |
-| Sao Paulo    | [BMF Bovespa](http://www.b3.com.br/en_us/)                                   | BVMF |     |
-| London       | [London Stock Exchange](https://www.londonstockexchange.com)                 | XLON | ✅  |
-| Amsterdam    | [Euronext Amsterdam](http://www.euronext.com)                                | XAMS | ✅  |
-| Brussels     | [Euronext Brussels](http://www.euronext.com)                                 | XBRU | ✅  |
-| Lisbon       | [Euronext Lisbon](http://www.euronext.com)                                   | XLIS | ✅  |
-| Paris        | [Euronext Paris](http://www.euronext.com)                                    | XPAR | ✅  |
-| Milan        | [Euronext Milan - Borsa Italiana](http://www.borsaitaliana.it)               | XMIL | ✅  |
-| Madrid       | [Bolsa de Madrid](http://www.bolsamadrid.es)                                 | XMAD | ✅  |
-| Franckfurt   | [Deutsche Boerse](http://www.deutsche-boerse.com)                            | XFRA | ✅  |
-| Franckfurt   | [Xetra](http://www.deutsche-boerse.com)                                      | XETR | ✅  |
-| Zurich       | [SIX Swiss Exchange](http://www.six-group.com/en/site/exchanges.html)        | XSWX | ✅  |
-| Mumbai       | [Bombay Stock Exchange](https://www.bseindia.com)                            | XBOM |     |
-| Bangkok      | [Stock Exchange of Thailand](http://www.set.or.th/set/mainpage.do)           | XBKK |     |
-| Singapore    | [Singapore Exchange](https://www.sgx.com)                                    | XSES | ✅  |
-| Hong Kong    | [Hong Kong Stock Exchange](https://www.hkex.com.hk/index.html)               | XHKG | ✅  |
-| Shenzhen     | [Shenzhen Stock Exchange](http://www.szse.cn/English/index.html)             | XSHE | ✅  |
-| Shanghai     | [Shanghai Stock Exchange](http://www.sse.com.cn/sseportal/en/home/home.html) | XSHG | ✅  |
-| Seoul        | [Korea Exchange](http://eng.krx.co.kr)                                       | XKRX |     |
-| Tokyo        | [Japan Exchange Group](https://www.jpx.co.jp/english/)                       | XJPX | ✅  |
-| Sidney       | [Austrialian Securities Exchange](https://www.asx.com.au/)                   | XASX |     |
-
-<!---
-| Chile          | [Santiago Stock Exchange](http://inter.bolsadesantiago.com/sitios/en/Paginas/home.aspx)  | XSGO |
-| Colombia       | [Colombia Securities Exchange](https://www.bvc.com.co/nueva/index_en.html)               | XBOG |
-| Peru           | [Lima Stock Exchange](https://www.bvl.com.pe)                                            | XLIM |
-| Iceland        | [Iceland Stock Exchange](http://www.nasdaqomxnordic.com/)                                | XICE |
-| Ireland        | [Irish Stock Exchange](http://www.ise.ie/)                                               | XDUB |
-| Denmark        | [Copenhagen Stock Exchange](http://www.nasdaqomxnordic.com/)                             | XCSE |
-| Finland        | [Helsinki Stock Exchange](http://www.nasdaqomxnordic.com/)                               | XHEL |
-| Sweden         | [Stockholm Stock Exchange](http://www.nasdaqomxnordic.com/)                              | XSTO |
-| Norway         | [Oslo Stock Exchange](https://www.oslobors.no/ob_eng/)                                   | XOSL |
-| Austria        | [Wiener Borse](https://www.wienerborse.at/en/)                                           | XWBO |
-| Czech Republic | [Prague Stock Exchange](https://www.pse.cz/en/)                                          | XPRA |
-| Hungary        | [Budapest Stock Exchange](https://bse.hu/)                                               | XBUD |
-| Poland         | [Poland Stock Exchange](http://www.gpw.pl)                                               | XWAR |
-| Greece         | [Athens Stock Exchange](http://www.helex.gr/)                                            | ASEX |
-| Turkey         | [Istanbul Stock Exchange](https://www.borsaistanbul.com/en/)                             | XIST |
-| Russia         | [Moscow Exchange](https://www.moex.com/en/)                                              | XMOS |
-| South Africa   | [Johannesburg Stock Exchange](https://www.jse.co.za/z)                                   | XJSE |
-| Malaysia       | [Malaysia Stock Exchange](http://www.bursamalaysia.com/market/)                          | XKLS |
-| Philippines    | [Philippine Stock Exchange](https://www.pse.com.ph/stockMarket/home.html)                | XPHS |
-| New Zealand    | [New Zealand Exchange](https://www.nzx.com/)                                             | XNZE |
---->
-
-## Creating Holidays & Calendars
+#### Creating Holidays & Calendars
 
 ```go
 // Create Recurring Holidays
@@ -192,3 +174,66 @@ c.AddEarlyClosingDays(
 )
 
 ```
+## Existing Calendar
+
+| Market place | Exchange                                                                     | MIC  |     |
+| ------------ | ---------------------------------------------------------------------------- | ---- | --- |
+| New York     | [New York Stock Exchange](https://www.nyse.com/index)                        | XNYS | ✅  |
+| New York     | [NASDAQ](https://www.nasdaq.com/)                                            | XNAS | ✅  |
+| Chicago      | [CBOE](http://markets.cboe.com)                                              | XCBO | ✅  |
+| Chicago      | [CBOE Futures Exchange](http://www.cfe.cboe.com)                             | XCBF | ✅  |
+| Toronto      | [Toronto Stock Exchange](https://www.tsx.com/)                               | XTSE |     |
+| Mexico       | [Mexican Stock Exchange](https://www.bmv.com.mx)                             | XMEX |     |
+| Sao Paulo    | [BMF Bovespa](http://www.b3.com.br/en_us/)                                   | BVMF |     |
+| London       | [London Stock Exchange](https://www.londonstockexchange.com)                 | XLON | ✅  |
+| Amsterdam    | [Euronext Amsterdam](http://www.euronext.com)                                | XAMS | ✅  |
+| Brussels     | [Euronext Brussels](http://www.euronext.com)                                 | XBRU | ✅  |
+| Lisbon       | [Euronext Lisbon](http://www.euronext.com)                                   | XLIS | ✅  |
+| Paris        | [Euronext Paris](http://www.euronext.com)                                    | XPAR | ✅  |
+| Milan        | [Euronext Milan - Borsa Italiana](http://www.borsaitaliana.it)               | XMIL | ✅  |
+| Madrid       | [Bolsa de Madrid](http://www.bolsamadrid.es)                                 | XMAD | ✅  |
+| Franckfurt   | [Deutsche Boerse](http://www.deutsche-boerse.com)                            | XFRA | ✅  |
+| Franckfurt   | [Xetra](http://www.deutsche-boerse.com)                                      | XETR | ✅  |
+| Zurich       | [SIX Swiss Exchange](http://www.six-group.com/en/site/exchanges.html)        | XSWX | ✅  |
+| Mumbai       | [Bombay Stock Exchange](https://www.bseindia.com)                            | XBOM |     |
+| Bangkok      | [Stock Exchange of Thailand](http://www.set.or.th/set/mainpage.do)           | XBKK |     |
+| Singapore    | [Singapore Exchange](https://www.sgx.com)                                    | XSES | ✅  |
+| Hong Kong    | [Hong Kong Stock Exchange](https://www.hkex.com.hk/index.html)               | XHKG | ✅  |
+| Shenzhen     | [Shenzhen Stock Exchange](http://www.szse.cn/English/index.html)             | XSHE | ✅  |
+| Shanghai     | [Shanghai Stock Exchange](http://www.sse.com.cn/sseportal/en/home/home.html) | XSHG | ✅  |
+| Seoul        | [Korea Exchange](http://eng.krx.co.kr)                                       | XKRX |     |
+| Tokyo        | [Japan Exchange Group](https://www.jpx.co.jp/english/)                       | XJPX | ✅  |
+| Sidney       | [Austrialian Securities Exchange](https://www.asx.com.au/)                   | XASX |     |
+
+<!---
+| Chile          | [Santiago Stock Exchange](http://inter.bolsadesantiago.com/sitios/en/Paginas/home.aspx)  | XSGO |
+| Colombia       | [Colombia Securities Exchange](https://www.bvc.com.co/nueva/index_en.html)               | XBOG |
+| Peru           | [Lima Stock Exchange](https://www.bvl.com.pe)                                            | XLIM |
+| Iceland        | [Iceland Stock Exchange](http://www.nasdaqomxnordic.com/)                                | XICE |
+| Ireland        | [Irish Stock Exchange](http://www.ise.ie/)                                               | XDUB |
+| Denmark        | [Copenhagen Stock Exchange](http://www.nasdaqomxnordic.com/)                             | XCSE |
+| Finland        | [Helsinki Stock Exchange](http://www.nasdaqomxnordic.com/)                               | XHEL |
+| Sweden         | [Stockholm Stock Exchange](http://www.nasdaqomxnordic.com/)                              | XSTO |
+| Norway         | [Oslo Stock Exchange](https://www.oslobors.no/ob_eng/)                                   | XOSL |
+| Austria        | [Wiener Borse](https://www.wienerborse.at/en/)                                           | XWBO |
+| Czech Republic | [Prague Stock Exchange](https://www.pse.cz/en/)                                          | XPRA |
+| Hungary        | [Budapest Stock Exchange](https://bse.hu/)                                               | XBUD |
+| Poland         | [Poland Stock Exchange](http://www.gpw.pl)                                               | XWAR |
+| Greece         | [Athens Stock Exchange](http://www.helex.gr/)                                            | ASEX |
+| Turkey         | [Istanbul Stock Exchange](https://www.borsaistanbul.com/en/)                             | XIST |
+| Russia         | [Moscow Exchange](https://www.moex.com/en/)                                              | XMOS |
+| South Africa   | [Johannesburg Stock Exchange](https://www.jse.co.za/z)                                   | XJSE |
+| Malaysia       | [Malaysia Stock Exchange](http://www.bursamalaysia.com/market/)                          | XKLS |
+| Philippines    | [Philippine Stock Exchange](https://www.pse.com.ph/stockMarket/home.html)                | XPHS |
+| New Zealand    | [New Zealand Exchange](https://www.nzx.com/)                                             | XNZE |
+--->
+
+## API References
+Some key functions:
+- **IsBusinessDay(t time.Time)**: Returns whether the date is a business day.
+- **NextBusinessDay(t time.Time)**: Gets the next business day after the given date.
+- **AddHolidays(h ...Holiday)**: Adds holidays to the calendar.
+- **SetSession(session *Session)**: Configures open/close times for the exchange.
+
+## Contributing
+Contributions are welcome! Please submit issues or pull requests to improve the package. For significant changes, open an issue to discuss your ideas first.

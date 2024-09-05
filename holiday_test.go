@@ -22,6 +22,7 @@ func TestCopy(t *testing.T) {
 	assert.NotEmpty(h2.Observance)
 	h3 := h1.Copy()
 	assert.Equal("Christmas", h3.Name)
+	time.Date(2024,9,5,10,45,0,0,time.Local)
 }
 
 func TestOffset(t *testing.T) {
