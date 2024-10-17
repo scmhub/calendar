@@ -53,12 +53,12 @@ var yearSum = map[int]int{
 	2090: 384, 2091: 354, 2092: 355, 2093: 384, 2094: 355, 2095: 354, 2096: 384, 2097: 354, 2098: 354, 2099: 384,
 }
 
-// The leap month of a year (0 if none)
+// GetLeapMonth returns the leap month of a year (0 if none).
 func GetLeapMonth(year int) int {
 	return lunarInfomation[year-1900] & 0xf
 }
 
-// Gregorian calendar -> Lunisolar calendar
+// GregorianToLunisolar returns a Lunisolar calendar time from a Gregorian calendar time.
 func GregorianToLunisolar(t time.Time) (time.Time, bool) {
 
 	// 1900-1-31 timestamp
@@ -124,7 +124,7 @@ func GregorianToLunisolar(t time.Time) (time.Time, bool) {
 	return time.Date(lunarYear, time.Month(month), day, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location()), leapMonth != 0
 }
 
-// Lunisolar calendar -> Gregorian calendar
+// LunisolarToGregorian returns a Gregorian calendar time from a Lunisolar calendar time.
 func LunisolarToGregorian(t time.Time, leap bool) time.Time {
 	var sum int = 0
 	for i := 1900; i < t.Year(); i++ {
@@ -186,7 +186,7 @@ func LunisolarToGregorian(t time.Time, leap bool) time.Time {
 	return time.Date(solarYear, time.Month(solarMonth), solarDay, t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
 }
 
-// Get the number of days in a lunar month
+// GetLunisolarMonthDays gets the number of days in a lunar month.
 func GetLunisolarMonthDays(year int, month time.Month, leapMonth bool) int {
 	hex := lunarInfomation[year-1900]
 	if leapMonth {

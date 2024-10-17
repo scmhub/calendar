@@ -10,6 +10,7 @@ import (
 const YearsAhead = 5
 const YearsPast = 5
 
+// Predefined time locations for various cities.
 var (
 	Mexico, _       = time.LoadLocation("America/Mexico_City")
 	Chicago, _      = time.LoadLocation("America/Chicago")
@@ -39,6 +40,7 @@ var (
 	Sydney, _       = time.LoadLocation("Australia/Sydney")
 )
 
+// Session defines the operating hours and breaks for the calendar.
 type Session struct {
 	EarlyOpen  time.Duration
 	Open       time.Duration
@@ -49,14 +51,17 @@ type Session struct {
 	LateClose  time.Duration
 }
 
+// HasBreak checks if the session has a break defined.
 func (s *Session) HasBreak() bool {
 	return s.BreakStart != 0
 }
 
+// IsZero checks if the Session is empty.
 func (s Session) IsZero() bool {
 	return s == Session{}
 }
 
+// Calendar represents a calendar with holidays and sessions.
 type Calendar struct {
 	Name      string
 	Loc       *time.Location     // NewYork or time.LoadLocation("America/New_York")
@@ -82,6 +87,11 @@ func newCalendar(name string, loc *time.Location, start, end int) *Calendar {
 	}
 }
 
+// NewCalendar creates a new Calendar instance based on the provided parameters.
+// It accepts a name for the calendar, a location, and an optional list of years.
+// If no years are specified, it defaults to a range of 5 years before and after the current year.
+// If one year is provided, it sets that year as the start and calculates the end as 10 years later.
+// If two years are provided, it calculates the end year based on the first year and checks if the second is less than 100.
 func NewCalendar(name string, loc *time.Location, years ...int) *Calendar {
 	var start, end int
 	switch len(years) {
@@ -109,20 +119,22 @@ func (c *Calendar) reset() {
 	c.ecmap = make(map[int64]*Holiday)
 }
 
-// early, core and late Sessions
+// Session returns the current session details.
 func (c *Calendar) Session() *Session {
 	return c.session
 }
 
-// early, core and late Sessions
+// SetSession updates the session details for the calendar.
 func (c *Calendar) SetSession(s *Session) {
 	c.session = s
 }
 
+// Years returns the start and end years of the calendar.
 func (c *Calendar) Years() (start, end int) {
 	return c.startYear, c.endYear
 }
 
+// SetYears updates the start and end years for the calendar and resets holidays.
 func (c *Calendar) SetYears(start, end int) {
 	c.startYear, c.endYear = start, end
 	c.reset()
@@ -131,6 +143,7 @@ func (c *Calendar) SetYears(start, end int) {
 		c.addHoliday(h)
 	}
 }
+
 func (c *Calendar) addHoliday(h *Holiday) {
 	for y := c.startYear; y <= c.endYear; y++ {
 		t := h.Calc(y, c.Loc)
@@ -144,6 +157,7 @@ func (c *Calendar) addHoliday(h *Holiday) {
 	})
 }
 
+// AddHolidays appends holidays to the calendar and adds them to the holiday list.
 func (c *Calendar) AddHolidays(h ...*Holiday) {
 	for _, ho := range h {
 		c.h = append(c.h, ho)
@@ -165,6 +179,7 @@ func (c *Calendar) addEarlyClosingDay(h *Holiday) {
 	})
 }
 
+// AddEarlyClosingDays appends early closing holidays to the calendar.
 func (c *Calendar) AddEarlyClosingDays(h ...*Holiday) {
 	for _, ho := range h {
 		c.addEarlyClosingDay(ho)
@@ -172,6 +187,7 @@ func (c *Calendar) AddEarlyClosingDays(h ...*Holiday) {
 	}
 }
 
+// HasHoliday checks if a specific holiday is present in the calendar.
 func (c *Calendar) HasHoliday(h *Holiday) bool {
 	for _, ho := range c.h {
 		if h == ho {
@@ -181,7 +197,16 @@ func (c *Calendar) HasHoliday(h *Holiday) bool {
 	return false
 }
 
+func (c *Calendar) ensureInRange(t time.Time) {
+	year := t.Year()
+	if year < c.startYear || year > c.endYear {
+		panic(fmt.Sprintf("provided time %v is outside the calendar range (%d - %d)", t, c.startYear, c.endYear))
+	}
+}
+
+// IsBusinessDay checks if a specific Tims is a business day for this calendar.
 func (c *Calendar) IsBusinessDay(t time.Time) bool {
+	c.ensureInRange(t)
 	if IsWeekend(t) {
 		return false
 	}
@@ -191,17 +216,23 @@ func (c *Calendar) IsBusinessDay(t time.Time) bool {
 	return true
 }
 
+// IsHoliday checks if a specific Tims is a holiday day for this calendar.
 func (c *Calendar) IsHoliday(t time.Time) bool {
+	c.ensureInRange(t)
 	_, ok := c.hmap[BOD(t).Unix()]
 	return ok
 }
 
+// IsHoliday checks if a specific Tims is a early close for this calendar.
 func (c *Calendar) IsEarlyClose(t time.Time) bool {
+	c.ensureInRange(t)
 	_, ok := c.ecmap[BOD(t).Unix()]
 	return ok
 }
 
+// IsOpen checks if a specific Tims is in a business session for this calendar.
 func (c *Calendar) IsOpen(t time.Time) bool {
+	c.ensureInRange(t)
 	if c.session.IsZero() {
 		panic(errNoSession)
 	}
@@ -223,7 +254,9 @@ func (c *Calendar) IsOpen(t time.Time) bool {
 	return true
 }
 
+// NextBusinessDay returns the business day following the provided Time.
 func (c *Calendar) NextBusinessDay(t time.Time) time.Time {
+	c.ensureInRange(t)
 	t = t.AddDate(0, 0, 1)
 	for !c.IsBusinessDay(t) {
 		t = t.AddDate(0, 0, 1)
@@ -231,7 +264,9 @@ func (c *Calendar) NextBusinessDay(t time.Time) time.Time {
 	return t
 }
 
+// NextHoliday returns the following holiday time and Holiday for the provided Time.
 func (c *Calendar) NextHoliday(t time.Time) (time.Time, *Holiday) {
+	c.ensureInRange(t)
 	for _, ts := range c.hts {
 		if t.Unix() < ts {
 			return time.Unix(ts, 0).In(c.Loc), c.hmap[ts]
@@ -240,7 +275,9 @@ func (c *Calendar) NextHoliday(t time.Time) (time.Time, *Holiday) {
 	return time.Time{}, nil
 }
 
+// NextClose return the next closing time
 func (c *Calendar) NextClose(t time.Time) time.Time {
+	c.ensureInRange(t)
 	if c.session.IsZero() {
 		panic(errNoSession)
 	}

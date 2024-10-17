@@ -100,15 +100,14 @@ func TestCalendarYears(t *testing.T) {
 	assert.Equal(time.Now().Year()+YearsAhead, end)
 	c = NewCalendar("Calendar", Chicago, 2015)
 	c.AddHolidays(NewYear)
-	ti, ho := c.NextHoliday(time.Time{})
-	assert.Equal(time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago), ti)
+	ti, ho := c.NextHoliday(time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, Chicago))
+	assert.Equal(time.Date(time.Now().Year()+1, 1, 1, 0, 0, 0, 0, Chicago), ti)
 	assert.Equal(NewYear, ho)
 	c.SetYears(2018, 2020)
 	assert.Equal(2018, c.startYear)
 	assert.Equal(2020, c.endYear)
-	ti, ho = c.NextHoliday(time.Time{})
-	assert.Equal(time.Date(2018, 1, 1, 0, 0, 0, 0, Chicago), ti)
-	assert.Equal(NewYear, ho)
+	assert.Panics(func() { c.NextHoliday(time.Time{}) })
+
 }
 
 func TestAddHoliday(t *testing.T) {
@@ -145,7 +144,7 @@ func TestCalendarBusinessDay(t *testing.T) {
 	c.AddHolidays(NewYear) // 1/1/2013 is a tuesday
 	assert.False(c.IsBusinessDay(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)))
 	assert.True(c.IsBusinessDay(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago)))
-	assert.Equal(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago), c.NextBusinessDay(time.Date(2012, 12, 31, 0, 0, 0, 0, Chicago)))
+	assert.Panics(func() { c.NextBusinessDay(time.Date(2012, 12, 31, 0, 0, 0, 0, Chicago)) })
 	assert.Equal(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago), c.NextBusinessDay(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)))
 	assert.Equal(time.Date(2013, 1, 3, 0, 0, 0, 0, Chicago), c.NextBusinessDay(time.Date(2013, 1, 2, 0, 0, 0, 0, Chicago)))
 	assert.Equal(time.Date(2013, 1, 4, 0, 0, 0, 0, Chicago), c.NextBusinessDay(time.Date(2013, 1, 3, 0, 0, 0, 0, Chicago)))
@@ -160,10 +159,8 @@ func TestNextBusinessDay(t *testing.T) {
 	assert := assert.New(t)
 	c := NewCalendar("Calendar", Chicago, 2014, 2015)
 	c.AddHolidays(NewYear)
-	ti, ho := c.NextHoliday(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago))
-	assert.Equal(time.Date(2014, 1, 1, 0, 0, 0, 0, Chicago), ti)
-	assert.Equal(NewYear, ho)
-	ti, ho = c.NextHoliday(time.Date(2014, 1, 1, 0, 0, 0, 0, Chicago))
+	assert.Panics(func() { c.NextHoliday(time.Date(2013, 1, 1, 0, 0, 0, 0, Chicago)) })
+	ti, ho := c.NextHoliday(time.Date(2014, 1, 1, 0, 0, 0, 0, Chicago))
 	assert.Equal(time.Date(2015, 1, 1, 0, 0, 0, 0, Chicago), ti)
 	assert.Equal(NewYear, ho)
 	ti, ho = c.NextHoliday(time.Date(2014, 2, 1, 0, 0, 0, 0, Chicago))
@@ -172,7 +169,7 @@ func TestNextBusinessDay(t *testing.T) {
 	ti, ho = c.NextHoliday(time.Date(2015, 2, 1, 0, 0, 0, 0, Chicago))
 	assert.Equal(time.Time{}, ti)
 	assert.Nil(ho)
-
+	assert.Panics(func() { c.NextHoliday(time.Date(2016, 1, 1, 0, 0, 0, 0, Chicago)) })
 }
 func TestIsOpen(t *testing.T) {
 	assert := assert.New(t)

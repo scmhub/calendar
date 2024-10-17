@@ -36,12 +36,14 @@ import (
 )
 
 func main() {
-    // Load the New York Stock Exchange (XNYS) calendar
-    nyse := calendar.XNYS()
+    // Create a calendar with default years (current year ±5 years)
+	nyse := calendar.XNYS()
 
-    today := time.Now()
+    // Or create a calendar with a custom start and end year
+	customCal := calendar.XNYS(2010, 2035) // From 2010 to 2035
 
     // Check if today is a business day
+     today := time.Now()
     if nyse.IsBusinessDay(today) {
         fmt.Println("Today is a business day.")
     } else {
@@ -51,7 +53,10 @@ func main() {
     // Get the next business day
     nextBusinessDay := nyse.NextBusinessDay(today)
     fmt.Printf("Next business day: %v\n", nextBusinessDay)
-    fmt.
+
+	// Check if Black Friday 2030 is an early close
+	blackFriday := time.Date(2030, time.November, 29, 0, 0, 0, 0, calendar.NewYork)
+	fmt.Println(customCal.IsEarlyClose(blackFriday)) // Outputs: true
 }
 ```
 
