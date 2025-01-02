@@ -98,7 +98,7 @@ func TestCalendarYears(t *testing.T) {
 	start, end := c.Years()
 	assert.Equal(time.Now().Year()-YearsPast, start)
 	assert.Equal(time.Now().Year()+YearsAhead, end)
-	c = NewCalendar("Calendar", Chicago, 2015)
+	c = NewCalendar("Calendar", Chicago, time.Now().Year()-5)
 	c.AddHolidays(NewYear)
 	ti, ho := c.NextHoliday(time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, Chicago))
 	assert.Equal(time.Date(time.Now().Year()+1, 1, 1, 0, 0, 0, 0, Chicago), ti)
